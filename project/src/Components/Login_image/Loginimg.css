@@ -1,0 +1,9 @@
+.login{
+    position: absolute;
+    top: 50%; /* Move the image 50% down from the top */
+    left: 450px; /* Move the image 50% from the left */
+    transform: translate(-50%, -50%); /* Center the image */
+    width: 238.5px; /* Example width of the image */
+    height: 214.68px; /* Maintain aspect ratio */
+  }
+

@@ -1,0 +1,106 @@
+.white-rectangle{
+
+    background-color: white; /* Set background color to white */
+    width: 488px; /* Set the width of the rectangle */
+    height: 450px; /* Set the height of the rectangle */
+    position: absolute; /* Use absolute positioning */
+    top: 50%; /* Center vertically */
+    left: calc(50% + 20px); /* Center horizontally and add offset */
+    transform: translateY(-50%); /* Center vertically */
+    border: 1px solid black; /* Optional: add a border to make it visible*/
+    border-radius: 20px;
+
+}
+.logo{
+    position: absolute;
+    top:48px; /* Move the image 50% down from the top */
+    left:50%;
+    transform: translate(-50%, -50%); /* Center the image */
+    width: 102px; /* Example width of the image */
+    height: 92px; /* Maintain aspect ratio */
+}
+
+.Container{
+    position: absolute; /* Position the container absolutely */
+    text-align: center;
+    height:24px;
+    width: 445px;
+    top:83px; /* Move the container 500px from the top */
+    left:20px; /* Move the container 400px from the left */
+    background-color: #ffffff; /* Example background color */
+    font-family:'Outfit',sans-serif;
+    padding: 0px; /* Example padding */
+}
+
+.Optimize-text{
+    font-weight: bold; /* Make the text bold */
+    font-size: 24px; /* Example font size */
+    color: #333; /* Example text color */
+    
+}
+
+.Optimize-text1{
+    font-size: 20px;
+    padding:20px;
+}
+
+.login-container {
+    position: absolute;
+    left:23px;
+    top:180px;
+    width: 440px;
+    background-color: #ffffff;
+    font-family: 'Outfit', sans-serif;
+  }
+  
+  .input-group {
+    margin-bottom: 15px;
+  }
+  
+  .label {
+    display: block;
+    margin-bottom:5px;
+    font-weight: bold;
+  }
+  
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: #D50202;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    margin-top:15px;
+  }
+  
+  button:hover {
+    background-color: #D50202;
+  }
+
+  .login-link{
+    margin-top: 18.47px;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .login-link a{
+    color: #D50202;
+ }
+
+ .login-link:hover{
+    color:#190dc1;
+ }
