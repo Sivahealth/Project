@@ -1,20 +1,22 @@
 import React from 'react'
-
-import { Rectangle } from './Components'
+import { BrowserRouter as Router, Route, Switch, Link, Routes, BrowserRouter } from 'react-router-dom'
 import {WhiteRec} from './Components'
-import {Loginimg} from './Components'
-
-import './App.css';
+import {SignUpForm} from './Components'
 
 const App = () => {
   return (
-    <div>
-      <Rectangle />
-      <WhiteRec />
-      <Loginimg/>
-      
-      
-    </div>
+   <div>
+    <BrowserRouter>
+    <Routes>
+      <Route index element={<WhiteRec/>}/>
+      <Route path="/home" element={<WhiteRec/>}/>
+      <Route path="/create" element={<SignUpForm/>}/>
+    </Routes>
+    
+    </BrowserRouter>
+    
+   </div>
+   
 
     
     

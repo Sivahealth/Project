@@ -1,9 +1,13 @@
 import React from 'react'
 import './WhiteRec.css';
 import logo from '../Images/logo.png';
+import loginImage from '../Images/login_image.png';
+import { Link } from 'react-router-dom';
 
 const WhiteRec = () => {
   return (
+  <div className='blue-rectangle'>
+     <img src={loginImage} alt="Login" className="login" />
     <div className='white-rectangle'>
 
       <img src={logo} alt="Logo" className="logo"/>
@@ -25,12 +29,11 @@ const WhiteRec = () => {
         <button type="submit">Login</button>
       </form>
       <div>
-      <p className="login-link"> <a href="#">Don't have an account</a></p>
+      <p className="login-link"> <a href="/create">Don't have an account</a></p>
       </div>
     </div>
-
-      
     </div>
+ </div>
 
 
 
