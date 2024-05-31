@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 const WhiteRec = () => {
   return (
+  <div className='body1'>
   <div className='blue-rectangle'>
      <img src={loginImage} alt="Login" className="login" />
     <div className='white-rectangle'>
@@ -33,6 +34,7 @@ const WhiteRec = () => {
       </div>
     </div>
     </div>
+ </div>
  </div>
 
 

@@ -1,0 +1,128 @@
+body.dashboard-background {
+    background-color: #5041BC;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;  /* Prevent scroll bars */
+  }
+  
+.Whitecontainer{
+    background-color: white; /* Set background color to white */
+    width: 1500px; /* Set the width of the rectangle */
+    height: 730px; /* Set the height of the rectangle */
+    position: absolute; /* Use absolute positioning */
+    top: 50%; /* Center vertically */
+    left:263px; /* Center horizontally and add offset */
+    transform: translateY(-50%); /* Center vertically */
+    border: 1px solid #ffffff; /* Optional: add a border to make it visible*/
+    border-radius: 40px;
+}
+
+.logo_dash{
+    background-color: #5041BC;
+    width:110px;
+    height:80px;
+    left:73px;
+    position:absolute;
+    
+}
+.logo1{
+    position: absolute;
+    top:38px; /* Move the image 50% down from the top */
+    left:50%;
+    transform: translate(-50%, -50%); /* Center the image */
+    width: 110px; /* Example width of the image */
+    height: 90px; /* Maintain aspect ratio */
+}
+.sidebar{
+    background-color: #5041BC;
+    width:253px;
+    height:669px;
+    top:73px;
+    left:3px;
+    position:absolute;
+    font-family:'Outfit',sans-serif;
+    display: flex;
+    flex-direction: column;
+    
+  
+
+}
+
+.dashboardlogoname{
+    background-color: #5041BC;
+    position:absolute;
+    width: 171px;
+    height: 28px;
+    padding:0px;
+    text-align: center;
+    left: 41px;
+  
+
+    
+}
+.Optimize-text3{
+    font-weight: bold; /* Make the text bold */
+    font-size :22px;/* Example font size */
+    color: #ffffff; /* Example text color */
+    padding:0px;
+    
+}
+.dashboardmenu{
+    display:flex;
+    background-color: #5041BC;
+    width:216px;
+    height:60px;
+    position:absolute;
+    top:75px;
+    left: 37px;
+    align-items: center;
+    
+    
+}
+.dashboard-text{
+    font-size :20px;/* Example font size */
+    color: #ffffff; /* Example text color */
+    margin-top: 0%;
+    
+}
+.dashboard_menu_container{
+    display:flex;
+    position: absolute;
+    width: 100px;
+    height: 25px;
+    background-color: #5041BC;
+    left: 81px;
+    
+}
+.dlogo1{
+    position: absolute;
+    left: 15px;
+    width: 33px; /* Example width of the image */
+    height: 36px; /* Maintain aspect ratio */
+    
+}
+
+.D_activities{
+    position:absolute;
+    margin-top: 80px;
+  }
+.D_users{
+    position:absolute;
+    margin-top: 160px;
+}
+.D_reports{
+    position:absolute;
+    margin-top: 240px;
+}
+.D_calendar{
+    position:absolute;
+    margin-top: 320px;
+}
+.D_messages{
+    position:absolute;
+    margin-top: 400px;
+}
+.D_payments{
+    position:absolute;
+    margin-top: 480px;
+}
