@@ -56,8 +56,6 @@ body.dashboard-background {
     padding:0px;
     text-align: center;
     left: 41px;
-  
-
     
 }
 .Optimize-text3{
@@ -126,3 +124,31 @@ body.dashboard-background {
     position:absolute;
     margin-top: 480px;
 }
+
+.chart-container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px 0;
+    max-width: 100%;
+}
+
+.chart-title {
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.Loading {
+    
+    font-size: 18px;
+    color: #000000;
+    margin-left: 30px;
+}
+
+.custom_link {
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Use default text color */
+  }

@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Switch, Link, Routes, BrowserRouter } f
 import {WhiteRec} from './Components'
 import {SignUpForm} from './Components'
 import {DashBoard} from './Components'
+import {Activities} from './Components'
+import {PatientList} from './Components'
 import './index.css';
 
 const App = () => {
@@ -14,6 +16,8 @@ const App = () => {
       <Route path="/home" element={<WhiteRec/>}/>
       <Route path="/create" element={<SignUpForm/>}/>
       <Route path="/dashboard" element={<DashBoard/>}/>
+      <Route path="/activities" element={<Activities/>}/>
+      <Route path="/patientlist" element={<PatientList/>}/>
 
     </Routes>
     
