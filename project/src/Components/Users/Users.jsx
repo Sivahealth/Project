@@ -1,14 +1,15 @@
-import './Activities.css';
-import '../Dashboard/DashBoard.css'
+import '../Activities/Activities.css';
+import './Users.css';
+import '../Dashboard/DashBoard.css';
 import React, { useEffect } from 'react';
 import logo from '../Images/logonoback.png';
-import Moppointments from './Moppointment';
-import Patientlist from './Patientlist';
 import Lilogo from '../Images/Left_icon.png';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import Usermenu from './Usermenu';
 
-function Activities () {
-    useEffect(() => {
+
+function Users(){
+        useEffect(() => {
         // Add class to body when component mounts
         document.body.classList.add('activities-background');
         
@@ -29,8 +30,7 @@ function Activities () {
     <div className='dashboardlogoname'>
     <p className='Optimize-text3'><Link to="/dashboard" className='custom_link'>Siva Health Hub</Link></p>
     </div>
-    <Moppointments/>
-    <Patientlist/>
+    <Usermenu/>
 
     <div className='back'>
     <div className='activitiesmenu'>
@@ -52,4 +52,4 @@ function Activities () {
   )
 }
 
-export default Activities
+export default Users

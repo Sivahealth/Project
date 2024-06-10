@@ -1,9 +1,11 @@
 import './PatientList.css';
 import '../Dashboard/DashBoard.css'
+import '../Activities/Activities.css'
 import React, { useEffect } from 'react';
 import logo from '../Images/logonoback.png';
 import NewMoppointments from './NewMoppointment';
 import Newpatientlist from './Newpatientlist';
+import Lilogo from '../Images/Left_icon.png';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 
 function PatientList () {
@@ -30,6 +32,20 @@ function PatientList () {
     </div>
     <NewMoppointments/>
     <Newpatientlist/>
+
+    <div className='back'>
+    <div className='activitiesmenu'>
+    <img src={Lilogo} alt="dashboard-logo" className="aclogo1"/>
+    <div className='activities_menu_container'>
+      <p className='activities-text'><Link to="/dashboard" className='custom_link'>Back to menu</Link></p>
+    </div>
+    </div>
+    </div>
+
+
+
+
+    
     </div>
     <div className='Whitecontainer'>
     </div>

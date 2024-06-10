@@ -3,3 +3,8 @@ export {default as SignUpForm} from './Sign_up/SignUpForm';
 export {default as DashBoard} from './Dashboard/DashBoard';
 export {default as Activities} from './Activities/Activities';
 export {default as PatientList} from './PatientList/PatientList';
+export {default as Users} from './Users/Users';
+export {default as Calendar} from './Calendar/Calendar';
+export {default as Message} from './Message/Message';
+export {default as Payments} from './Payments/Payments';
+export {default as Reports} from './Reports/Reports';

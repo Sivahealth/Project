@@ -152,3 +152,29 @@ body.dashboard-background {
     text-decoration: none; /* Remove underline */
     color: inherit; /* Use default text color */
   }
+
+  .dashboardmenu.hovered {
+    background-color: white;
+    color: #2A2E43; /* Change text color to match the sidebar */
+    border-radius: 5px; /* Optional: Adds rounded corners */
+}
+
+.dashboard-text.hovered{
+    font-size :20px;/* Example font size */
+    color: #5041BC; /* Example text color */
+    margin-top: 0%;
+}
+
+.dashboard_menu_container.hovered{
+    background-color: white;
+    color: #2A2E43; /* Change text color to match the sidebar */
+    border-radius: 5px; /* Optional: Adds rounded corners */
+}
+
+.dlogo1.hovered{
+    position: absolute;
+    left: 15px;
+    width: 33px; /* Example width of the image */
+    height: 36px; /* Maintain aspect ratio */
+    
+}
