@@ -1,13 +1,30 @@
 import './Activities.css';
 import '../Dashboard/DashBoard.css'
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import logo from '../Images/logonoback.png';
 import Moppointments from './Moppointment';
 import Patientlist from './Patientlist';
+import Addappointment from './Addappointment';
 import Lilogo from '../Images/Left_icon.png';
+import Searchbar from './Searchbar';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 
 function Activities () {
+
+  const [appointments, setAppointments] = useState([
+    
+  ]);
+
+  const [filteredAppointments, setFilteredAppointments] = useState(appointments);
+
+  const handleSearch = (searchTerm) => {
+    const filtered = appointments.filter((item) =>
+      item.appointment.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredAppointments(filtered);
+  };
+
+
     useEffect(() => {
         // Add class to body when component mounts
         document.body.classList.add('activities-background');
@@ -19,7 +36,6 @@ function Activities () {
           
         };
       }, []);
-
   return (
     <div className='maindash'>
     <div className='logo_dash'>
@@ -46,8 +62,18 @@ function Activities () {
 
     </div>
     <div className='Whitecontainer'>
+
+      <div className='MA_text_rectangle'>
+       <div className='MA_text'>
+              Manage Appointments
+        </div> 
+      </div>
+
+      <Searchbar placeholder="Search appointments..."  handleSearch={handleSearch}/>
+      <Addappointment/>
     </div>
      
+
     </div>
   )
 }

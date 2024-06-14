@@ -11,7 +11,7 @@ function Moppointments() {
     <div className='activitiesmenu'>
     <img src={dlogo} alt="dashboard-logo" className="aclogo1"/>
     <div className='activities_menu_container'>
-      <p className='activities-text'><Link to="/activities" className='custom_link'>Manage Oppointment</Link></p>
+      <p className='activities-text'><Link to="/activities" className='custom_link'>Manage Appointment</Link></p>
     </div>
     </div>
     </div>

@@ -102,3 +102,66 @@ body.activities-background {
     margin-top: 450px;
     left: 50%;
   }
+
+.MA_text_rectangle{
+    position:absolute;
+    display: flex;
+    width: 338px;
+    height:45px;
+    background-color:#ffffff;
+    margin-left: 45px;    
+    margin-top: 38px;
+}
+.MA_text{
+    font-size :32px;/* Example font size */
+    font-weight: bold; 
+}
+
+.search-bar {
+    width:392.66px;
+    height:41.71px ;
+    display: flex;
+    justify-content: center;
+    margin-top: 38px;
+    margin-left:456px;
+    
+
+  }
+  
+  .search-bar input {
+    width: 200px;
+    padding: 10px 30px 10px 10px;
+    border: 1px solid #5041BC;
+    border-radius: 23px;
+    color: #5041BC;
+    font-size: 16px;
+    background-color: #F5F3FF;
+  }
+  
+  .slogo1{
+    position: absolute;
+    width: 17.03px;
+    height: 18.64px;
+    margin-top:15px;
+    margin-left: 355.36px;
+  }
+
+  .Addapointment_container{
+    display: flex;
+    background-color: #624DE3;
+    width:163px;
+    height:40px;
+    position:absolute;
+    top:62px;
+    left:928.66px;
+    transform: translate(0%, -50%);
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+  }
+
+  .Addapointment_text{
+    position: absolute;
+    font-size :15px;/* Example font size */
+    color: #ffffff; /* Example text color */
+  }

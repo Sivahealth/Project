@@ -7,6 +7,7 @@ body.dashboard-background {
   
 .Whitecontainer{
     background-color: white; /* Set background color to white */
+    display: flex;
     width: 1500px; /* Set the width of the rectangle */
     height: 730px; /* Set the height of the rectangle */
     position: absolute; /* Use absolute positioning */
@@ -15,6 +16,8 @@ body.dashboard-background {
     transform: translateY(-50%); /* Center vertically */
     border: 1px solid #ffffff; /* Optional: add a border to make it visible*/
     border-radius: 40px;
+    font-family:'Outfit',sans-serif;
+   
 }
 
 .logo_dash{

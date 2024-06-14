@@ -8,3 +8,4 @@ export {default as Calendar} from './Calendar/Calendar';
 export {default as Message} from './Message/Message';
 export {default as Payments} from './Payments/Payments';
 export {default as Reports} from './Reports/Reports';
+export {default as Add_appointment} from './Add_appointment/Add_appointment';
