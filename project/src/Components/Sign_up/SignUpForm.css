@@ -96,6 +96,7 @@ body{
   select{
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-family:'Outfit',sans-serif;
   }
   
   button {
