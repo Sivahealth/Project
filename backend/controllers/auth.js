@@ -1,120 +1,49 @@
-import User from "../models/user.js";
-import { hashPassword, comparePassword } from "../helpers/auth.js";
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
 
-dotenv.config();
+import User from "../models/user.js";
+import { hashPassword } from "../helpers/auth.js";
 
 export const register = async (req, res) => {
   try {
-    const { firstName, lastName, email, gender, dateOfBirth, password } =
-      req.body;
+    const { firstName, lastName, email, gender, dob, password } = req.body;
 
-    if (!firstName.trim()) {
-      return res.json({ error: "Name is required" });
+    // Validate required fields
+    if (!firstName || !lastName || !email || !gender || !dob || !password) {
+      return res.status(400).json({ error: "All fields are required" });
     }
 
-    if (!lastName.trim()) {
-      return res.json({ error: "Name is required" });
-    }
-
-    if (!email) {
-      return res.json({ error: "Email is required" });
-    }
-
-    if (!gender) {
-      return res.json({ error: "Gender is required" });
-    }
-
-    if (!dateOfBirth) {
-      return res.json({ error: "Date of Birth is required" });
-    }
-
-    // if (!phoneno || !/^\d{10}$/.test(phoneno)) {
-    //   return res.json({ error: "Phone number should contain 10 numbers" });
-    // }
-
-    if (!password || password.length < 6) {
-      return res.json({ error: "Password must be at least 6 characters long" });
-    }
-
+    // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.json({ error: "Email is already exist" });
+      return res.status(400).json({ error: "Email is already registered" });
     }
 
-    // const existingPhoneNo = await User.findOne({ phoneno });
-    // if (existingPhoneNo) {
-    //   return res.json({ error: "Phone Number is already exist" });
-    // }
-
+    // Hash password
     const hashedPassword = await hashPassword(password);
 
-    const user = await new User({
+    // Create new user instance
+    const newUser = new User({
       firstName,
       lastName,
       email,
-      dateOfBirth,
       gender,
+      dateOfBirth: dob,
       password: hashedPassword,
-    }).save();
-
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
     });
 
-    res.json({
-      user: {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-      },
-      token,
-    });
+    // Save user to database
+    await newUser.save();
+
+    res.json({ message: "Registration successful" });
   } catch (err) {
-    console.log(err);
+    console.error("Registration error:", err);
+    res.status(500).json({ error: "Registration failed" });
   }
 };
 
 export const login = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    if (!email) {
-      return res.json({ error: "Email is required" });
-    }
-
-    if (!password || password.length < 6) {
-      return res.json({ error: "Password must be at least 6 characters long" });
-    }
-
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.json({ error: "User not found" });
-    }
-
-    const match = await comparePassword(password, user.password);
-    if (!match) {
-      return res.json({ error: "Wrong password" });
-    }
-
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
-
-    res.json({
-      user: {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-      },
-      token,
-    });
-  } catch (err) {
-    console.log(err);
-  }
+  // Function implementation
 };
 
 export const secret = async (req, res) => {
-  res.json({ currentUser: req.user });
+  // Function implementation
 };

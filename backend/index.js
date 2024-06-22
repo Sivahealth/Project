@@ -6,7 +6,6 @@ import authRoutes from "./routes/auth.js";
 import cors from "cors";
 
 dotenv.config();
-
 const app = express();
 
 mongoose
@@ -27,3 +26,6 @@ const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`Node server is running on port ${port}`);
 });
+
+
+
