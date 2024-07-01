@@ -1,10 +1,44 @@
-import React from 'react'
+import React, { useState } from 'react';
 import './WhiteRec.css';
 import logo from '../Images/logo.png';
 import loginImage from '../Images/login_image.png';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const WhiteRec = () => {
+
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:8002/api/login', formData);
+      alert('Login successful');
+      // Handle successful login (e.g., save token, redirect)
+      localStorage.setItem('token', response.data.token);
+      navigate('/dashboard');
+    } catch (error) {
+      alert('Login failed: ' + error.response.data.error);
+    }
+  };
+
+
+
+
+
   return (
   <div className='body1'>
   <div className='blue-rectangle'>
@@ -18,14 +52,14 @@ const WhiteRec = () => {
       </div>
 
     <div className="login-container">
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="input-group">
-          <label htmlFor="username">Username:</label>
-          <input type="text" id="username" name="username" required />
+          <label htmlFor="email">Username:</label>
+          <input type="text" id="email" name="email" value={formData.email} onChange={handleChange}required />
         </div>
         <div className="input-group">
           <label htmlFor="password">Password:</label>
-          <input type="password" id="password" name="password" required />
+          <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} required />
         </div>
         <button type="submit">Login</button>
       </form>
@@ -36,11 +70,6 @@ const WhiteRec = () => {
     </div>
  </div>
  </div>
-
-
-
-
-
 
   )
 }
