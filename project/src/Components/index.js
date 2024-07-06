@@ -9,3 +9,4 @@ export {default as Message} from './Message/Message';
 export {default as Payments} from './Payments/Payments';
 export {default as Reports} from './Reports/Reports';
 export {default as Add_appointment} from './Add_appointment/Add_appointment';
+export {default as OPD_Doctor} from './OPD_Doctors/OPD_Doctor';

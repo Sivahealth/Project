@@ -1,9 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react';
 import './Add_appointment.css'
 import '../Logmenu/WhiteRec.css'
 import logo from '../Images/logo.png';
 
 function Add_appointment () {
+
+  const [selectedDepartment, setSelectedDepartment] = useState('');
+
+  const handleNavigation = (e) => {
+    e.preventDefault();
+    if (selectedDepartment) {
+      window.location.href = `/${selectedDepartment}_doctor`;
+    }
+  }
+
   return (
     <div className='blue-rectangle1'>
     <div className='add_appointment_white-rectangle1'>
@@ -67,7 +77,19 @@ function Add_appointment () {
     </div>
 
     <div className='select-depatment'>
-    <input type="text2" id="username" name="username" placeholder='Select Department'required />
+    
+    <select id="Department" name="Department" value={selectedDepartment} onChange={(e) => setSelectedDepartment(e.target.value)}  required>
+                  <option value="" disabled>Select Department</option>
+                  <option value="OPD">OPD</option>
+                  <option value="Physiotherapy">Physiotherapy</option>
+                  <option value="Occupational_therapy">Occupational Therapy</option>
+                  <option value="Speech_therapy">Speech Therapy</option>
+                  <option value="Homevisits_councelling">Homevisits and Councelling</option>
+                  <option value="Elderly_care">Elderly Care</option>
+                  <option value="Homecare_nursing">Homecare Nursing</option>
+                  <option value="Post_surgical_care">Post Surgical Care</option>
+                  <option value="Laboratory_services">Laboratory Services</option>
+    </select>
     </div>
 
     <div className='contact-group'>
@@ -81,7 +103,7 @@ function Add_appointment () {
     </div>
 
     <div className='label5'>
-      Appointment date and time, <a href="#">click here</a>.
+      Appointment date and time, <a href="#" onClick={(e) => handleNavigation(e)} >click here</a>.
     </div>
 
     <div className='button-container'>
