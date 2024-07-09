@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import morgan from "morgan";
 import authRoutes from "./routes/auth.js";
+import doctorRoutes from './routes/doctorRoutes.js';
 import cors from "cors";
 
 dotenv.config();
@@ -20,6 +21,8 @@ app.use(express.json());
 
 // router middlewares
 app.use("/api", authRoutes);
+app.use('/api', doctorRoutes); 
+app.use('/api/doctors', doctorRoutes);
 
 const port = process.env.PORT;
 
