@@ -7,6 +7,29 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+const requireSignin = (req, res, next) => {
+  try {
+    const decoded = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    return res.status(401).json(err);
+  }
+};
+
+const isAdmin = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (user.role !== 1) {
+      return res.status(401).send("Unauthorized");
+    } else {
+      next();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const register = async (req, res) => {
   try {
     const { firstName, lastName, email, gender, dob, password } = req.body;
