@@ -85,7 +85,7 @@ export const getAvailableSlots = async (req, res) => {
 
   export const getDoctorsByDate = async (req, res) => {
     try {
-      const { availableDate } = req.body;
+      const { availableDate, department } = req.body;
       const date = new Date(availableDate);
       const startOfDay = new Date(date.setUTCHours(0, 0, 0, 0));
       const endOfDay = new Date(date.setUTCHours(23, 59, 59, 999));
@@ -95,7 +95,9 @@ export const getAvailableSlots = async (req, res) => {
           $gte: startOfDay,
           $lt: endOfDay,
         },
+        department: department, // Filter by department
       });
+  
       res.json(doctors);
     } catch (error) {
       res.status(500).json({ message: 'Error fetching doctors', error });
