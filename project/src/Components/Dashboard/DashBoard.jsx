@@ -1,5 +1,5 @@
 import './DashBoard.css';
-import React, {  useEffect } from 'react';
+import React, {  useEffect,useState } from 'react';
 import logo from '../Images/logonoback.png';
 import D_dashboard from './D-dashboard';
 import D_activities from './D-activities';
@@ -8,8 +8,9 @@ import D_calendar from './D-calendar';
 import D_messages from './D-messages';
 import D_payments from './D-payments';
 import D_reports from './D-reports';
-import Newpatient_chart from './Newpatient_chart';
+import  UserCountChart from './UserCountChart';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import axios from 'axios';
 
 function DashBoard () {
     useEffect(() => {
@@ -23,6 +24,24 @@ function DashBoard () {
           
         };
       }, []);
+
+      const [userCount, setUserCount] = useState(0);
+
+    useEffect(() => {
+        fetchUserCount();
+    }, []);
+
+    const fetchUserCount = async () => {
+        try {
+            const response = await axios.get('http://localhost:8002/api/users/count');
+            setUserCount(response.data.count);
+        } catch (error) {
+            console.error('Error fetching user count:', error);
+        }
+    };
+
+   
+    
 
   return (
     <div className='maindash'>
@@ -42,7 +61,9 @@ function DashBoard () {
     <D_payments/>
     </div>
     <div className='Whitecontainer'>
-    <Newpatient_chart/>
+    <div className='newcountcontainer'>
+      <p className='newcontainer'>Registred Users: {userCount}</p>
+      </div>
     </div>
      
     </div>
