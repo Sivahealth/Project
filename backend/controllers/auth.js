@@ -1,19 +1,20 @@
-
 import User from "../models/user.js";
-import { hashPassword } from "../helpers/auth.js";
-import { comparePassword } from "../helpers/auth.js";
+import { hashPassword, comparePassword } from "../helpers/auth.js";
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import express from 'express';
 
 dotenv.config();
 
-const requireSignin = (req, res, next) => {
+const router = express.Router();
+
+const requireSignin = async (req, res, next) => {
   try {
     const decoded = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
-    req.user = decoded;
+    req.user = await User.findById(decoded._id).select('-password');
     next();
   } catch (err) {
-    return res.status(401).json(err);
+    return res.status(401).json({ error: 'Invalid token' });
   }
 };
 
@@ -21,28 +22,29 @@ const isAdmin = async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id);
     if (user.role !== 1) {
-      return res.status(401).send("Unauthorized");
+      return res.status(403).json({ error: 'Access denied' });
     } else {
       next();
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
   }
 };
 
-export const register = async (req, res) => {
+router.post('/register', async (req, res) => {
   try {
     const { firstName, lastName, email, gender, dob, password } = req.body;
 
     // Validate required fields
     if (!firstName || !lastName || !email || !gender || !dob || !password) {
-      return res.status(400).json({ error: "All fields are required" });
+      return res.status(400).json({ error: 'All fields are required' });
     }
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ error: "Email is already registered" });
+      return res.status(400).json({ error: 'Email is already registered' });
     }
 
     // Hash password
@@ -61,20 +63,19 @@ export const register = async (req, res) => {
     // Save user to database
     await newUser.save();
 
-    res.json({ message: "Registration successful" });
+    res.status(201).json({ message: 'Registration successful' });
   } catch (err) {
-    console.error("Registration error:", err);
-    res.status(500).json({ error: "Registration failed" });
+    console.error('Registration error:', err);
+    res.status(500).json({ error: 'Registration failed' });
   }
-};
+});
 
-export const login = async (req, res) => {
-  // Function implementation
+router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ error: 'Username and password are required' });
+      return res.status(400).json({ error: 'Email and password are required' });
     }
 
     const user = await User.findOne({ email });
@@ -93,7 +94,13 @@ export const login = async (req, res) => {
 
     res.json({
       user: {
-        username: user.email,
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        gender: user.gender,
+        dateOfBirth: user.dateOfBirth,
+        role: user.role,
       },
       token,
     });
@@ -101,8 +108,10 @@ export const login = async (req, res) => {
     console.error(err);
     res.status(500).json({ error: 'Server error' });
   }
-};
+});
 
-export const secret = async (req, res) => {
-  // Function implementation
-};
+router.get('/secret', requireSignin, (req, res) => {
+  res.json({ message: 'This is a secret route' });
+});
+
+export default router;
