@@ -1,18 +1,18 @@
 import '../Activities/Activities.css';
 import '../Dashboard/DashBoard.css'
-import './OPD_Doctor.css'
+import '../OPD_Doctors/OPD_Doctor.css'
 import React, { useEffect,useState } from 'react';
 import logo from '../Images/logonoback.png';
 import Lilogo from '../Images/Left_icon.png';
-import Searchbar_OPD from './Searchbar_OPD';
+import Searchbar_OPD from '../OPD_Doctors/Searchbar_OPD';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 
-function OPD_Doctor() {
+function Physiotherapy_Doctor() {
   const [appointments, setAppointments] = useState([]);
   const [filteredAppointments, setFilteredAppointments] = useState(appointments);
   const [doctors, setDoctors] = useState([]);
   const [selectedDate, setSelectedDate] = useState('');
-  const [department, setDepartment] = useState('OPD');
+  const [department, setDepartment] = useState('Physiotherapy');
   const [selectedSlot, setSelectedSlot] = useState('');
   useEffect(() => {
     document.body.classList.add('activities-background');
@@ -147,7 +147,7 @@ const handleBooking = async () => {
       <div className='Whitecontainer'>
         <div className='OPD_text_rectangle'>
           <div className='MA_text'>
-            Welcome to OPD Department
+            Welcome to Physiotherapy Department
           </div>
         </div>
         <Searchbar_OPD placeholder="Search Doctor's Name..." handleSearch={(term) => {
@@ -185,4 +185,4 @@ const handleBooking = async () => {
   );
 }
 
-export default OPD_Doctor;
+export default Physiotherapy_Doctor;
