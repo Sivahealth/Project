@@ -27,6 +27,10 @@ const doctorSchema = new Schema(
         type: Map,
         of: [String],
       },
+    bookedSlots: {
+        type: [String],
+        default: [],
+      },
   },
   { timestamps: true }
 );

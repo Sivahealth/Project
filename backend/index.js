@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import morgan from "morgan";
 import authRoutes from "./routes/auth.js";
 import doctorRoutes from './routes/doctorRoutes.js';
+import appointmentRoutes from './routes/appointmentRoutes.js';
 import cors from "cors";
 
 dotenv.config();
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use("/api", authRoutes);
 app.use('/api', doctorRoutes); 
 app.use('/api/doctors', doctorRoutes);
+app.use('/api', appointmentRoutes);
 
 const port = process.env.PORT;
 
