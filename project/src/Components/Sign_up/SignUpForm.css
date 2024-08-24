@@ -74,7 +74,25 @@ body{
     margin-bottom: 20px;
     font: size 2px;
   }
+ 
+  .newgroup{
+    position: absolute;
+    width: 300px;
+    top:340px;
+    left:500px;
+    height:35px;
   
+
+  }
+  .labelnew{
+    width:100px;
+    position: absolute;
+  }
+  select.selectnew{
+    display: flex;
+    height:35px;
+    margin-left: 100px;
+  }
   .label1 {
     width: 200px;
     margin-bottom: 20px;
@@ -98,6 +116,7 @@ body{
     border-radius: 4px;
     font-family:'Outfit',sans-serif;
   }
+  
   
   button {
     width: 100%;

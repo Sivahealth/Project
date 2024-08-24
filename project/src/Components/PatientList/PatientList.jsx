@@ -1,14 +1,20 @@
 import './PatientList.css';
 import '../Dashboard/DashBoard.css'
 import '../Activities/Activities.css'
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import logo from '../Images/logonoback.png';
 import NewMoppointments from './NewMoppointment';
 import Newpatientlist from './Newpatientlist';
 import Lilogo from '../Images/Left_icon.png';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import Searchbar from '../Activities/Searchbar';
+import axios from 'axios';
 
 function PatientList () {
+  const [patients, setPatients] = useState([]);
+  const handleSearch = (searchTerm) => {
+      
+  };
     useEffect(() => {
         // Add class to body when component mounts
         document.body.classList.add('patientlist-background');
@@ -19,6 +25,13 @@ function PatientList () {
           document.body.classList.remove('patientlist-background');
           
         };
+      }, []);
+
+      useEffect(() => {
+        // Fetch appointments from the backend
+        axios.get('http://localhost:8002/api/patients')
+          .then(response => setPatients(response.data))
+          .catch(error => console.error('Error fetching appointments:', error));
       }, []);
 
   return (
@@ -48,6 +61,40 @@ function PatientList () {
     
     </div>
     <div className='Whitecontainer'>
+    <div className='MA_text_rectangle'>
+       <div className='MA_text'>
+              Admit Patient List
+        </div> 
+      </div>
+      <Searchbar placeholder="Search patients..."  handleSearch={handleSearch}/>
+      <div className='Table_container'>
+      <table>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Name</th>
+            <th>Assigned Doctor</th>
+            <th>Disease</th>
+            <th>Room No</th>
+          </tr>
+        </thead>
+        <tbody>
+  {patients.map(patient => (
+
+      <tr key={patient._id}>
+        <td>{patient.no}</td>
+        <td>{patient.name}</td>
+        <td>{patient.assignedDoctor}</td>
+        <td><span className='PatientDisease'>{patient.diseases}</span></td>
+        <td>{patient.roomNo}</td>
+      </tr>
+  
+))}
+</tbody>
+</table>
+
+      </div>
+
     </div>
      
     </div>

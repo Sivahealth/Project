@@ -5,7 +5,7 @@ import React, { useEffect,useState } from 'react';
 import logo from '../Images/logonoback.png';
 import Lilogo from '../Images/Left_icon.png';
 import Searchbar_OPD from '../OPD_Doctors/Searchbar_OPD';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 
 function Physiotherapy_Doctor() {
   const [appointments, setAppointments] = useState([]);
@@ -14,12 +14,26 @@ function Physiotherapy_Doctor() {
   const [selectedDate, setSelectedDate] = useState('');
   const [department, setDepartment] = useState('Physiotherapy');
   const [selectedSlot, setSelectedSlot] = useState('');
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
   useEffect(() => {
     document.body.classList.add('activities-background');
     return () => {
       document.body.classList.remove('activities-background');
     };
   }, []);
+
+  useEffect(() => {
+    if (location.state) {
+      const { selectedDoctor, selectedSlot, selectedDate } = location.state;
+      setSelectedDoctor(selectedDoctor);
+      setSelectedSlot(selectedSlot);
+      setSelectedDate(selectedDate);
+    }
+  }, [location.state]);
 
   /*useEffect(() => {
     if (selectedDate) {
@@ -75,7 +89,24 @@ function Physiotherapy_Doctor() {
     setSelectedDate(date);
     fetchDoctorsByDate(date);
   };
+
+  const handleBooking = () => {
+    if (!selectedSlot || !selectedDoctor) return;
+
+    navigate('/new_appointment', {
+      state: {
+        selectedDoctor,
+        selectedSlot,
+        selectedDate,
+      },
+    });
+  };
+
+
+
+
 /*
+
   const DoctorCard = ({ doctor, selectedDate }) => {
   const [availableSlots, setAvailableSlots] = useState([]);
 
@@ -105,7 +136,10 @@ const DoctorCard = ({ doctor }) => {
   return (
     <div className="doctor-card">
       <h2>{doctor.name}</h2>
-       <select onChange={(e) => setSelectedSlot(e.target.value)} value={selectedSlot}>
+      <select onChange={(e) => {
+          setSelectedSlot(e.target.value);
+          setSelectedDoctor(doctor);
+        }} value={selectedSlot}>
           <option value="" disabled>Select a time slot</option>
           {availableSlots.map((slot, index) => (
             <option key={index} value={slot}>{slot}</option>
@@ -121,9 +155,6 @@ const DoctorCard = ({ doctor }) => {
 };
 
 
-const handleBooking = async () => {
-
-};
 
 
   return (

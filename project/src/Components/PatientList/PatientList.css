@@ -94,3 +94,10 @@ body.patientlist-background {
     margin-left:5px;
     
 }
+.PatientDisease{
+    background-color: #ff4500;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 12px;
+}

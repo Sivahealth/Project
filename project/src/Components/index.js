@@ -11,3 +11,4 @@ export {default as Reports} from './Reports/Reports';
 export {default as Add_appointment} from './Add_appointment/Add_appointment';
 export {default as OPD_Doctor} from './OPD_Doctors/OPD_Doctor';
 export {default as Physiotherapy_Doctor} from './Physiotherapy_Doctor/Physiotherapy_Doctor';
+export {default as Newaddreport} from './Newaddreport/Newaddreport';

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import './SignUpForm.css';
+import '../Sign_up/SignUpForm.css';
 import axios from 'axios';
 
-const SignUpForm = () => {
+const Newaddreport = () => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -61,7 +61,7 @@ const SignUpForm = () => {
       <div className='white-rectangle1'>
         <div className="root-container">
           <div className="signup-container">
-            <p className='Optimize-text2'>Please log in using your employee credentials</p>
+            <p className='Optimize-text2'>Please add report details</p>
             <form onSubmit={handleSubmit}>
               <div className="input-group1">
                 <label htmlFor="firstname" className="label1">First Name</label>
@@ -125,4 +125,4 @@ const SignUpForm = () => {
   );
 };
 
-export default SignUpForm;
+export default Newaddreport;

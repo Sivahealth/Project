@@ -1,14 +1,21 @@
 import '../Activities/Activities.css';
 import './Reports.css';
 import '../Dashboard/DashBoard.css';
-import React, { useEffect } from 'react';
+import Addreports from './Addreports';
+import React, { useEffect,useState } from 'react';
 import logo from '../Images/logonoback.png';
 import Lilogo from '../Images/Left_icon.png';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Reportsmenu from './Reportsmenu';
+import Searchbar from '../Activities/Searchbar';
+import axios from 'axios';
 
 
 function Reports(){
+  const [reports, setReports] = useState([]);
+  const handleSearch = (searchTerm) => {
+      
+  };
         useEffect(() => {
         // Add class to body when component mounts
         document.body.classList.add('activities-background');
@@ -19,6 +26,12 @@ function Reports(){
           document.body.classList.remove('activities-background');
           
         };
+      }, []);
+      useEffect(() => {
+        // Fetch appointments from the backend
+        axios.get('http://localhost:8002/api/reports')
+          .then(response => setReports(response.data))
+          .catch(error => console.error('Error fetching appointments:', error));
       }, []);
 
   return (
@@ -46,6 +59,49 @@ function Reports(){
 
     </div>
     <div className='Whitecontainer'>
+    <div className='MA_text_rectangle'>
+       <div className='MA_text'>
+              Reports
+        </div> 
+      </div>
+      <Searchbar placeholder="Search reports..."  handleSearch={handleSearch}/>
+      <Addreports/>
+      <div className='Table_container'>
+      <table>
+        <thead>
+          <tr>
+            <th>Patient Name</th>
+            <th>Doctor Name</th>
+            <th>Contact Number</th>
+            <th>Total Charge</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {reports.map(report => (
+            <tr key={report._id}>
+              <td>{report.patientName}</td>
+              <td>{report.doctorName}</td>
+              <td>{report.contactNumber}</td>
+              <td>{report.totalCharge}</td>
+              <td>
+              <div className="button-group">
+                <button className="pay-now-btn">Pay Now</button>
+                <a href={report.attachedPdf} target="_blank" rel="noopener noreferrer">
+            <button className="book-now-btn">Download</button>
+          </a>
+              </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      </div>
+
+
+
+
+
     </div>
      
     </div>

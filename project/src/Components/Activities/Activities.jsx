@@ -7,6 +7,7 @@ import Patientlist from './Patientlist';
 import Addappointment from './Addappointment';
 import Lilogo from '../Images/Left_icon.png';
 import Searchbar from './Searchbar';
+import axios from 'axios';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 
 function Activities () {
@@ -36,6 +37,14 @@ function Activities () {
           
         };
       }, []);
+
+      useEffect(() => {
+        // Fetch appointments from the backend
+        axios.get('http://localhost:8002/api/')
+          .then(response => setAppointments(response.data))
+          .catch(error => console.error('Error fetching appointments:', error));
+      }, []);
+
   return (
     <div className='maindash'>
     <div className='logo_dash'>
@@ -71,6 +80,41 @@ function Activities () {
 
       <Searchbar placeholder="Search appointments..."  handleSearch={handleSearch}/>
       <Addappointment/>
+      <div className='Table_container'>
+      <table>
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Phone Number</th>
+            <th>Appointment Date & Time</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {appointments.map(appointment => (
+            <tr key={appointment._id}>
+              <td>{appointment.firstName}</td>
+              <td>{appointment.lastName}</td>
+              <td>{appointment.contactNumber}</td>
+              <td>{new Date(appointment.appointmentDate).toLocaleString()}</td>
+              <td>{appointment.status}
+              <div className="button-group">
+              <button className="view-btn">View</button>
+              </div>
+              </td>
+              <td>
+              <div className="button-group">
+                <button className="pay-now-btn">Pay Now</button>
+                <button className="book-now-btn">Book Now</button>
+              </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      </div>
     </div>
      
 
