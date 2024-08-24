@@ -5,6 +5,7 @@ import morgan from "morgan";
 import authRoutes from "./routes/auth.js";
 import doctorRoutes from './routes/doctorRoutes.js';
 import appointmentRoutes from './routes/appointmentRoutes.js';
+import patientRoutes from './routes/patientRoutes.js';
 import cors from "cors";
 
 dotenv.config();
@@ -25,6 +26,7 @@ app.use("/api", authRoutes);
 app.use('/api', doctorRoutes); 
 app.use('/api/doctors', doctorRoutes);
 app.use('/api', appointmentRoutes);
+app.use('/api', patientRoutes);
 
 const port = process.env.PORT;
 
