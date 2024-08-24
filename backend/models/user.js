@@ -35,9 +35,25 @@ const userSchema = new Schema(
       min: 6,
       max: 64,
     },
+    joinedAt: { type: Date, default: Date.now },
+    joinedTime: {
+      type: String, // Store the time as a string
+    },
+    status:{
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
 
+userSchema.pre('save', function(next) {
+  if (this.isNew) {
+    const now = new Date();
+    this.joinedAt = Date.now();  // Set the joinedAt timestamp to the current date and time
+    this.joinedTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+  next();
+});
 export default mongoose.model("User", userSchema);
 

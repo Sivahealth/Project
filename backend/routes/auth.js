@@ -1,12 +1,13 @@
 import express from "express";
 import { register, login, secret } from "../controllers/auth.js";
 import { requireSignin, isAdmin } from "../middlewares/auth.js";
-import { getUsersCount } from '../controllers/userController.js';
+import { getUsersCount,getUsers } from '../controllers/userController.js';
 
 const router = express.Router();
 
 router.post("/register", register);
 router.post("/login", login);
+router.get("/users",getUsers);
 
 router.get("/auth-check", requireSignin, (req, res) => {
   res.json({ user: req.user });

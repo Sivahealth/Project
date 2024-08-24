@@ -41,3 +41,12 @@ export const createAppointment = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+export const getAppointments = async (req, res) => {
+  try {
+    const appointments = await Appointment.find();
+    res.json(appointments);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch appointments' });
+  }
+};

@@ -4,7 +4,7 @@ import { requireSignin, isAdmin } from '../middlewares/auth.js';
 
 const router = express.Router();
 
-router.post('/doctors', requireSignin, isAdmin, addDoctor);
+router.post('/doctors', addDoctor);
 router.get('/doctors', getDoctors);
 router.put('/doctors/:id', requireSignin, isAdmin, updateDoctor);
 router.delete('/doctors/:id', requireSignin, isAdmin, deleteDoctor);

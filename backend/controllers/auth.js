@@ -35,10 +35,10 @@ const isAdmin = async (req, res, next) => {
 
 export const register = async (req, res) => {
   try {
-    const { firstName, lastName, email, gender, dob, password } = req.body;
+    const { firstName, lastName, email, gender, dob,status, password } = req.body;
 
     // Validate required fields
-    if (!firstName || !lastName || !email || !gender || !dob || !password) {
+    if (!firstName || !lastName || !email || !gender || !dob || !password || !status) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
@@ -58,6 +58,7 @@ export const register = async (req, res) => {
       email,
       gender,
       dateOfBirth: dob,
+      status,
       password: hashedPassword,
     });
 

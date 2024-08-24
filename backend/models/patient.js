@@ -6,7 +6,7 @@ const patientSchema = new Schema({
   no: { type: Number, required: true },
   name: { type: String, required: true },
   assignedDoctor: { type: String, required: true },
-  dateOfAdmit: { type: Date, required: true },
+  dateOfAdmit: { type: String, required: true },
   diseases: { type: String, required: true },
   roomNo: { type: String, required: true },
 }, {

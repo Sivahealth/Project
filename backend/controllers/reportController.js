@@ -3,11 +3,11 @@ import Report from '../models/report.js';
 
 export const createReport = async (req, res) => {
   try {
-    const { firstName, lastName, contactNumber, totalCharge, attachedPdf } = req.body;
+    const { patientName, doctorName, contactNumber, totalCharge, attachedPdf } = req.body;
 
     const report = new Report({
-      firstName,
-      lastName,
+      patientName,
+      doctorName,
       contactNumber,
       totalCharge,
       attachedPdf
@@ -28,3 +28,4 @@ export const getReports = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
