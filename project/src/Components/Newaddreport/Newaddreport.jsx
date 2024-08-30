@@ -1,20 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../Sign_up/SignUpForm.css';
+import './Newaddreport.css';
 import axios from 'axios';
 
 const Newaddreport = () => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    gender: '',
-    dob: null,
-    status:'',
-    password: '',
-    confirmPassword: ''
+        patientName: '',
+        doctorName: '',
+        contactNumber: '',
+        totalCharge: '',
+        attachedPdf:'',
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,37 +25,50 @@ const Newaddreport = () => {
     });
   };
  
-  const handleDateChange = (date) => {
-    setFormData({
-      ...formData,
-      dob: date
-    });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match');
-      return;
-    }
+    
+    const reportData = {
+        patientName:formData.patientName,
+        doctorName:formData.doctorName,
+        contactNumber:formData.contactNumber,
+        totalCharge:formData.totalCharge,
+        attachedPdf:formData.attachedPdf,
+    };
     try {
-      const response = await axios.post('http://localhost:8002/api/register', formData);
-      alert(response.data.message);
-      // Optionally reset form after successful submission
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        gender: '',
-        dob: null,
-        status:'',
-        password: '',
-        confirmPassword: ''
+      const response = await fetch('http://localhost:8002/api/reports', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(reportData),
       });
+
+      if (response.ok) {
+        // Handle successful booking
+        console.log('Add the report details successfully!');
+        alert('Add the report details successfully!');
+        navigate('/reports');
+        // Optionally clear form data after successful submission
+        setFormData({
+        patientName: '',
+        doctorName: '',
+        contactNumber: '',
+        totalCharge: '',
+        attachedPdf:'',
+        });
+      } else {
+        // Handle error
+        console.error('Failed to add report details');
+      }
     } catch (error) {
-      alert(error.response.data.message);
+      // Handle error
+      console.error('Error:', error);
     }
   };
+
+
 
   return (
     <div className='blue-rectangle1'>
@@ -63,58 +77,30 @@ const Newaddreport = () => {
           <div className="signup-container">
             <p className='Optimize-text2'>Please add report details</p>
             <form onSubmit={handleSubmit}>
-              <div className="input-group1">
-                <label htmlFor="firstname" className="label1">First Name</label>
-                <input type="text" id="firstname" name="firstName" value={formData.firstName} onChange={handleChange} required />
+              <div className="input-group5">
+                <label htmlFor="patientName" className="label6">Patient Name</label>
+                <input type="text" id="patientName" name="patientName" value={formData.patientName} onChange={handleChange} required />
               </div>
-              <div className="input-group1">
-                <label htmlFor="lastname" className="label1">Last Name</label>
-                <input type="text" id="lastname" name="lastName" value={formData.lastName} onChange={handleChange} required />
+              <div className="input-group5">
+                <label htmlFor="doctorName" className="label6">Doctor Name</label>
+                <input type="text" id="doctorName" name="doctorName" value={formData.doctorName} onChange={handleChange} required />
               </div>
-              <div className="input-group1">
-                <label htmlFor="email" className="label1">E-mail</label>
-                <input type="text" id="email" name="email" value={formData.email} onChange={handleChange} required />
+              <div className="input-group5">
+                <label htmlFor="contactNumber" className="label6">Patient Contact Number</label>
+                <input type="text" id="contactNumber" name="contactNumber" value={formData.contactNumber} onChange={handleChange} required />
               </div>
-              <div className="input-group1">
-                <label htmlFor="gender" className="label1">Gender</label>
-                <select id="gender" name="gender" value={formData.gender} onChange={handleChange} required>
-                  <option value="" disabled>Select</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                </select>
+              <div className="input-group5">
+                <label htmlFor="totalCharge" className="label6">Total Charge</label>
+                <input type="text" id="totalCharge" name="totalCharge" value={formData.totalCharge} onChange={handleChange} required />
               </div>
-              <div className="input-group1">
-                <label htmlFor="dob" className="label1">Date of Birth</label>
-                <DatePicker
-                  id="dob"
-                  selected={formData.dob}
-                  onChange={handleDateChange} // Corrected onChange handling
-                  dateFormat="dd/MM/yyyy"
-                  placeholderText="Select your date of birth"
-                  className="datepicker"
-                />
-              </div>
-              <div className="newgroup">
-                <label htmlFor="status" className="labelnew">Status</label>
-                <select id="status" name="status" className='selectnew' value={formData.status} onChange={handleChange} required>
-                  <option value="" disabled>Select</option>
-                  <option value="Doctor">Doctor</option>
-                  <option value="Employee">Employee</option>
-                  <option value="Patient">Patient</option>
-                </select>
-              </div>
-              <div className="input-group1">
-                <label htmlFor="password" className="label1">Create Password</label>
-                <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} required />
-              </div>
-              <div className="input-group1">
-                <label htmlFor="confirmPassword" className="label1">Confirm Password</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required />
+              <div className="input-group5">
+                <label htmlFor="attachedPdf" className="label6">Add report PDF link</label>
+                <input type="text" id="attachedPdf" name="attachedPdf" value={formData.attachedPdf} onChange={handleChange} required />
               </div>
               <div className="white-rectangle2">
-                <button type="submit">Create An Account</button>
+                <button type="submit">Submit</button>
                 <div>
-                  <p className="backlink"> <a href="/home">Back to Home</a></p>
+                  <p className="backlink"> <a href="/reports">To reports page</a></p>
                 </div>
               </div>
             </form>

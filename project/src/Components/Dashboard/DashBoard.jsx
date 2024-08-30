@@ -12,7 +12,12 @@ import  UserCountChart from './UserCountChart';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import axios from 'axios';
 
+import img5 from '../Images/building.png';
+import img6 from '../Images/image2.png';
+import img3 from '../Images/image3.png';
+
 function DashBoard () {
+  const maxUsers =10;
     useEffect(() => {
         // Add class to body when component mounts
         document.body.classList.add('dashboard-background');
@@ -26,10 +31,31 @@ function DashBoard () {
       }, []);
 
       const [userCount, setUserCount] = useState(0);
+      const [appointmentCount,setAppointmentCount]=useState(0);
+      const [patientCount,setPatientCount]=useState(0);
+      const [reportCount,setReportCount]=useState(0);
+      const [currentImageIndex, setCurrentImageIndex] = useState(0);
+      const [fade, setFade] = useState(true); // State for fade effect
+
+      const images = [img3, img5, img6];
 
     useEffect(() => {
         fetchUserCount();
+        fetchappointmentCount();
+        fetchpatientCount();
+        fetchreportCount();
+        const intervalId = setInterval(() => {
+          setFade(false); // Start fade-out transition
+          setTimeout(() => {
+            setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length); // Change image
+            setFade(true); // Start fade-in transition
+          }, 500); // Duration of fade-out transition
+        }, 3500); // Total interval including transition time
+    
+        return () => clearInterval(intervalId); // Clean up on unmount
     }, []);
+
+    
 
     const fetchUserCount = async () => {
         try {
@@ -39,9 +65,39 @@ function DashBoard () {
             console.error('Error fetching user count:', error);
         }
     };
-
    
-    
+    const fetchappointmentCount = async () => {
+      try {
+          const response = await axios.get('http://localhost:8002/api/appointments/count');
+          setAppointmentCount(response.data.count);
+      } catch (error) {
+          console.error('Error fetching user count:', error);
+      }
+  };
+
+  const fetchpatientCount = async () => {
+    try {
+        const response = await axios.get('http://localhost:8002/api/patients/count');
+        setPatientCount(response.data.count);
+    } catch (error) {
+        console.error('Error fetching user count:', error);
+    }
+};
+
+const fetchreportCount = async () => {
+  try {
+      const response = await axios.get('http://localhost:8002/api/reports/count');
+      setReportCount(response.data.count);
+  } catch (error) {
+      console.error('Error fetching user count:', error);
+  }
+};
+ 
+   
+    const progressPercentage =( (userCount) / maxUsers) * 100;
+    const appointmentPercentage=((appointmentCount)/maxUsers)*100;
+    const patientPerecentage=((patientCount)/maxUsers)*100;
+    const reportPerecentage=((reportCount)/maxUsers)*100;
 
   return (
     <div className='maindash'>
@@ -62,8 +118,72 @@ function DashBoard () {
     </div>
     <div className='Whitecontainer'>
     <div className='newcountcontainer'>
-      <p className='newcontainer'>Registred Users: {userCount}</p>
       </div>
+      
+        <div className="dashboard-grid">
+          <div className="column">
+            <div className="dashboard-slot">
+              <h3>Users</h3>
+              <p>{userCount}</p>
+              <div className="progress-bar-container">
+                <div
+                  className="progress-bar purple"
+                  style={{ width: `${progressPercentage}%` }}
+                ></div>
+              </div>
+            </div>
+            <div className="dashboard-slot">
+            <h3>Appointments</h3>
+            <p>{appointmentCount}</p>
+              <div className="progress-bar-container">
+                <div
+                  className="progress-bar green"
+                  style={{ width:`${appointmentPercentage}%`}}
+                ></div>
+              </div>
+            </div>
+          </div>
+          <div className="column">
+            <div className="dashboard-slot">
+            <h3>Admit Patients</h3>
+            <p>{patientCount}</p>
+              <div className="progress-bar-container">
+                <div
+                  className="progress-bar red"
+                  style={{ width: `${patientPerecentage}%` }}
+                ></div>
+              </div>
+            </div>
+          
+
+            <div className="dashboard-slot">
+            <h3>Reports</h3>
+            <p>{reportCount}</p>
+              <div className="progress-bar-container">
+                <div
+                  className="progress-bar blue"
+                  style={{ width: `${reportPerecentage}%` }}
+                ></div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+
+        
+       <div className={`slideshow-container ${fade ? 'fade-in' : 'fade-out'}`}>
+                <img
+                  src={images[currentImageIndex]}
+                  alt="Slideshow"
+                  className="slideshow-image"
+                />
+        </div>
+          
+    
+
+
+
     </div>
      
     </div>
