@@ -20,4 +20,13 @@ export const getPatients = async (req, res) => {
   }
 };
 
+export const getPatientCount = async (req, res) => {
+  try {
+      const count = await Patient.countDocuments();
+      res.json({ count });
+  } catch (error) {
+      console.error('Error fetching user count:', error);
+      res.status(500).json({ message: 'Error fetching user count' });
+  }
+};
 // have to add more CRUD operations

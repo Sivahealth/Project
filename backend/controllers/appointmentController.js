@@ -50,3 +50,13 @@ export const getAppointments = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch appointments' });
   }
 };
+
+export const getAppointmentCount = async (req, res) => {
+  try {
+      const count = await Appointment.countDocuments();
+      res.json({ count });
+  } catch (error) {
+      console.error('Error fetching user count:', error);
+      res.status(500).json({ message: 'Error fetching user count' });
+  }
+};

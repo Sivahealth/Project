@@ -29,3 +29,12 @@ export const getReports = async (req, res) => {
   }
 };
 
+export const getReportCount = async (req, res) => {
+  try {
+      const count = await Report.countDocuments();
+      res.json({ count });
+  } catch (error) {
+      console.error('Error fetching user count:', error);
+      res.status(500).json({ message: 'Error fetching user count' });
+  }
+};
