@@ -29,7 +29,7 @@ function Reports(){
       }, []);
       useEffect(() => {
         // Fetch appointments from the backend
-        axios.get('http://localhost:8002/api/reports')
+        axios.get('http://localhost:8002/api/reports/getreport')
           .then(response => setReports(response.data))
           .catch(error => console.error('Error fetching appointments:', error));
       }, []);

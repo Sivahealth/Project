@@ -1,4 +1,5 @@
 import './DashBoard.css';
+import '../Activities/Activities.css'
 import React, {  useEffect,useState } from 'react';
 import logo from '../Images/logonoback.png';
 import D_dashboard from './D-dashboard';
@@ -36,6 +37,7 @@ function DashBoard () {
       const [reportCount,setReportCount]=useState(0);
       const [currentImageIndex, setCurrentImageIndex] = useState(0);
       const [fade, setFade] = useState(true); // State for fade effect
+      const [userDetails, setUserDetails] = useState({}); 
 
       const images = [img3, img5, img6];
 
@@ -44,6 +46,7 @@ function DashBoard () {
         fetchappointmentCount();
         fetchpatientCount();
         fetchreportCount();
+        fetchUserDetails();
         const intervalId = setInterval(() => {
           setFade(false); // Start fade-out transition
           setTimeout(() => {
@@ -55,7 +58,17 @@ function DashBoard () {
         return () => clearInterval(intervalId); // Clean up on unmount
     }, []);
 
-    
+    const fetchUserDetails = async () => {
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (user && user.username) {
+        try {
+          const response = await axios.get(`http://localhost:8002/api/${user.username}`);
+          setUserDetails(response.data);
+        } catch (error) {
+          console.error('Error fetching user details:', error);
+        }
+      }
+    };
 
     const fetchUserCount = async () => {
         try {
@@ -119,7 +132,15 @@ const fetchreportCount = async () => {
     <div className='Whitecontainer'>
     <div className='newcountcontainer'>
       </div>
-      
+      <div className="user-info">
+                          <Link to="/logout" className='custom_link'><p>Welcome, {userDetails.firstName || 'User'}</p></Link>
+            </div>
+
+      <div className='MA_text_rectangle'>
+       <div className='MA_text'>
+              Dashboard
+        </div> 
+      </div>
         <div className="dashboard-grid">
           <div className="column">
             <div className="dashboard-slot">

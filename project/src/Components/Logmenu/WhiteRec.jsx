@@ -29,6 +29,7 @@ const WhiteRec = () => {
       alert('Login successful');
       // Handle successful login (e.g., save token, redirect)
       localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
       navigate('/dashboard');
     } catch (error) {
       alert('Login failed: ' + error.response.data.error);

@@ -200,7 +200,7 @@ body.dashboard-background {
     height:12px;
     background-color: #f0f0f0;
     border-radius: 2px;
-    margin-top: 10px;
+    margin-bottom: 10px;
     overflow: hidden;
   }
   
@@ -220,6 +220,7 @@ body.dashboard-background {
 
   .red{
     background-color: red;
+
   }
 
   .blue{
@@ -237,7 +238,7 @@ body.dashboard-background {
 
   .dashboard-slot {
     background-color: #ffffff;
-    height: 200px;
+    height: 150px;
     width: 500px;
     border-radius: 8px;
     padding: 20px;
@@ -259,7 +260,7 @@ body.dashboard-background {
     width: 100%;
     padding: 20px;
     gap: 30px; /* Adds space between the columns */
-    top:200px;
+    top:300px;
     left:50px;
     position: absolute;
 }
@@ -273,7 +274,7 @@ body.dashboard-background {
 
 .slideshow-container {
     position: absolute;
-    top:10px;
+    top:110px;
     left: 63px;
     width: 1130px;
     height: 200px;
@@ -298,4 +299,14 @@ body.dashboard-background {
 .fade-out {
     opacity: 0;
     transition: opacity 0.5s ease-out;
+}
+
+.user-info {
+   
+    position: absolute;
+    top: 20px;  /* Adjust to control vertical position */
+    right: 330px;  /* Adjust to control horizontal position */
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
 }
