@@ -5,7 +5,7 @@ import { createReport, getReports,getReportCount } from '../controllers/reportCo
 const router = express.Router();
 
 router.post('/reports', createReport);
-router.get('/reports', getReports);
+router.get('/reports/getreport', getReports);
 router.get('/reports/count',getReportCount);
 
 router.get('/download/:id', async (req, res) => {

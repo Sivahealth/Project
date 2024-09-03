@@ -4,7 +4,7 @@ import { createPatient, getPatients,getPatientCount } from '../controllers/patie
 const router = express.Router();
 
 router.post('/patients', createPatient);
-router.get('/patients', getPatients);
+router.get('/patients/admit', getPatients);
 router.get('/patients/count',getPatientCount);
 
 // need to add more routes
