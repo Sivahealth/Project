@@ -7,6 +7,7 @@ import doctorRoutes from './routes/doctorRoutes.js';
 import appointmentRoutes from './routes/appointmentRoutes.js';
 import patientRoutes from './routes/patientRoutes.js';
 import reportRoutes from './routes/reportRoutes.js'; // Import report routes
+import paymentRoutes from './routes/paymentRoutes.js';
 import cors from "cors";
 
 dotenv.config();
@@ -29,6 +30,7 @@ app.use('/api/doctors', doctorRoutes);
 app.use('/api', appointmentRoutes);
 app.use('/api', patientRoutes);
 app.use('/api', reportRoutes); // Add report routes
+app.use('/api/payments', paymentRoutes);
 
 const port = process.env.PORT;
 

@@ -15,12 +15,12 @@ const appointmentSchema = new mongoose.Schema({
   },
   department: { type: String, required: true },
   contactNumber: {type:String, require:true},
-  appointmentDate: { type: Date, required: true },
+  appointmentDate: { type: String, required: true },
   timeSlot: { type: String, required: true },
   doctorId: { type: mongoose.Schema.Types.ObjectId, ref: 'Doctor', required: true },
   
 }, {
-  timestamps: true
+  timestamps: true //useful to track the creation and modification times of appointment documents
 });
 
 const Appointment = mongoose.model('Appointment', appointmentSchema);

@@ -103,3 +103,4 @@ export const getAvailableSlots = async (req, res) => {
       res.status(500).json({ message: 'Error fetching doctors', error });
     }
   };
+

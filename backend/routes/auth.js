@@ -1,5 +1,5 @@
 import express from "express";
-import { register, login, secret } from "../controllers/auth.js";
+import { register, login,secret } from "../controllers/auth.js";
 import { requireSignin, isAdmin } from "../middlewares/auth.js";
 import { getUsersCount,getUsers,getUserByUsername } from '../controllers/userController.js';
 

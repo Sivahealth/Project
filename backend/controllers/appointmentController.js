@@ -60,3 +60,26 @@ export const getAppointmentCount = async (req, res) => {
       res.status(500).json({ message: 'Error fetching user count' });
   }
 };
+
+// controllers/appointmentController.js
+export const deleteAppointment = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Find and delete the appointment
+    const appointment = await Appointment.findByIdAndDelete(id);
+
+    if (!appointment) {
+      return res.status(404).json({ message: 'Appointment not found' });
+    }
+
+    // Find the doctor and remove the booked slot
+    const doctor = await Doctor.findById(appointment.doctorId);
+    doctor.bookedSlots = doctor.bookedSlots.filter(slot => slot !== appointment.timeSlot);
+    await doctor.save();
+
+    res.status(200).json({ message: 'Appointment deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete appointment' });
+  }
+};

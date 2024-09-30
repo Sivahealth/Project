@@ -36,9 +36,7 @@ const userSchema = new Schema(
       max: 64,
     },
     joinedAt: { type: Date, default: Date.now },
-    joinedTime: {
-      type: String, // Store the time as a string
-    },
+    joinedTime: { type: Date }, // Last login time
     status:{
       type: String,
       required: true,
