@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "503879875053",
+    "project_id": "sivahealth-12a4f",
+    "storage_bucket": "sivahealth-12a4f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:503879875053:android:c9b7ffff757c2c5c488fe4",
+        "android_client_info": {
+          "package_name": "com.example.healthhub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxLnOzcmrAJL4rr2QAshDL5zisTRfsS7A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

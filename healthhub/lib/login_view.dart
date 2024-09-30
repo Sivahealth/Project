@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:healthhub/dashboard.dart';
+import 'package:healthhub/dashboard1.dart';
 import 'package:healthhub/signUp.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:healthhub/constants.dart'; // Import the constants file
 
 class LoginPage extends StatefulWidget {
   @override
@@ -11,54 +14,64 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+
   bool _isPasswordVisible = false;
 
-  void _login() {
+  Future<void> _login() async {
     if (_formKey.currentState!.validate()) {
-      // Replace this with your actual login logic
       String username = _usernameController.text;
       String password = _passwordController.text;
 
-      // For demonstration purposes, checking hardcoded credentials
-      if (username == 'admin' && password == '123') {
-        // Navigate to Dashboard or perform necessary actions
+      var response = await http.post(
+        Uri.parse('$apiUrl/api/login'), // Use the constant for the API URL
+        /*Uri.parse(
+            'http://192.168.43.234:8002/api/login'), // For Physical Devices*/
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'email': username,
+          'password': password,
+          'status': "Doctor",
+        }),
+      );
+
+      if (response.statusCode == 200) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Dashboard()),
+          MaterialPageRoute(builder: (context) => Dashboard1(userId: username)),
         );
-        //Navigator.pushReplacementNamed(context, '/Dashboard');
       } else {
-        // Show an error dialog for incorrect credentials
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Login Failed'),
-              content:
-                  Text('Incorrect username or password. Please try again.'),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
+        _showLoginFailedDialog();
       }
     }
   }
 
+  void _showLoginFailedDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Login Failed'),
+          content: Text('Incorrect username or password. Please try again.'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _navigateToForgotPassword() {
-    // Implement navigation logic to the forgot password screen
     Navigator.pushNamed(context, '/forgot_password');
   }
 
   void _createAccount() {
-    // Implement navigation logic to the create account screen
-    //Navigator.pushNamed(context, '/create_account');
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => SignUpPage()),
@@ -76,6 +89,8 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(206, 0, 123, 255), // New AppBar color
+        automaticallyImplyLeading: false,
         title: const Text(
           'Siva Health Hub',
           style: TextStyle(fontSize: 24),
@@ -152,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 20),
-                      backgroundColor: Color.fromARGB(255, 50, 55, 167),
+                      backgroundColor: const Color.fromARGB(255, 50, 55, 167),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
@@ -176,7 +191,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Text(
                       'Don’t have an account?  Sign Up',
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.blue),
+                      style: const TextStyle(color: Colors.blue),
                     ),
                   ),
                 ),

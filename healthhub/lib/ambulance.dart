@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AmbulancePage extends StatelessWidget {
+  // Method to launch the phone dialer with the ambulance number
+  void _callAmbulance() async {
+    const phoneNumber = 'tel:0112255255';
+    if (await canLaunch(phoneNumber)) {
+      await launch(phoneNumber);
+    } else {
+      // Handle error if the phone number can't be launched
+      // Show a snackbar or alert to inform the user
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -8,11 +20,10 @@ class AmbulancePage extends StatelessWidget {
         title: Text(
           'Siva Health Hub - Ambulance',
           style: TextStyle(
-            color: Colors.white, // Set text color to white
+            color: Colors.black,
           ),
         ),
-        backgroundColor:
-            Color.fromARGB(255, 26, 34, 199), // Theme color changed to blue
+        backgroundColor: Colors.lightBlue,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -21,7 +32,7 @@ class AmbulancePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/logo.png', // Replace with the path to your logo.png image
+                'assets/logo.png',
                 width: 200,
                 height: 200,
               ),
@@ -31,52 +42,42 @@ class AmbulancePage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color:
-                      Color.fromARGB(255, 0, 0, 0), // Set text color to black
+                  color: Colors.black,
                 ),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 20),
               Text(
-                'Call us at: 0112 XXX XXX',
+                'Call us at: 0112 255 255',
                 style: TextStyle(
                   fontSize: 18,
-                  color:
-                      Color.fromARGB(255, 0, 0, 0), // Set text color to black
+                  color: Colors.black,
                 ),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 40),
               ElevatedButton.icon(
-                onPressed: () {
-                  // Handle the ambulance booking logic here
-                },
+                onPressed: _callAmbulance,
                 icon: Icon(Icons.phone),
                 label: Text(
                   'Call Ambulance',
                   style: TextStyle(
-                    color: Color.fromARGB(
-                        255, 255, 255, 255), // Set text color to white
+                    fontSize: 18,
+                    color: const Color.fromARGB(255, 0, 0, 0),
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(
-                      255, 26, 34, 199), // Button color changed to blue
+                  backgroundColor:
+                      Color.fromARGB(178, 0, 119, 255), // Dark Blue
                   padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                  textStyle: TextStyle(
-                    fontSize: 18,
-                    color: Color.fromARGB(
-                        255, 255, 255, 255), // Set text color to white
-                  ),
                 ),
               ),
               SizedBox(height: 30),
               Text(
-                '24 hour service Available!',
+                '24-hour service Available!',
                 style: TextStyle(
                   fontSize: 24,
-                  color:
-                      Color.fromARGB(255, 0, 0, 0), // Set text color to black
+                  color: Colors.black,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -84,8 +85,7 @@ class AmbulancePage extends StatelessWidget {
           ),
         ),
       ),
-      backgroundColor:
-          Color.fromARGB(255, 255, 255, 255), // Background color set to white
+      backgroundColor: Colors.white,
     );
   }
 }

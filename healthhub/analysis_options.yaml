@@ -9,6 +9,7 @@
 # packages, and plugins designed to encourage good coding practices.
 analyzer:
   errors:
+    depend_on_referenced_packages: ignore
     unnecessary_string_escapes: ignore
 include: package:flutter_lints/flutter.yaml
 

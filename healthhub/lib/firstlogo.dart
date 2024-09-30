@@ -1,8 +1,6 @@
+import 'package:healthhub/login_view.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-
-// ignore: unused_import
-import 'package:healthhub/icon1.dart'; // For Timer
 
 class FirstLogo extends StatefulWidget {
   @override
@@ -18,7 +16,7 @@ class _FirstLogoState extends State<FirstLogo> {
       //Navigator.of(context).pushReplacementNamed('/login_view');
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => IconScreen1()),
+        MaterialPageRoute(builder: (context) => LoginPage()),
       );
     });
   }
@@ -26,12 +24,12 @@ class _FirstLogoState extends State<FirstLogo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: Center(
         child: Image.asset(
-          'assets/logo.png', // Path to the icon in the assets folder
-          width: 200.0, // Adjust the width as needed
-          height: 200.0, // Adjust the height as needed
+          'assets/logo.png',
+          width: 200.0,
+          height: 200.0,
         ),
       ),
     );
