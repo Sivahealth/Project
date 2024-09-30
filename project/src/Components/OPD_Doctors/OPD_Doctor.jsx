@@ -58,8 +58,11 @@ function OPD_Doctor() {
   };
 
   const handleBooking = () => {
-    if (!selectedSlot || !selectedDoctor) return;
-
+    if (!selectedSlot || !selectedDoctor) {
+      alert("Please select both a doctor and a time slot.");
+      return;
+    }
+  
     navigate('/new_appointment', {
       state: {
         selectedDoctor,

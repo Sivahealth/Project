@@ -27,9 +27,11 @@ const WhiteRec = () => {
     try {
       const response = await axios.post('http://localhost:8002/api/login', formData);
       alert('Login successful');
+      const loginTime = new Date().toLocaleString(); // Capture login time
       // Handle successful login (e.g., save token, redirect)
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
+      localStorage.setItem('loginTime', loginTime); // Store login time
       navigate('/dashboard');
     } catch (error) {
       alert('Login failed: ' + error.response.data.error);

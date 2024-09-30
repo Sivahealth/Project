@@ -32,3 +32,10 @@
     background-color: #00bfff;
   }
   
+  .login-time {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px 0;
+    color: #333;
+  }
+  

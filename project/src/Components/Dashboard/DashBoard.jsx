@@ -18,7 +18,7 @@ import img6 from '../Images/image2.png';
 import img3 from '../Images/image3.png';
 
 function DashBoard () {
-  const maxUsers =10;
+  const maxUsers =50;
     useEffect(() => {
         // Add class to body when component mounts
         document.body.classList.add('dashboard-background');
@@ -58,18 +58,12 @@ function DashBoard () {
         return () => clearInterval(intervalId); // Clean up on unmount
     }, []);
 
-    const fetchUserDetails = async () => {
+    const fetchUserDetails = () => {
       const user = JSON.parse(localStorage.getItem('user'));
-      if (user && user.username) {
-        try {
-          const response = await axios.get(`http://localhost:8002/api/${user.username}`);
-          setUserDetails(response.data);
-        } catch (error) {
-          console.error('Error fetching user details:', error);
-        }
+      if (user) {
+        setUserDetails(user);
       }
     };
-
     const fetchUserCount = async () => {
         try {
             const response = await axios.get('http://localhost:8002/api/users/count');

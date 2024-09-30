@@ -1,14 +1,14 @@
 import '../Activities/Activities.css';
-import './Calendar.css';
+import './Pharmacy.css';
 import '../Dashboard/DashBoard.css';
 import React, { useEffect } from 'react';
 import logo from '../Images/logonoback.png';
 import Lilogo from '../Images/Left_icon.png';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import Calendarmenu from './Calendarmenu';
+import Pharmacymenu from './Pharmacymenu';
 
 
-function Calendar(){
+function Pharmacy(){
         useEffect(() => {
         // Add class to body when component mounts
         document.body.classList.add('activities-background');
@@ -30,7 +30,7 @@ function Calendar(){
     <div className='dashboardlogoname'>
     <p className='Optimize-text3'><Link to="/dashboard" className='custom_link'>Siva Health Hub</Link></p>
     </div>
-    <Calendarmenu/>
+    <Pharmacymenu/>
 
     <div className='back'>
     <div className='activitiesmenu'>
@@ -52,4 +52,4 @@ function Calendar(){
   )
 }
 
-export default Calendar
+export default Pharmacy

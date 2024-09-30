@@ -4,13 +4,27 @@ import '../Dashboard/DashBoard.css';
 import React, { useEffect,useState } from 'react';
 import logo from '../Images/logonoback.png';
 import Lilogo from '../Images/Left_icon.png';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link,useNavigate } from 'react-router-dom';
 import Usermenu from './Usermenu';
 import Searchbar from '../Activities/Searchbar';
 import axios from 'axios';
 
 function Users(){
   const [users, setUsers] = useState([]);
+  const [loginTime, setLoginTime] = useState('');
+  const navigate = useNavigate();
+
+  
+  useEffect(() => {
+    // Check the user's status from localStorage
+    const user = JSON.parse(localStorage.getItem('user'));
+    
+    if (user && user.status === 'Doctor') {
+      // If the user is a doctor, deny access by redirecting to another page
+      alert('Access denied. Doctors are not allowed to access this page.');
+      navigate('/dashboard'); // Redirect to the dashboard or any other appropriate page
+    }
+  }, [navigate]);
 
         useEffect(() => {
         // Add class to body when component mounts
@@ -33,7 +47,13 @@ function Users(){
         axios.get('http://localhost:8002/api/users')
           .then(response => setUsers(response.data))
           .catch(error => console.error('Error fetching appointments:', error));
+
+          const storedLoginTime = localStorage.getItem('loginTime');
+    setLoginTime(storedLoginTime || 'Not available');
       }, []);
+
+
+      
 
   return (
     <div className='maindash'>
@@ -66,43 +86,44 @@ function Users(){
         </div> 
       </div>
       <Searchbar placeholder="Search users..."  handleSearch={handleSearch}/>
-      <div className='Table_container'>
+
+      {/* Display the login time */}
+      <div className='login-time'>
+          <p>Login Time: {loginTime}</p>
+        </div>
+
+        <div className='Table_container'>
       <table>
         <thead>
           <tr>
             <th>No</th>
             <th>First Name</th>
             <th>Last Name</th>
-            <th>Logged Date</th>
-            <th>Logged Time</th>
+            <th>Account Created Date</th>
+            <th>Last Login Date</th>
+            <th>Last Login Time</th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody>
-  {users.map((user, index) => {
-    console.log(user); // Log user data for debugging
-
-    const date = new Date(user.joinedTime);
-  
-    return (
-      <tr key={user._id}>
-        <td>{index + 1}</td>
-        <td>{user.firstName}</td>
-        <td>{user.lastName}</td>
-        <td>{new Date(user.joinedAt).toLocaleDateString()}</td>
-        <td>{user.joinedTime}</td>
-        <td>
-        <span className={`status ${user.status.toLowerCase()}`}>
+          {users.map((user, index) => (
+            <tr key={user._id}>
+              <td>{index + 1}</td>
+              <td>{user.firstName}</td>
+              <td>{user.lastName}</td>
+              <td>{new Date(user.joinedAt).toLocaleDateString()}</td>
+              <td>{new Date(user.joinedTime).toLocaleDateString()}</td>
+              <td>{new Date(user.joinedTime).toLocaleTimeString()}</td>
+              <td>
+                <span className={`status ${user.status.toLowerCase()}`}>
                   {user.status}
                 </span>
-        </td>
-      </tr>
-    );
-  })}
-</tbody>
-</table>
-
-      </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
 
     </div>
      

@@ -23,20 +23,13 @@ function Logout() {
     }, []);
 
     useEffect(() => {
-        const fetchUserDetails = async () => {
-            const user = JSON.parse(localStorage.getItem('user'));
-
-            if (user && user.username) {
-                try {
-                    const response = await axios.get(`http://localhost:8002/api/${user.username}?timestamp=${new Date().getTime()}`);
-                    setUserDetails(response.data);
-                } catch (err) {
-                    setError('Failed to fetch user details');
+            const fetchUserDetails = () => {
+                const user = JSON.parse(localStorage.getItem('user'));
+                if (user) {
+                  setUserDetails(user);
                 }
-            } else {
-                setError('No user found');
-            }
-        };
+              };
+        
 
         fetchUserDetails();
     }, []);
@@ -90,8 +83,8 @@ function Logout() {
                             <p>First Name: {userDetails.firstName}</p>
                             <p>Last Name: {userDetails.lastName}</p>
                             <p>Email: {userDetails.email}</p>
-                            <p>Gender: {userDetails.gender}</p>
-                            <p>Date of Birth: {userDetails.dateOfBirth}</p>
+                            <p>Logged Date: {new Date(userDetails.joinedTime).toLocaleDateString()}</p>
+                            <p>Logged Time: {new Date(userDetails.joinedTime).toLocaleTimeString()}</p>
                             <p>Status: {userDetails.status}</p>
                             {/* Display other user details if needed */}
                         </div>

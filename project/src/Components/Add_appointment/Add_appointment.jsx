@@ -45,6 +45,7 @@ function Add_appointment() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    
     const appointmentData = {
       firstName: formData.firstName,
       lastName: formData.lastName,
@@ -57,7 +58,7 @@ function Add_appointment() {
       contactNumber: formData.contactNumber,
       appointmentDate: formData.selectedDate,
       timeSlot: formData.selectedSlot,
-      doctorId: formData.selectedDoctor._id,
+      doctorId: formData.selectedDoctor._id, 
     };
 
     try {

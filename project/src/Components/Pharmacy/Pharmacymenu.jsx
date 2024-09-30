@@ -5,16 +5,16 @@ import uplogo from '../Images/Calendar_purple.png'
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 
 
-function Calendarmenu() {
+function Pharmacymenu() {
   return (
     <div className='D_dashboard'>
     <div className='activitiesmenu'>
     <img src={uplogo} alt="dashboard-logo" className="aclogo1"/>
     <div className='activities_menu_container'>
-      <p className='activities-text'><Link to="/calendar" className='custom_link'>Calendar</Link></p>
+      <p className='activities-text'><Link to="/calendar" className='custom_link'>Pharmacy</Link></p>
     </div>
     </div>
     </div>
   )
 }
-export default Calendarmenu
+export default Pharmacymenu

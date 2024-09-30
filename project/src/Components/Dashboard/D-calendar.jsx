@@ -28,7 +28,7 @@ function D_calendar() {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-      <Link to="/calendar" className='custom_link'>Calendar</Link>
+      <Link to="/pharmacy" className='custom_link'>Pharmacy</Link>
     </div>
     </div>
     </div>

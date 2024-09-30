@@ -1,0 +1,24 @@
+.input-group6 {
+    display: flex;
+    margin-bottom: 20px;
+    font: size 2px;
+    margin-left: 0px;
+    margin-top: 20px;
+  }
+  .finalpaymentform{
+    margin-top:80px ;
+  }
+
+  .white-rectangle_payment{
+
+    background-color: #ffffff; /* Set background color to white */
+    margin-top:175px;
+    margin-left:400px ;
+    width: 350px; /* Set the width of the rectangle */
+    height: 20px; /* Set the height of the rectangle */
+    position:absolute; /* Use absolute positioning */
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Center vertically */
+  
+  }
+  
