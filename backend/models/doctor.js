@@ -31,6 +31,25 @@ const doctorSchema = new Schema(
         type: [String],
         default: [],
       },
+    city:{
+      type:String,  
+    },
+    consultantFee:{
+      type:String,
+    },
+    description:{
+      type:String,
+    },
+    experience:{
+      type:String,
+    },
+    rating:{
+      type:String,
+    },
+    visitingHours:{
+      type:String,
+    }
+
   },
   { timestamps: true }
 );
