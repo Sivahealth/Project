@@ -93,7 +93,7 @@ function Add_payment() {
                 <input type="text" id="overTime" name="overTime" value={formData.overTime}  onChange={handleChange} required />
               </div>
               <div className="input-group6">
-                <label htmlFor="totalAmount" className="totalAmount">Total Amount</label>
+                <label htmlFor="totalAmount" className="label6">Total Amount</label>
                 <input type="text" id="totalAmount" name="totalAmount" value={formData.totalAmount} onChange={handleChange} required />
               </div>
               <div className="white-rectangle_payment">

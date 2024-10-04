@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState,useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -24,6 +24,14 @@ const Newaddreport = () => {
       [name]: value
     });
   };
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user')); // Assuming the user is stored in localStorage under 'user'
+    if (user && user.status === 'Doctor') {
+      alert('Access denied: Doctors are not allowed to add reports.');
+      navigate('/dashboard'); // Redirect to home or any other page
+    }
+  }, [navigate]);
  
 
   const handleSubmit = async (e) => {

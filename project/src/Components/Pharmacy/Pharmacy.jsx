@@ -1,14 +1,20 @@
 import '../Activities/Activities.css';
 import './Pharmacy.css';
 import '../Dashboard/DashBoard.css';
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import logo from '../Images/logonoback.png';
 import Lilogo from '../Images/Left_icon.png';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Pharmacymenu from './Pharmacymenu';
+import axios from 'axios';
+import Searchbar from '../Activities/Searchbar';
+import Addpharmacy from './Addpharmacy';
+import './Pharmacy.css'
 
 
 function Pharmacy(){
+  const [medicines, setMedicines] = useState([]);
+
         useEffect(() => {
         // Add class to body when component mounts
         document.body.classList.add('activities-background');
@@ -21,6 +27,30 @@ function Pharmacy(){
         };
       }, []);
 
+      const handleSearch = (searchTerm) => {
+      
+      };
+
+      useEffect(() => {
+        // Fetch medicine data from backend
+        axios.get('http://localhost:8002/api/medicines/getallmedicines')
+          .then(response => setMedicines(response.data))
+          .catch(error => console.error('Error fetching medicines:', error));
+      }, []);
+    
+      const handleStatusChange = async (id, status) => {
+        try {
+          await axios.put(`http://localhost:8002/api/medicines/getallmedicines/${id}`, { status });
+          // Update status locally after successful API call
+          setMedicines(prevMedicines => prevMedicines.map(med =>
+            med._id === id ? { ...med, status } : med
+          ));
+        } catch (error) {
+          console.error('Error updating status:', error);
+        }
+      };
+
+      
   return (
     <div className='maindash'>
     <div className='logo_dash'>
@@ -46,6 +76,46 @@ function Pharmacy(){
 
     </div>
     <div className='Whitecontainer'>
+    <div className='MA_text_rectangle'>
+       <div className='MA_text'>
+              Pharmacy
+        </div> 
+      </div>
+      <Searchbar placeholder="Search medicine..."  handleSearch={handleSearch}/>
+      <Addpharmacy/>
+    <div className='Table_container'>
+          <table>
+            <thead>
+              <tr>
+                <th>Medicine Name</th>
+                <th>Batch Number</th>
+                <th>Stock Quantity</th>
+                <th>Expiry Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {medicines.map(medicine => (
+                <tr key={medicine._id}>
+                  <td>{medicine.medicineName}</td>
+                  <td>{medicine.batchNumber}</td>
+                  <td>{medicine.stockQuantity}</td>
+                  <td>{new Date(medicine.expiryDate).toLocaleDateString()}</td>
+                  <td>
+                  <button
+                      className={`status-btn ${medicine.status.toLowerCase().replace(' ', '-')}`}
+                       onClick={() => handleStatusChange(medicine._id, medicine.status === 'In Stock' ? 'Discontinued' : 'In Stock')}
+                   >
+                   {medicine.status}
+                  </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+
     </div>
      
     </div>
