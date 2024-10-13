@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch, Link, Routes, BrowserRouter } from 'react-router-dom'
-import {Add_appointment, Message, Payments, Reports, WhiteRec,OPD_Doctor,Physiotherapy_Doctor, Newaddreport, Logout, Pharmacy, Add_payment, Addmedicine} from './Components'
+import {Add_appointment, Message, Payments, Reports, WhiteRec,OPD_Doctor,Physiotherapy_Doctor, Newaddreport, Logout, Pharmacy, Add_payment, Addmedicine, My_appointment, Add_doctor} from './Components'
 import {SignUpForm} from './Components'
 import {DashBoard} from './Components'
 import {Activities} from './Components'
@@ -30,6 +30,8 @@ const App = () => {
       <Route path="/new_addreport" element={<Newaddreport/>} />
       <Route path="/new_addpayment" element={<Add_payment/>} />
       <Route path="/add_medicine" element={<Addmedicine/>} />
+      <Route path="/my_appointment" element={<My_appointment/>} />
+      <Route path="/add_doctor" element={<Add_doctor/>} />
       <Route path="/logout" element={<Logout/>} />
 
     </Routes>

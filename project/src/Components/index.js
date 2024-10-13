@@ -14,4 +14,6 @@ export {default as Physiotherapy_Doctor} from './Physiotherapy_Doctor/Physiother
 export {default as Newaddreport} from './Newaddreport/Newaddreport';
 export {default as Logout} from './Logout/Logout';
 export {default as Add_payment} from './Add_payment/Add_payment';
+export {default as Add_doctor} from './Add_doctor/Add_doctor';
 export {default as Addmedicine} from './Addmedicine/Addmedicine';
+export {default as My_appointment} from './My_appointment/My_appointment';

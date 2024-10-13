@@ -11,7 +11,7 @@ function Messagemenu() {
     <div className='activitiesmenu'>
     <img src={uplogo} alt="dashboard-logo" className="aclogo1"/>
     <div className='activities_menu_container'>
-      <p className='activities-text'><Link to="/calendar" className='custom_link'>Messages</Link></p>
+      <p className='activities-text'><Link to="/calendar" className='custom_link'>Doctors</Link></p>
     </div>
     </div>
     </div>

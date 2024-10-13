@@ -28,7 +28,7 @@ function D_messages() {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-      <Link to="/message" className='custom_link'>Messages</Link>
+      <Link to="/message" className='custom_link'>Doctors</Link>
       </div>
     </div>
     </div>

@@ -260,3 +260,18 @@ body.activities-background {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 1001; /* Ensure the content is on top of the modal background */
   }
+
+
+  .Addapointment_container1{
+    display: flex;
+    background-color: #624DE3;
+    width:163px;
+    height:40px;
+    position:absolute;
+    top:62px;
+    left:1100px;
+    transform: translate(0%, -50%);
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+  }

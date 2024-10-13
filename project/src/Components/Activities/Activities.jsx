@@ -5,6 +5,7 @@ import logo from '../Images/logonoback.png';
 import Moppointments from './Moppointment';
 import Patientlist from './Patientlist';
 import Addappointment from './Addappointment';
+import Myappointment from './Myappointment';
 import Lilogo from '../Images/Left_icon.png';
 import Searchbar from './Searchbar';
 import axios from 'axios';
@@ -66,7 +67,7 @@ function Activities() {
   // Delete appointment handler
 const handleDelete = async (appointmentId) => {
   try {
-    await axios.delete(`http://localhost:8002/api/appointments/${appointmentId}`);
+    await axios.delete(`http://localhost:8002/api/appointments/delete/${appointmentId}`);
     // Update the state after deletion
     setAppointments(appointments.filter(appointment => appointment._id !== appointmentId));
     setFilteredAppointments(filteredAppointments.filter(appointment => appointment._id !== appointmentId));
@@ -74,6 +75,8 @@ const handleDelete = async (appointmentId) => {
     console.error('Error deleting appointment:', error);
   }
 };
+
+
 
   return (
     <div className='maindash'>
@@ -105,6 +108,7 @@ const handleDelete = async (appointmentId) => {
 
         <Searchbar placeholder="Search appointments..." handleSearch={handleSearch}/>
         <Addappointment/>
+        <Myappointment/>
         <div className='Table_container'>
           <table>
             <thead>

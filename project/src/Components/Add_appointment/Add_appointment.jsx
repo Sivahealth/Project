@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate,Link } from 'react-router-dom';
 import './Add_appointment.css';
+import '../Activities/Activities.css'
 import '../Logmenu/WhiteRec.css';
 import logo from '../Images/logo.png';
+
 
 function Add_appointment() {
   const [formData, setFormData] = useState({
@@ -73,6 +75,9 @@ function Add_appointment() {
       if (response.ok) {
         // Handle successful booking
         console.log('Appointment booked successfully!');
+        alert('Appointment added successfully!');
+        navigate('/activities');
+      
         // Optionally clear form data after successful submission
         setFormData({
           firstName: '',
@@ -132,8 +137,9 @@ function Add_appointment() {
     <div className='blue-rectangle1'>
       <div className='add_appointment_white-rectangle1'>
         <div className='Add_appointment_logo_Container'>
-          <img src={logo} alt="Logo" className="appointment_logo" />
+          <img src={logo} alt="Logo" className="appointment_logo"  />
           <p className='Add_appointment_Optimize-text'>Siva Health Hub</p>
+          
         </div>
         <div className='appointment_text_container'>
           <p className='appointment-title'>Your appointment schedule</p>
@@ -302,6 +308,11 @@ function Add_appointment() {
             </div>
             <div className='button-container'>
               <button type="submit" className="submit-button">Book an Appointment</button>
+             
+                <p className="backlink">
+                  <a href="/activities">To doctors page</a>
+                </p>
+              
             </div>
           </form>
           <div className="label4">
