@@ -22,70 +22,119 @@ class _ProfilePageState extends State<ProfilePage> {
   String dateOfBirth = '';
   String status = '';
 
+  // Controllers for editing
+  TextEditingController genderController = TextEditingController();
+  TextEditingController dobController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     fetchUserData();
+    genderController.text = Gender;
+    dobController.text = dateOfBirth;
   }
 
   // Function to fetch user data from the API
   Future<void> fetchUserData() async {
-    // Update the endpoint to match the user details API
     final response = await http.get(Uri.parse(
         'http://localhost:8002/api/user/${widget.userId}')); // Fetch data based on email
 
     if (response.statusCode == 200) {
-      // Parse the response body
       final data = jsonDecode(response.body);
-
       setState(() {
         firstName = data['firstName'] ?? '';
         lastName = data['lastName'] ?? '';
         Gender = data['gender'] ?? '';
         dateOfBirth = data['dateOfBirth']?.split('T')[0] ?? '';
         status = data['status'] ?? '';
+        genderController.text = Gender;
+        dobController.text = dateOfBirth;
       });
     } else {
       print('Failed to load user data: ${response.statusCode}');
     }
   }
 
-  // Function to handle bottom navigation taps
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  // Function to update user details
+  Future<void> updateUserDetails(String gender, String dateOfBirth) async {
+    final response = await http.put(
+      Uri.parse(
+          'http://localhost:8002/api/user_profile/${widget.userId}'), // Use email in the URL
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'gender': gender,
+        'dateOfBirth': dateOfBirth,
+      }),
+    );
 
-    // Navigate to different pages based on index
-    switch (index) {
-      case 0:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => Dashboard1(
-                  userId: widget.userId)), // Replace with actual HomePage
-        );
-        break;
-      case 1:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => OPDDoctorPage(
-                  userId: widget.userId)), // Replace with actual HomePage
-        );
-        break;
-      case 2:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  AppointmentHistoryPage(userId: widget.userId)),
-        );
-        break;
-      case 3:
-        // Stay on the same page (Profile)
-        break;
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      setState(() {
+        gender = data['user']['gender']; // Update the Gender variable
+        dateOfBirth = data['user']['dateOfBirth']
+            .split('T')[0]; // Update dateOfBirth variable
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Profile updated successfully')),
+      );
+    } else {
+      print('Failed to update profile: ${response.statusCode}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to update profile')),
+      );
     }
+  }
+
+  void _showEditDialog(String field) {
+    if (field == 'Gender') {
+      genderController.text = Gender;
+    } else if (field == 'Date of Birth') {
+      dobController.text = dateOfBirth;
+    }
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Edit $field'),
+
+          content: TextField(
+            controller: field == 'Gender' ? genderController : dobController,
+            decoration: InputDecoration(labelText: 'Enter your $field'),
+          ),
+          //SizedBox(height: 10.0),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                // Ensure the input is not empty
+                if (field == 'Gender' && genderController.text.isNotEmpty) {
+                  await updateUserDetails(
+                      genderController.text, dobController.text);
+                  fetchUserData();
+                } else if (field == 'Date of Birth' &&
+                    dobController.text.isNotEmpty) {
+                  await updateUserDetails(Gender, dobController.text);
+                  fetchUserData();
+                } else {
+                  // Optionally show an error message if the input is empty
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Please enter a valid value')),
+                  );
+                }
+                Navigator.pop(context); // Close the dialog after updating
+              },
+              child: Text('Save'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -142,8 +191,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   leading: Icon(Icons.email),
                   title: Text('Email'),
                   subtitle: Text(widget.userId),
-                  trailing: Icon(Icons.edit),
-                  onTap: () {},
                 ),
                 Divider(),
                 ListTile(
@@ -151,7 +198,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   title: Text("Gender"),
                   subtitle: Text(Gender),
                   trailing: Icon(Icons.edit),
-                  onTap: () {},
+                  onTap: () {
+                    _showEditDialog('Gender'); // Edit gender
+                  },
                 ),
                 Divider(),
                 ListTile(
@@ -159,15 +208,15 @@ class _ProfilePageState extends State<ProfilePage> {
                   title: Text('Date of Birth'),
                   subtitle: Text(dateOfBirth),
                   trailing: Icon(Icons.edit),
-                  onTap: () {},
+                  onTap: () {
+                    _showEditDialog('Date of Birth'); // Edit date of birth
+                  },
                 ),
                 Divider(),
                 ListTile(
                   leading: Icon(Icons.work),
                   title: Text('Status'),
                   subtitle: Text(status),
-                  trailing: Icon(Icons.edit),
-                  onTap: () {},
                 ),
                 Divider(),
               ],
@@ -202,5 +251,41 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
+  }
+
+  // Function to handle bottom navigation taps
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    // Navigate to different pages based on index
+    switch (index) {
+      case 0:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Dashboard1(userId: widget.userId)),
+        );
+        break;
+      case 1:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => OPDDoctorPage(userId: widget.userId)),
+        );
+        break;
+      case 2:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  AppointmentHistoryPage(userId: widget.userId)),
+        );
+        break;
+      case 3:
+        // Stay on the same page (Profile)
+        break;
+    }
   }
 }

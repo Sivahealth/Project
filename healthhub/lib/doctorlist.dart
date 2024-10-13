@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:healthhub/appointment.dart';
 import 'package:healthhub/doctorprofile.dart';
 
@@ -8,40 +10,57 @@ class DoctorsListPage extends StatefulWidget {
 }
 
 class _DoctorsListPageState extends State<DoctorsListPage> {
-  final List<Map<String, String>> doctors = [
-    {
-      'name': 'Dr. Jayantha Perera',
-      'specialty': 'Cardiologist',
-      'location': 'Wackwella, Galle',
-      'experience': '13 years experience',
-      'fee': '2000',
-      // No image field needed for icons
-    },
-    {
-      'name': 'Dr. Deepika Silva',
-      'specialty': 'Dermatologist',
-      'location': 'Kollupitiya, Colombo',
-      'experience': '10 years experience',
-      'fee': '1500',
-    },
-    {
-      'name': 'Dr. Shriyantha Mendis',
-      'specialty': 'Dermatologist',
-      'location': 'Kottawa, Sri Lanka',
-      'experience': '10 years experience',
-      'fee': '1800',
-    },
-    {
-      'name': 'Dr. Kalum Jayawardene',
-      'specialty': 'Physician',
-      'location': 'Kurunegala, Sri Lanka',
-      'experience': '10 years experience',
-      'fee': '1600',
-    },
-    // Add more doctor profiles here...
-  ];
-
+  List<Map<String, dynamic>> doctors = [];
   String searchQuery = '';
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDoctors(); // Fetch doctors when the widget is initialized
+  }
+
+  Future<void> fetchDoctors() async {
+    try {
+      final response =
+          await http.get(Uri.parse('http://localhost:8002/api/doctorsFind'));
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body);
+        setState(() {
+          // Map the API response to your UI format
+          doctors = data.map((doctor) {
+            return {
+              'name': doctor['name'],
+              'Department': doctor['department'],
+              'location': doctor['city'] != null
+                  ? doctor['city'].join(", ")
+                  : 'Not Available',
+              'experience': doctor['experience'] != null
+                  ? doctor['experience'].join(", ")
+                  : 'Not Available',
+              'fee': doctor['consultantFee'] != null
+                  ? doctor['consultantFee'].join(", ")
+                  : 'Not Available',
+              'visingHours': doctor['visingHours'] != null
+                  ? doctor['visingHours'].join(", ")
+                  : 'Not Available',
+              'rating': doctor['rating'] != null
+                  ? doctor['rating'].join(", ")
+                  : 'Not Available',
+              'description': doctor['description'] != null
+                  ? doctor['description'].join(", ")
+                  : 'Not Available',
+            };
+          }).toList();
+        });
+      } else {
+        throw Exception('Failed to load doctors');
+      }
+    } catch (e) {
+      print(e.toString());
+      // Handle error if necessary
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +94,7 @@ class _DoctorsListPageState extends State<DoctorsListPage> {
               itemBuilder: (context, index) {
                 final doctor = doctors[index];
                 if (doctor['name']!.toLowerCase().contains(searchQuery) ||
-                    doctor['specialty']!.toLowerCase().contains(searchQuery) ||
+                    doctor['Department']!.toLowerCase().contains(searchQuery) ||
                     doctor['location']!.toLowerCase().contains(searchQuery)) {
                   return Card(
                     margin:
@@ -87,14 +106,12 @@ class _DoctorsListPageState extends State<DoctorsListPage> {
                           ListTile(
                             contentPadding: EdgeInsets.zero,
                             leading: CircleAvatar(
-                              radius: 35.0, // Radius of the CircleAvatar
-                              backgroundColor:
-                                  Colors.grey[300], // Background color
+                              radius: 60.0,
+                              backgroundColor: Colors.grey[300],
                               child: Icon(
-                                Icons.person, // Profile icon
-                                size: 70.0, // Size of the icon
-                                color: Color.fromARGB(
-                                    255, 0, 129, 235), // Icon color
+                                Icons.person,
+                                size: 90.0,
+                                color: Color.fromARGB(255, 0, 129, 235),
                               ),
                             ),
                             title: Text(
@@ -109,16 +126,56 @@ class _DoctorsListPageState extends State<DoctorsListPage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(doctor['specialty']!),
-                                  Text(doctor['location']!),
-                                  Text(doctor['experience']!),
-                                  SizedBox(height: 5.0),
-                                  Text('Consultation Fee: ₹${doctor['fee']}'),
+                                  Text(
+                                    doctor['Department']!,
+                                    style: TextStyle(
+                                        color: Colors
+                                            .black), // Change text color to black
+                                  ),
+                                  Text(
+                                    doctor['location']!,
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  Text(
+                                    doctor['experience']!,
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  Text(
+                                    'Consultation Fee: ${doctor['fee']}',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  SizedBox(height: 10.0),
+                                  Row(
+                                    children: [
+                                      // Generate star icons based on rating
+                                      for (int i = 1; i <= 5; i++)
+                                        Icon(
+                                          Icons.star,
+                                          color: i <=
+                                                  double.parse(
+                                                      doctor['rating']!)
+                                              ? const Color.fromARGB(
+                                                  255, 129, 116, 2)
+                                              : Colors
+                                                  .grey, // Change color based on rating
+                                          size: 18.0, // Size of the star
+                                        ),
+                                      SizedBox(
+                                          width:
+                                              5.0), // Space between stars and text
+                                      Text(
+                                        '${doctor['rating']} / 5',
+                                        style: TextStyle(
+                                            color: Colors
+                                                .black), // Change text color to black
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
                             ),
                           ),
-                          SizedBox(height: 15.0),
+                          SizedBox(height: 25.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -163,14 +220,14 @@ class _DoctorsListPageState extends State<DoctorsListPage> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => DoctorProfilePage(
-                                            doctorName:
-                                                'Dr. Mangala Ganehiarachchi',
-                                            specialization: 'Orthopedic',
-                                            visitingHours: '10 AM to 6 PM',
+                                            doctorName: doctor['name']!,
+                                            specialization:
+                                                doctor['Department']!,
+                                            visitingHours:
+                                                doctor['visingHours']!,
                                             patientCount: '14000+',
-                                            rating: '4.9',
-                                            biography:
-                                                'Dr. Mangala Ganehiarachchi is one of the Senior Academic staff members of a Faculty of Science in a well-recognized University. He Obtained his BSc (Special) degree with second class Honors and MPhil degree from University of Kelaniya. His MSc and PhD degrees are from North Dakota State University, USA. He is a member of the Institute of Biology in Sri Lanka. Dr. Ganehiarachchi has more than 30 years strong teaching experiences for Advanced Level Biology students. He has a thorough knowledge of the new Biology syllabus and in evaluating Biology answer scripts. He is an author of several Zoology and Biology textbooks. He is a well-trained University academic for advising teachers who teach new Biology syllabus.',
+                                            rating: doctor['rating'],
+                                            biography: doctor['description'],
                                             imagePath: 'assets/doctor1.png'),
                                       ));
                                 },

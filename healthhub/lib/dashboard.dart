@@ -168,10 +168,6 @@ class Dashboard extends StatelessWidget {
         );
         break;
       case 'drugs':
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Drugslist()),
-        );
         break;
       case 'doctors':
         Navigator.push(
@@ -273,16 +269,8 @@ void navigateTo(String destination, BuildContext context) {
     case 'doctor':
       break;
     case 'pharmacy':
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Drugslist()),
-      );
       break;
     case 'hospital':
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ReportPage()),
-      );
       break;
     case 'ambulance':
       Navigator.push(

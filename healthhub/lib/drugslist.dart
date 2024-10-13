@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(Drugslist());
-}
+import 'package:healthhub/dashboard1.dart';
 
 class Drugslist extends StatelessWidget {
+  final String userId;
+  Drugslist({required this.userId});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,17 +21,23 @@ class Drugslist extends StatelessWidget {
           elevation: 5,
         ),
       ),
-      home: DrugsPage(),
+      home: DrugsPage(userId: userId),
     );
   }
 }
 
 class DrugsPage extends StatefulWidget {
+  final String userId;
+  DrugsPage({required this.userId});
   @override
-  _DrugsPageState createState() => _DrugsPageState();
+  _DrugsPageState createState() => _DrugsPageState(userId: userId);
 }
 
 class _DrugsPageState extends State<DrugsPage> {
+  final String userId;
+
+  _DrugsPageState({required this.userId});
+
   final List<String> _allDrugs = [
     'Aspirin',
     'Paracetamol',
@@ -76,6 +82,18 @@ class _DrugsPageState extends State<DrugsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Available Drugs'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            // This line will navigate to the previous screen
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Dashboard1(userId: userId),
+              ),
+            );
+          },
+        ),
       ),
       body: Column(
         children: [

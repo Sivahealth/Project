@@ -55,27 +55,26 @@ class _SignUpPageState extends State<SignUpPage> {
         'lastName': lastName,
         'email': email,
         'gender': gender,
-        'dateOfBirth': dob,
+        'dob': dob,
         'password': password,
-        'status': 'Doctor',
+        'status': 'user',
       }),
     );
 
     if (response.statusCode == 200) {
       print('User registered successfully');
-      // Handle success, navigate to a new page or show a message
     } else {
       print('Failed to register user. Error: ${response.body}');
-      // Handle error, show a message or perform an action
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color.fromARGB(95, 255, 255, 255),
       appBar: AppBar(
         title: Text('Sign Up'),
+        backgroundColor: Colors.blue,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

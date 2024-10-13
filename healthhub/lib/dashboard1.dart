@@ -6,20 +6,27 @@ import 'package:healthhub/doctor.dart';
 import 'package:healthhub/doctorlist.dart';
 import 'package:healthhub/drugslist.dart';
 import 'package:healthhub/history.dart';
+import 'package:healthhub/login_view.dart';
 import 'package:healthhub/profile.dart';
 import 'package:healthhub/reports.dart';
 import 'package:healthhub/settings.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+import 'package:shelf/shelf.dart';
 
 class Dashboard1 extends StatefulWidget {
   @override
   _Dashboard1State createState() => _Dashboard1State();
   final String userId;
+
   Dashboard1({required this.userId});
 }
 
 class _Dashboard1State extends State<Dashboard1> {
   int _selectedIndex = 0;
+  List<Map<String, dynamic>> appointments =
+      []; // Variable to store appointments
+  bool isLoading = true; // Variable to manage loading state
 
   String firstName = ''; // Variable to store fetched firstName
 
@@ -27,6 +34,83 @@ class _Dashboard1State extends State<Dashboard1> {
   void initState() {
     super.initState();
     //_fetchUserData();
+    fetchAppointments();
+  }
+
+  Future<void> fetchAppointments() async {
+    setState(() {
+      isLoading = true; // Start loading
+    });
+
+    final url = Uri.parse(
+      'http://localhost:8002/api/appointments_by_usersId?email=${widget.userId}', // Assuming userId is an email
+    );
+
+    try {
+      final response = await http.get(url, headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      });
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        List<Map<String, dynamic>> tempAppointments = [];
+
+        DateTime now = DateTime.now(); // Get current date and time
+
+        for (var appointment in data) {
+          // Parse the appointment date
+          DateTime appointmentDate =
+              DateTime.parse(appointment['appointmentDate']);
+
+          // Check if the appointment is in the future
+          if (appointmentDate.isAfter(now)) {
+            // Fetch the doctor's name for each future appointment
+            final doctorId = appointment['doctorId'];
+
+            // Construct the correct API URL for fetching doctor name by ID
+            final doctorNameUrl = Uri.parse(
+              'http://localhost:8002/api/doctors/$doctorId',
+            );
+
+            final doctorNameResponse = await http.get(doctorNameUrl, headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            });
+
+            String doctorName =
+                "Unknown Doctor"; // Default value if name not found
+
+            if (doctorNameResponse.statusCode == 200) {
+              final doctorData = json.decode(doctorNameResponse.body);
+              doctorName =
+                  doctorData['name'] ?? "Unknown Doctor"; // Safely get the name
+            }
+
+            // Add the appointment with the doctor's name
+            tempAppointments.add({
+              'doctor': doctorName,
+              'department': appointment['department'],
+              'date': DateFormat('yyyy-MM-dd')
+                  .format(appointmentDate), // Format the date
+              'time': appointment['timeSlot'],
+            });
+          }
+        }
+
+        setState(() {
+          appointments = tempAppointments; // Assign fetched future appointments
+          isLoading = false; // Stop loading
+        });
+      } else {
+        throw Exception('Failed to load appointments');
+      }
+    } catch (e) {
+      print('Error: $e');
+      setState(() {
+        isLoading = false; // Stop loading even if there's an error
+      });
+    }
   }
 
   Future<void> _fetchUserData() async {
@@ -87,20 +171,47 @@ class _Dashboard1State extends State<Dashboard1> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFEDF4F8),
-      appBar: AppBar(
-        backgroundColor: Color.fromARGB(222, 0, 140, 255),
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SettingsPage()),
-              );
-            },
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(70.0), // Increase height of AppBar
+        child: AppBar(
+          backgroundColor: Color.fromARGB(178, 0, 140, 255),
+          elevation: 0,
+          title: Row(
+            mainAxisAlignment:
+                MainAxisAlignment.start, // Aligns items to the start (left)
+            children: [
+              Text(
+                'Dashboard', // Your app title
+                style: TextStyle(
+                  fontSize: 24, // Increase font size
+                  //fontWeight: FontWeight.bold, // Bold text
+                ),
+              ),
+            ],
           ),
-        ],
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 30.0, top: 16),
+              child: Container(
+                width: 35, // Width of the circle
+                height: 35, // Height of the circle
+                decoration: BoxDecoration(
+                  color: Colors.white, // Circle background color
+                  shape: BoxShape.circle, // Make it circular
+                ),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.logout,
+                    color: Colors.red, // Icon color
+                    size: 18,
+                  ),
+                  onPressed:
+                      _showLogoutConfirmationDialog, // Call your logout function
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
       body: Column(
         children: [
@@ -198,7 +309,8 @@ class _Dashboard1State extends State<Dashboard1> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Drugslist()),
+                                builder: (context) =>
+                                    Drugslist(userId: widget.userId)),
                           );
                         },
                       ),
@@ -209,7 +321,8 @@ class _Dashboard1State extends State<Dashboard1> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ReportPage()),
+                                builder: (context) =>
+                                    ReportPage(userId: widget.userId)),
                           );
                         },
                       ),
@@ -276,6 +389,7 @@ class _Dashboard1State extends State<Dashboard1> {
                   ),
                   SizedBox(height: 24),
                   // Upcoming Appointments
+                  // Upcoming Appointments Section
                   Text(
                     'Upcoming Appointments',
                     style: TextStyle(
@@ -285,27 +399,38 @@ class _Dashboard1State extends State<Dashboard1> {
                     ),
                   ),
                   SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _buildAppointmentCard(
-                        date: '12',
-                        day: 'Tue',
-                        time: '9:30 AM',
-                        doctor: 'DR. SAMUEL',
-                        department: 'Depression',
-                        cardColor: Colors.cyanAccent,
-                      ),
-                      _buildAppointmentCard(
-                        date: '18',
-                        day: 'Wed',
-                        time: '3:00 PM',
-                        doctor: 'DR. SMITH',
-                        department: 'Cardiology',
-                        cardColor: Colors.orangeAccent,
-                      ),
-                    ],
-                  ),
+                  isLoading
+                      ? CircularProgressIndicator()
+                      : appointments.isNotEmpty
+                          ? SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: appointments.map((appointment) {
+                                  return _buildAppointmentCard(
+                                    date: appointment['date'].split(
+                                        '-')[2], // Extract day from the date
+                                    day: DateFormat('EEEE').format(
+                                        DateTime.parse(appointment[
+                                            'date'])), // Extract day of the week
+                                    year: appointment['date'].split('-')[0],
+                                    month: appointment['date'].split(
+                                        '-')[1], // Extract month from the date
+                                    time: appointment['time'],
+                                    doctor: appointment['doctor'],
+                                    department: appointment['department'],
+                                    cardColor: Colors.primaries[
+                                        (appointments.indexOf(appointment) +
+                                                1) %
+                                            Colors.primaries.length],
+                                  );
+                                }).toList(),
+                              ),
+                            )
+                          : Text(
+                              'No upcoming appointments',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                  SizedBox(height: 50),
                 ],
               ),
             ),
@@ -346,6 +471,42 @@ class _Dashboard1State extends State<Dashboard1> {
     );
   }
 
+  void _showLogoutConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Logout'),
+          content: Text('Do you want to logout?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .pop(); // Close the dialog and stay on the same page
+              },
+              child: Text('Stay'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                _logout(); // Call the logout function
+              },
+              child: Text('Logout'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _logout() {
+    // Navigate to the login page (replace LoginPage with your actual login page class)
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginPage()),
+    );
+  }
+
   Widget _buildServiceButton({
     required IconData icon,
     required String label,
@@ -381,59 +542,90 @@ class _Dashboard1State extends State<Dashboard1> {
   Widget _buildAppointmentCard({
     required String date,
     required String day,
+    required String year,
+    required String month,
     required String time,
     required String doctor,
     required String department,
     required Color cardColor,
   }) {
     return Container(
-      width: 160,
+      margin: EdgeInsets.only(right: 10),
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: cardColor,
-        borderRadius: BorderRadius.circular(20),
+        color: cardColor.withOpacity(0.7),
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            date,
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+          Row(
+            mainAxisAlignment:
+                MainAxisAlignment.start, // Align items to the start of the row
+            children: [
+              Container(
+                padding: EdgeInsets.all(10), // Add padding for the circle
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle, // Make it circular
+                  color: Colors.blue, // Background color of the circle
+                ),
+                child: Text(
+                  date,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    color: Colors.white, // Text color inside the circle
+                  ),
+                ),
+              ),
+              SizedBox(width: 8),
+              Text(
+                month,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
+              ),
+              SizedBox(width: 3),
+              Text(
+                year,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
+              ),
+              SizedBox(width: 20),
+              Text(
+                'Time: $time',
+                style: TextStyle(fontSize: 15),
+              ),
+            ],
           ),
+          SizedBox(height: 4),
           Text(
             day,
             style: TextStyle(
-              fontSize: 16,
-              color: Colors.white,
-            ),
-          ),
-          SizedBox(height: 8),
-          Text(
-            time,
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.white,
-            ),
-          ),
-          SizedBox(height: 8),
-          Text(
-            doctor,
-            style: TextStyle(
-              fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              fontSize: 15,
             ),
           ),
+          SizedBox(height: 4),
           Text(
-            department,
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.white,
-            ),
+            'Doctor: $doctor',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          SizedBox(height: 4),
+          Text(
+            'Department: $department',
+            style: TextStyle(fontSize: 14),
           ),
         ],
       ),

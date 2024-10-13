@@ -43,8 +43,8 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => FirstLogo(),
-        '/login_view': (context) => FirstLogo(),
+        '/': (context) => LoginPage(),
+        '/login_view': (context) => LoginPage(),
       },
       onUnknownRoute: (settings) => MaterialPageRoute(
         builder: (context) => Scaffold(
