@@ -10,6 +10,10 @@ const doctorSchema = new Schema(
       required: true,
       trim: true,
     },
+    email:{
+      type:String,
+      required:true,
+    },
     department: {
       type: String,
       required: true,
@@ -32,22 +36,28 @@ const doctorSchema = new Schema(
         default: [],
       },
     city:{
-      type:String,  
+      type: [String],
+        default: [], 
     },
     consultantFee:{
-      type:String,
+      type: [String],
+        default: [],
     },
     description:{
-      type:String,
+      type: [String],
+        default: [],
     },
     experience:{
-      type:String,
+      type: [String],
+        default: [],
     },
     rating:{
-      type:String,
+      type: [String],
+        default: [],
     },
-    visitingHours:{
-      type:String,
+    visingHours:{
+      type: [String],
+        default: [],
     }
 
   },

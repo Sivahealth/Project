@@ -41,6 +41,15 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    HeartRate:{
+      type:String
+    },
+    bloodGroup:{
+      type:String
+    },
+    weight:{
+      type:String
+    }
   },
   { timestamps: true }
 );

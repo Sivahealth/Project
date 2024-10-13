@@ -3,8 +3,8 @@ import Doctor from '../models/doctor.js';
 
 export const addDoctor = async (req, res) => {
   try {
-    const { name, department, availableDate, availableTime } = req.body;
-    const doctor = new Doctor({ name, department, availableDate, availableTime });
+    const { name, email, department, availableDate, availableTime,city,consultantFee,description,experience,rating,visingHours} = req.body;
+    const doctor = new Doctor({ name, department,email,availableDate, availableTime,city,consultantFee,description,experience,rating,visingHours});
     await doctor.save();
     res.status(201).json(doctor);
   } catch (err) {
@@ -104,3 +104,25 @@ export const getAvailableSlots = async (req, res) => {
     }
   };
 
+
+  export const getDoctorByEmail = async (req, res) => {
+    const { email } = req.params;
+    try {
+      const doctor = await Doctor.findOne({ email });
+      if (!doctor) {
+        return res.status(404).json({ message: 'Doctor not found' });
+      }
+      res.status(200).json(doctor);
+    } catch (err) {
+      res.status(500).json({ message: 'Error fetching doctor by email', error: err });
+    }
+  };
+
+  export const printDoctors = async (req, res) => {
+    try {
+      const doctor = await Doctor.find();
+      res.status(200).json(doctor);
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  };

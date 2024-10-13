@@ -1,5 +1,5 @@
 import express from 'express';
-import { addDoctor, getDoctors, updateDoctor, deleteDoctor, getAvailableSlots, getDoctorsByDate } from '../controllers/doctorController.js';
+import { addDoctor, getDoctors, updateDoctor, deleteDoctor, getAvailableSlots, getDoctorsByDate,getDoctorByEmail, printDoctors } from '../controllers/doctorController.js';
 import { requireSignin, isAdmin } from '../middlewares/auth.js';
 import Doctor from '../models/doctor.js'; // Import Doctor model
 
@@ -9,9 +9,12 @@ const router = express.Router(); // Create a router instance
 router.post('/doctors', addDoctor);
 router.get('/doctors', getDoctors);
 router.put('/doctors/:id', requireSignin, isAdmin, updateDoctor);
-router.delete('/doctors/:id', requireSignin, isAdmin, deleteDoctor);
+router.delete('/doctors/:id', deleteDoctor);
 router.get('/doctors/:doctorId/slots', getAvailableSlots);
 router.post('/doctors/by-date', getDoctorsByDate);
+router.get('/doctors/email/:email', getDoctorByEmail);
+router.get('/print/doctors',printDoctors);
+
 
 // Route to get a specific doctor by ID
 router.get('/doctors/:doctorId', async (req, res) => {
@@ -26,5 +29,7 @@ router.get('/doctors/:doctorId', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
+
+
 
 export default router;
