@@ -8,6 +8,7 @@ import Newpatientlist from './Newpatientlist';
 import Lilogo from '../Images/Left_icon.png';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Searchbar from '../Activities/Searchbar';
+import Addpatientlist from './Addpatientlist';
 import axios from 'axios';
 
 function PatientList () {
@@ -67,6 +68,7 @@ function PatientList () {
         </div> 
       </div>
       <Searchbar placeholder="Search patients..."  handleSearch={handleSearch}/>
+      <Addpatientlist/>
       <div className='Table_container'>
       <table>
         <thead>
