@@ -30,3 +30,18 @@ export const getPatientCount = async (req, res) => {
   }
 };
 // have to add more CRUD operations
+export const getLatestPatient = async (req, res) => {
+  try {
+    // Find the patient with the highest 'no' field
+    const latestPatient = await Patient.findOne().sort({ no: -1 }).limit(1);
+
+    if (!latestPatient) {
+      return res.status(404).json({ message: 'No patients found' });
+    }
+
+    res.status(200).json(latestPatient);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
