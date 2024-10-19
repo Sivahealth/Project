@@ -49,7 +49,8 @@ const userSchema = new Schema(
     },
     weight:{
       type:String
-    }
+    },
+    resetCode: { type: Number, required: false },
   },
   { timestamps: true }
 );
