@@ -136,3 +136,96 @@
  .login-link:hover{
     color:#190dc1;
  }
+
+ .input-group9 {
+  position: absolute;
+  width: 400px;
+  top: 100px;
+  left: 50%;                /* Move it to the center */
+  transform: translateX(-50%);  /* Shift back by half of its width */
+}
+
+ .add_appointment_white-rectangle-resetpassword{
+    background-color: white; /* Set background color to white */
+    width: 500px; /* Set the width of the rectangle */
+    height: 450px; /* Set the height of the rectangle */
+    position:absolute; /* Use absolute positioning */
+    top: 15%; /* Center vertically */
+    transform: translateY(-50%);
+    left:50%;
+    transform: translateX(-50%);
+    border: 1px solid black; /* Optional: add a border to make it visible*/
+    border-radius: 20px;
+    font-family:'Outfit',sans-serif;
+    color: #000;
+
+ }
+
+ .add_appointment_logo_Container-resetpassword{
+  position: absolute;
+  display: flex;
+  width: 250px;
+  height: 130px;
+  background-color: #ffffff; 
+  justify-content: center;
+  left:125px;
+  top:300px;
+ }
+
+ .button-forgotpassword{
+  position: absolute;
+   width: 250px;
+   top:225px;
+   left:50%;
+   transform: translateX(-50%);
+ }
+ .input-group10{
+  position: absolute;
+  width: 400px;
+  top: 100px;
+  left: 50%;                /* Move it to the center */
+  transform: translateX(-50%);  /* Shift back by half of its width */
+  
+
+ }
+
+ .input-group11{
+  position: absolute;
+  width: 400px;
+  top: 180px;
+  left: 50%;                /* Move it to the center */
+  transform: translateX(-50%);  /* Shift back by half of its width */
+ }
+
+ .button-resetpassword{
+   position: absolute;
+   width: 250px;
+   top:250px;
+   left:50%;
+   transform: translateX(-50%);
+ }
+
+ .add_appointment_logo_Container-resetpasswordnew{
+  position: absolute;
+  display: flex;
+  width: 250px;
+  height: 130px;
+  background-color: #ffffff; 
+  justify-content: center;
+  left:125px;
+  top:315px;
+ }
+
+
+ .white-rectangle-updated{
+    background-color: white; /* Set background color to white */
+    width: 488px; /* Set the width of the rectangle */
+    height: 480px; /* Set the height of the rectangle */
+    position: absolute; /* Use absolute positioning */
+    top: 50%; /* Center vertically */
+    left: calc(50% + 20px); /* Center horizontally and add offset */
+    transform: translateY(-50%); /* Center vertically */
+    border: 1px solid black; /* Optional: add a border to make it visible*/
+    border-radius: 20px;
+
+ }

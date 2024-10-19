@@ -27,54 +27,47 @@ const WhiteRec = () => {
     try {
       const response = await axios.post('http://localhost:8002/api/login', formData);
       alert('Login successful');
-      const loginTime = new Date().toLocaleString(); // Capture login time
-      // Handle successful login (e.g., save token, redirect)
+      const loginTime = new Date().toLocaleString();
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
-      localStorage.setItem('loginTime', loginTime); // Store login time
+      localStorage.setItem('loginTime', loginTime);
       navigate('/dashboard');
     } catch (error) {
       alert('Login failed: ' + error.response.data.error);
     }
   };
 
-
-
-
-
   return (
-  <div className='body1'>
-  <div className='blue-rectangle'>
-     <img src={loginImage} alt="Login" className="login" />
-    <div className='white-rectangle'>
-
-      <img src={logo} alt="Logo" className="logo"/>
-      <div className='Container'>
-      <p className='Optimize-text'>Siva Health Hub</p>
-      <p className='Optimize-text1'>Please log in using your employee credentials</p>
-      </div>
-
-    <div className="login-container">
-      <form onSubmit={handleSubmit}>
-        <div className="input-group">
-          <label htmlFor="email">Username:</label>
-          <input type="text" id="email" name="email" value={formData.email} onChange={handleChange}required />
+    <div className='body1'>
+      <div className='blue-rectangle'>
+        <img src={loginImage} alt="Login" className="login" />
+        <div className='white-rectangle-updated'>
+          <img src={logo} alt="Logo" className="logo"/>
+          <div className='Container'>
+            <p className='Optimize-text'>Siva Health Hub</p>
+            <p className='Optimize-text1'>Please log in using your employee credentials</p>
+          </div>
+          <div className="login-container">
+            <form onSubmit={handleSubmit}>
+              <div className="input-group">
+                <label htmlFor="email">Username:</label>
+                <input type="text" id="email" name="email" value={formData.email} onChange={handleChange}required />
+              </div>
+              <div className="input-group">
+                <label htmlFor="password">Password:</label>
+                <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} required />
+              </div>
+              <button type="submit">Login</button>
+            </form>
+            <div>
+              <p className="login-link"> <a href="/create">Don't have an account</a></p>
+              <p className="forgot-link"><a href="/forgot-password">Forgot Password?</a></p> {/* Add this link */}
+            </div>
+          </div>
         </div>
-        <div className="input-group">
-          <label htmlFor="password">Password:</label>
-          <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} required />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-      <div>
-      <p className="login-link"> <a href="/create">Don't have an account</a></p>
       </div>
     </div>
-    </div>
- </div>
- </div>
+  );
+};
 
-  )
-}
-
-export default WhiteRec
+export default WhiteRec;

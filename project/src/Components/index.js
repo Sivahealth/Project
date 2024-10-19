@@ -18,3 +18,5 @@ export {default as Add_doctor} from './Add_doctor/Add_doctor';
 export {default as Add_patientlist} from './Add_patientlist/Add_patientlist';
 export {default as Addmedicine} from './Addmedicine/Addmedicine';
 export {default as My_appointment} from './My_appointment/My_appointment';
+export {default as ForgotPassword} from './Logmenu/ForgotPassword';
+export {default as ResetPassword} from './Logmenu/ResetPassword';
