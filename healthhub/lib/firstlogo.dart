@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 class FirstLogo extends StatefulWidget {
+  const FirstLogo({super.key});
+
   @override
   _FirstLogoState createState() => _FirstLogoState();
 }
@@ -12,7 +14,7 @@ class _FirstLogoState extends State<FirstLogo> {
   void initState() {
     super.initState();
     // Navigate to the login_view screen after 2 seconds
-    Timer(Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 2), () {
       //Navigator.of(context).pushReplacementNamed('/login_view');
       Navigator.push(
         context,

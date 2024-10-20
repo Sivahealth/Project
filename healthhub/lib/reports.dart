@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ReportPage extends StatefulWidget {
   final String userId; // User ID to fetch data
-  ReportPage({required this.userId});
+  const ReportPage({super.key, required this.userId});
 
   @override
   _ReportPageState createState() => _ReportPageState();
@@ -22,7 +24,28 @@ class _ReportPageState extends State<ReportPage> {
   @override
   void initState() {
     super.initState();
-    fetchUserData(); // Fetch user data when the widget is initialized
+    fetchUserData();
+    fetchReportsByEmail(); // Fetch user data when the widget is initialized
+  }
+
+  List<Map<String, dynamic>> reports = [];
+  Future<void> fetchReportsByEmail() async {
+    try {
+      final response = await http.get(
+          Uri.parse('http://localhost:8002/api/report?email=${widget.userId}'));
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body);
+        setState(() {
+          reports = List<Map<String, dynamic>>.from(data);
+        });
+      } else {
+        throw Exception('Failed to load reports');
+      }
+    } catch (e) {
+      print(e.toString());
+      // Handle error if necessary
+    }
   }
 
   Future<void> fetchUserData() async {
@@ -79,13 +102,13 @@ class _ReportPageState extends State<ReportPage> {
     String initialValue = '';
     switch (field) {
       case 'bloodGroup':
-        initialValue = '${bloodGroup}';
+        initialValue = bloodGroup;
         break;
       case 'weight':
-        initialValue = '${weight} KG';
+        initialValue = '$weight KG';
         break;
       case 'heartRate':
-        initialValue = '${heartRate} BPM';
+        initialValue = '$heartRate BPM';
         break;
     }
 
@@ -109,7 +132,7 @@ class _ReportPageState extends State<ReportPage> {
                 updateUserData();
                 fetchUserData();
               },
-              child: Text('Save'),
+              child: const Text('Save'),
             ),
           ],
         );
@@ -120,12 +143,12 @@ class _ReportPageState extends State<ReportPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF5F6FA), // Light background color
+      backgroundColor: const Color(0xFFF5F6FA), // Light background color
       appBar: AppBar(
-        title: Text('Report', style: TextStyle(color: Colors.black)),
+        title: const Text('Report', style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -135,16 +158,16 @@ class _ReportPageState extends State<ReportPage> {
             // Heart Rate Container
             Container(
               width: double.infinity,
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: Color.fromARGB(175, 8, 131, 208), // Light blue
+                color: const Color.fromARGB(175, 8, 131, 208), // Light blue
                 borderRadius: BorderRadius.circular(15.0),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Heart Rate', style: TextStyle(fontSize: 18.0)),
-                  SizedBox(height: 8),
+                  const Text('Heart Rate', style: TextStyle(fontSize: 18.0)),
+                  const SizedBox(height: 8),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -152,19 +175,19 @@ class _ReportPageState extends State<ReportPage> {
                         children: [
                           Text(
                             '$heartRate BPM',
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 24.0, fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(width: 8), // Small space
+                          const SizedBox(width: 8), // Small space
                           IconButton(
-                            icon: Icon(Icons.edit),
+                            icon: const Icon(Icons.edit),
                             onPressed: () => showEditDialog('heartRate'),
                             padding:
                                 EdgeInsets.zero, // Make closer to the value
                           ),
                         ],
                       ),
-                      Icon(
+                      const Icon(
                         Icons.trending_up,
                         size: 50, // Adjusted size
                         color: Color.fromARGB(
@@ -175,7 +198,7 @@ class _ReportPageState extends State<ReportPage> {
                 ],
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
 
             // Row for Blood Group and Weight
             Row(
@@ -183,31 +206,33 @@ class _ReportPageState extends State<ReportPage> {
                 // Blood Group
                 Expanded(
                   child: Container(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
-                      color: Color.fromARGB(183, 225, 48, 32), // Light red
+                      color:
+                          const Color.fromARGB(183, 225, 48, 32), // Light red
                       borderRadius: BorderRadius.circular(15.0),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Blood Group', style: TextStyle(fontSize: 18.0)),
-                        SizedBox(height: 8),
+                        const Text('Blood Group',
+                            style: TextStyle(fontSize: 18.0)),
+                        const SizedBox(height: 8),
                         Row(
                           children: [
                             Text(
                               bloodGroup,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 24.0, fontWeight: FontWeight.bold),
                             ),
-                            SizedBox(width: 8), // Small space
+                            const SizedBox(width: 8), // Small space
                             IconButton(
-                              icon: Icon(Icons.edit),
+                              icon: const Icon(Icons.edit),
                               onPressed: () => showEditDialog('bloodGroup'),
-                              padding: EdgeInsets.only(
+                              padding: const EdgeInsets.only(
                                   left: 2.0), // Closer to the value
                             ),
-                            Icon(
+                            const Icon(
                               Icons.bloodtype,
                               size: 50.0, // Adjusted size
                               color: Colors.red,
@@ -218,21 +243,21 @@ class _ReportPageState extends State<ReportPage> {
                     ),
                   ),
                 ),
-                SizedBox(width: 16.0),
+                const SizedBox(width: 16.0),
 
                 // Weight
                 Expanded(
                   child: Container(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
-                      color: Color(0xFFD9FBD9), // Light green
+                      color: const Color(0xFFD9FBD9), // Light green
                       borderRadius: BorderRadius.circular(15.0),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Weight', style: TextStyle(fontSize: 18.0)),
-                        SizedBox(height: 8),
+                        const Text('Weight', style: TextStyle(fontSize: 18.0)),
+                        const SizedBox(height: 8),
                         Row(
                           mainAxisAlignment:
                               MainAxisAlignment.spaceBetween, // Adjusted
@@ -240,24 +265,26 @@ class _ReportPageState extends State<ReportPage> {
                             Expanded(
                               child: Text(
                                 '$weight KG',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 24.0,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
-                            SizedBox(width: 5.0), // Increased width for spacing
+                            const SizedBox(
+                                width: 5.0), // Increased width for spacing
                             IconButton(
-                              icon: Icon(Icons.edit),
+                              icon: const Icon(Icons.edit),
                               onPressed: () {
                                 showEditDialog('weight');
                               },
-                              padding: EdgeInsets.only(left: 8), // Add padding
+                              padding:
+                                  const EdgeInsets.only(left: 8), // Add padding
                             ),
-                            SizedBox(
+                            const SizedBox(
                                 width:
                                     10.0), // Adjust spacing between icon and next icon
-                            Icon(
+                            const Icon(
                               Icons.fitness_center,
                               size: 50.0, // Adjusted size
                               color: Colors.green,
@@ -270,37 +297,79 @@ class _ReportPageState extends State<ReportPage> {
                 ),
               ],
             ),
-            SizedBox(height: 32.0),
+            const SizedBox(height: 32.0),
 
             // Latest Report Section
-            Text('Latest Report',
+            // Latest Report Section
+            const Text('Latest Report',
                 style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
 
-            // General Health Container
-            ListTile(
-              contentPadding: EdgeInsets.all(16.0),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0)),
-              tileColor: Color(0xFFE9F3FF), // Light blue box
-              leading: Icon(Icons.folder, size: 40, color: Colors.blue),
-              title: Text('General Health'),
-              subtitle: Text('8 files'),
-              trailing: Icon(Icons.more_vert),
-            ),
-            SizedBox(height: 16.0),
+// Display reports if available
+            if (reports.isNotEmpty) ...[
+              for (var report in reports)
+                ListTile(
+                  contentPadding: const EdgeInsets.all(16.0),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0)),
+                  tileColor:
+                      const Color.fromARGB(80, 106, 165, 237), // Light blue box
+                  leading: const Icon(Icons.picture_as_pdf_rounded,
+                      size: 40, color: Color.fromARGB(255, 212, 0, 0)),
 
-            // Diabetes Container
-            ListTile(
-              contentPadding: EdgeInsets.all(16.0),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0)),
-              tileColor: Color(0xFFEDE4FF), // Light purple box
-              leading: Icon(Icons.folder, size: 40, color: Colors.purple),
-              title: Text('Diabetes'),
-              subtitle: Text('4 files'),
-              trailing: Icon(Icons.more_vert),
-            ),
+                  title: Text(
+                    '${report['reportTitle']} Report',
+                    style: const TextStyle(
+                      color: Color.fromARGB(
+                          255, 0, 0, 0), // Set title text color to black
+                      fontSize: 16.0,
+                      // Change title font size
+                    ),
+                  ),
+
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                          height:
+                              8), // Adds spacing between title and 'Uploaded by'
+                      Text(
+                        'Uploaded by : ${report['doctorName']}',
+                        style: const TextStyle(
+                          color: Color.fromARGB(212, 0, 0,
+                              0), // Set uploaded by text color to black
+                          fontSize: 14.0, // Change uploaded by font size
+                        ),
+                      ),
+                      const SizedBox(
+                          height:
+                              2), // Adds spacing between doctor name and date
+                      Text(
+                        'Date : ${DateFormat('yyyy-MM-dd').format(DateTime.parse(report['createdAt']))}',
+                        style: const TextStyle(
+                          color: Color.fromARGB(
+                              212, 0, 0, 0), // Set date text color to black
+                          fontSize: 14.0, // Change date font size
+                        ),
+                      ), // Date formatted as YYYY-MM-DD
+                    ],
+                  ),
+
+                  trailing: IconButton(
+                    icon: const Icon(Icons.download),
+                    onPressed: () {
+                      // Open the PDF URL in browser or download it
+                      final pdfUrl = report['attachedPdf'];
+                      if (pdfUrl != null) {
+                        launchUrl(Uri.parse(pdfUrl)); // Launch the PDF URL
+                      }
+                    },
+                  ),
+                ),
+            ] else ...[
+              // Show a message if there are no reports
+              const Text('No reports available for this user'),
+            ],
           ],
         ),
       ),

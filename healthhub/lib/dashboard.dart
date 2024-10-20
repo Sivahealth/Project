@@ -9,7 +9,7 @@ import 'package:healthhub/profile.dart';
 import 'package:healthhub/reports.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -21,9 +21,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Health Hub',
       theme: ThemeData(
-        primaryColor: Color.fromARGB(255, 50, 55, 167),
-        scaffoldBackgroundColor: Color.fromARGB(255, 255, 255, 255),
-        appBarTheme: AppBarTheme(
+        primaryColor: const Color.fromARGB(255, 50, 55, 167),
+        scaffoldBackgroundColor: const Color.fromARGB(255, 255, 255, 255),
+        appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
           elevation: 0,
           toolbarHeight: 70,
@@ -31,11 +31,11 @@ class MyApp extends StatelessWidget {
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Color.fromARGB(255, 50, 55, 167),
+            backgroundColor: const Color.fromARGB(255, 50, 55, 167),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(18.0),
             ),
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           ),
         ),
       ),
@@ -45,6 +45,8 @@ class MyApp extends StatelessWidget {
 }
 
 class Dashboard extends StatelessWidget {
+  const Dashboard({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,27 +55,27 @@ class Dashboard extends StatelessWidget {
         actions: [
           PopupMenuButton(
             itemBuilder: (BuildContext context) => [
-              PopupMenuItem(
+              const PopupMenuItem(
                 value: 'new_appointment',
                 child: Text('+ New Appointment'),
               ),
-              PopupMenuItem(
+              const PopupMenuItem(
                 value: 'drugs',
                 child: Text('Drugs'),
               ),
-              PopupMenuItem(
+              const PopupMenuItem(
                 value: 'doctors',
                 child: Text('Doctors'),
               ),
-              PopupMenuItem(
+              const PopupMenuItem(
                 value: 'profile',
                 child: Text('Profile'),
               ),
-              PopupMenuItem(
+              const PopupMenuItem(
                 value: 'help',
                 child: Text('Help'),
               ),
-              PopupMenuItem(
+              const PopupMenuItem(
                 value: 'logout',
                 child: Text('Logout'),
               ),
@@ -91,13 +93,13 @@ class Dashboard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               LightBlueRectangle(),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               buildSearchBar(),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               buildIconButtons(context),
-              SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0),
+              const SizedBox(height: 20),
+              const Padding(
+                padding: EdgeInsets.only(left: 10.0),
                 child: Text(
                   'Top Rated Doctors',
                   style: TextStyle(
@@ -106,9 +108,9 @@ class Dashboard extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               // Horizontal scrolling for Top Rated Doctors section
-              SizedBox(
+              const SizedBox(
                 height: 250, // Adjust height as needed
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -144,7 +146,7 @@ class Dashboard extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -191,7 +193,7 @@ class Dashboard extends StatelessWidget {
 }
 
 Widget buildCustomAppBarTitle() {
-  return Column(
+  return const Column(
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
       SizedBox(height: 20),
@@ -217,8 +219,8 @@ Widget buildSearchBar() {
           child: TextField(
             decoration: InputDecoration(
               hintText: 'Search doctor, drugs, articles..',
-              hintStyle: TextStyle(color: Color(0xFF7A7878)),
-              prefixIcon: Icon(Icons.search),
+              hintStyle: const TextStyle(color: Color(0xFF7A7878)),
+              prefixIcon: const Icon(Icons.search),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide.none,
@@ -229,7 +231,7 @@ Widget buildSearchBar() {
           ),
         ),
         IconButton(
-          icon: Icon(Icons.notifications),
+          icon: const Icon(Icons.notifications),
           onPressed: () {},
         ),
       ],
@@ -286,10 +288,10 @@ class IconButtonColumn extends StatelessWidget {
   final VoidCallback onTap;
 
   const IconButtonColumn({
-    Key? key,
+    super.key,
     required this.image,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -309,14 +311,16 @@ class IconButtonColumn extends StatelessWidget {
 }
 
 class LightBlueRectangle extends StatelessWidget {
+  const LightBlueRectangle({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 20),
-        padding: EdgeInsets.all(20),
+        margin: const EdgeInsets.symmetric(vertical: 20),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: Color.fromARGB(207, 17, 27, 216),
+          color: const Color.fromARGB(207, 17, 27, 216),
           borderRadius: BorderRadius.circular(25),
         ),
         child: Row(
@@ -327,26 +331,26 @@ class LightBlueRectangle extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Early protection for\nyour family health',
                     style: TextStyle(
                       fontSize: 24,
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: Color.fromARGB(223, 17, 27, 216),
+                      foregroundColor: const Color.fromARGB(223, 17, 27, 216),
                       backgroundColor: Colors.white, // Text color blue
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),
                       ),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Learn more',
                       style: TextStyle(
                           color: Color.fromARGB(
@@ -376,11 +380,11 @@ class DoctorCard extends StatelessWidget {
   final String image;
 
   const DoctorCard({
-    Key? key,
+    super.key,
     required this.name,
     required this.rating,
     required this.image,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -388,7 +392,7 @@ class DoctorCard extends StatelessWidget {
       width: 160, // Adjust width as needed
       height: 250, // Adjust height as needed
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           color: Colors.white,
@@ -397,7 +401,7 @@ class DoctorCard extends StatelessWidget {
               color: Colors.grey.withOpacity(0.3),
               spreadRadius: 3,
               blurRadius: 5,
-              offset: Offset(0, 3),
+              offset: const Offset(0, 3),
             ),
           ],
         ),
@@ -408,21 +412,21 @@ class DoctorCard extends StatelessWidget {
               radius: 50,
               backgroundImage: AssetImage(image),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               name,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Text(
               rating,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
-                color: const Color.fromARGB(255, 63, 63, 63),
+                color: Color.fromARGB(255, 63, 63, 63),
               ),
             ),
           ],

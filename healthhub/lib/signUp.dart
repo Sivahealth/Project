@@ -3,6 +3,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
+
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
@@ -18,7 +20,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   String _selectedGender = 'Male';
   DateTime _selectedDate = DateTime.now();
-  List<String> _genders = ['Male', 'Female'];
+  final List<String> _genders = ['Male', 'Female'];
 
   @override
   void dispose() {
@@ -71,9 +73,9 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(95, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(95, 255, 255, 255),
       appBar: AppBar(
-        title: Text('Sign Up'),
+        title: const Text('Sign Up'),
         backgroundColor: Colors.blue,
       ),
       body: Padding(
@@ -82,7 +84,7 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               TextField(
                 controller: _firstNameController,
                 decoration: InputDecoration(
@@ -91,9 +93,9 @@ class _SignUpPageState extends State<SignUpPage> {
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                 ),
-                style: TextStyle(height: 1.5),
+                style: const TextStyle(height: 1.5),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               TextField(
                 controller: _lastNameController,
                 decoration: InputDecoration(
@@ -102,9 +104,9 @@ class _SignUpPageState extends State<SignUpPage> {
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                 ),
-                style: TextStyle(height: 1.5),
+                style: const TextStyle(height: 1.5),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               TextField(
                 controller: _emailController,
                 decoration: InputDecoration(
@@ -114,9 +116,9 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 keyboardType: TextInputType.emailAddress,
-                style: TextStyle(height: 1.5),
+                style: const TextStyle(height: 1.5),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               DropdownButtonFormField<String>(
                 value: _selectedGender,
                 onChanged: (value) {
@@ -137,7 +139,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               Row(
                 children: [
                   Expanded(
@@ -167,7 +169,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 16.0),
+                  const SizedBox(width: 16.0),
                   Expanded(
                     child: DropdownButtonFormField<int>(
                       value: _selectedDate.month,
@@ -194,7 +196,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 16.0),
+                  const SizedBox(width: 16.0),
                   Expanded(
                     child: DropdownButtonFormField<int>(
                       value: _selectedDate.day,
@@ -226,7 +228,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               TextField(
                 controller: _passwordController,
                 decoration: InputDecoration(
@@ -236,9 +238,9 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 obscureText: true,
-                style: TextStyle(height: 1.5),
+                style: const TextStyle(height: 1.5),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               TextField(
                 controller: _confirmPasswordController,
                 decoration: InputDecoration(
@@ -248,9 +250,9 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 obscureText: true,
-                style: TextStyle(height: 1.5),
+                style: const TextStyle(height: 1.5),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               Row(
                 children: [
                   Checkbox(
@@ -261,27 +263,27 @@ class _SignUpPageState extends State<SignUpPage> {
                       });
                     },
                   ),
-                  Expanded(
+                  const Expanded(
                     child: Text('I agree to the Terms and Conditions'),
                   ),
                 ],
               ),
-              SizedBox(height: 32.0),
+              const SizedBox(height: 32.0),
               ElevatedButton(
                 onPressed: _agreeToTerms ? _signUp : null,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 50, 55, 167),
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                ),
                 child: Text(
                   'Sign Up',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 50, 55, 167),
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
                   ),
                 ),
               ),

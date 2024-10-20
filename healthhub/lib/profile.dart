@@ -1,13 +1,15 @@
 import 'dart:convert';
+import 'dart:io'; // For handling files
 import 'package:flutter/material.dart';
 import 'package:healthhub/dashboard1.dart';
 import 'package:healthhub/doctor.dart';
 import 'package:healthhub/history.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart'; // For image picking
 
 class ProfilePage extends StatefulWidget {
   final String userId; // Pass email instead of userId
-  ProfilePage({required this.userId});
+  const ProfilePage({super.key, required this.userId});
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -21,6 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String Gender = '';
   String dateOfBirth = '';
   String status = '';
+  File? _imageFile; // To hold the selected image
 
   // Controllers for editing
   TextEditingController genderController = TextEditingController();
@@ -75,61 +78,82 @@ class _ProfilePageState extends State<ProfilePage> {
             .split('T')[0]; // Update dateOfBirth variable
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Profile updated successfully')),
+        const SnackBar(content: Text('Profile updated successfully')),
       );
     } else {
       print('Failed to update profile: ${response.statusCode}');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to update profile')),
+        const SnackBar(content: Text('Failed to update profile')),
       );
     }
   }
 
-  void _showEditDialog(String field) {
-    if (field == 'Gender') {
-      genderController.text = Gender;
-    } else if (field == 'Date of Birth') {
-      dobController.text = dateOfBirth;
-    }
+  // Function to upload profile picture
+  Future<void> uploadProfilePicture(File imageFile) async {
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('http://localhost:8002/api/upload-profile-pic'),
+    );
+    request.fields['email'] = widget.userId; // Use email to identify the user
+    request.files.add(
+      await http.MultipartFile.fromPath('profilePic', imageFile.path),
+    );
 
+    var response = await request.send();
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Profile picture updated successfully')),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Failed to upload profile picture')),
+      );
+    }
+  }
+
+  // Function to select image
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+
+      // Upload the image
+      await uploadProfilePicture(_imageFile!);
+    } else {
+      print('No image selected.');
+    }
+  }
+
+  // Function to show edit profile image dialog
+  void _showEditProfileImageDialog() {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Edit $field'),
-
-          content: TextField(
-            controller: field == 'Gender' ? genderController : dobController,
-            decoration: InputDecoration(labelText: 'Enter your $field'),
+          title: const Text('Change Profile Picture'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _imageFile != null
+                  ? Image.file(_imageFile!)
+                  : const Text('No image selected.'),
+              SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: _pickImage, // Pick image from gallery
+                child: const Text('Select Image'),
+              ),
+            ],
           ),
-          //SizedBox(height: 10.0),
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pop(context); // Close the dialog
               },
-              child: Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () async {
-                // Ensure the input is not empty
-                if (field == 'Gender' && genderController.text.isNotEmpty) {
-                  await updateUserDetails(
-                      genderController.text, dobController.text);
-                  fetchUserData();
-                } else if (field == 'Date of Birth' &&
-                    dobController.text.isNotEmpty) {
-                  await updateUserDetails(Gender, dobController.text);
-                  fetchUserData();
-                } else {
-                  // Optionally show an error message if the input is empty
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Please enter a valid value')),
-                  );
-                }
-                Navigator.pop(context); // Close the dialog after updating
-              },
-              child: Text('Save'),
+              child: const Text('Cancel'),
             ),
           ],
         );
@@ -147,78 +171,98 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Profile'),
+          title: const Text('Profile'),
           centerTitle: true,
         ),
         body: Center(
           child: SingleChildScrollView(
-            padding: EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CircleAvatar(
-                  radius: 80.0,
-                  backgroundColor: Colors.blue,
-                  child: Icon(
-                    Icons.person,
-                    size: 80.0,
-                    color: Colors.white,
-                  ),
+                // Use a Stack to place edit icon on CircleAvatar
+                Stack(
+                  children: [
+                    const CircleAvatar(
+                      radius: 80.0,
+                      backgroundColor: Colors.blue,
+                      child: Icon(
+                        Icons.person,
+                        size: 80.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: GestureDetector(
+                        onTap: _showEditProfileImageDialog, // Open image dialog
+                        child: CircleAvatar(
+                          radius: 25.0,
+                          backgroundColor: Color.fromARGB(255, 13, 83, 169),
+                          child: Icon(
+                            Icons.edit,
+                            color: const Color.fromARGB(255, 255, 255, 255),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
                 Text(
                   '$firstName $lastName',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 5.0),
+                const SizedBox(height: 5.0),
                 Text(
                   'Email: ${widget.userId}',
-                  style: TextStyle(fontSize: 16.0),
+                  style: const TextStyle(fontSize: 16.0),
                 ),
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
                 ElevatedButton(
                   onPressed: () {
                     // Navigate to change password screen
                   },
-                  child: Text('Change Password'),
+                  child: const Text('Change Password'),
                 ),
-                SizedBox(height: 10.0),
+                const SizedBox(height: 10.0),
                 ListTile(
-                  leading: Icon(Icons.email),
-                  title: Text('Email'),
+                  leading: const Icon(Icons.email),
+                  title: const Text('Email'),
                   subtitle: Text(widget.userId),
                 ),
-                Divider(),
+                const Divider(),
                 ListTile(
-                  leading: Icon(Icons.male),
-                  title: Text("Gender"),
+                  leading: const Icon(Icons.male),
+                  title: const Text("Gender"),
                   subtitle: Text(Gender),
-                  trailing: Icon(Icons.edit),
+                  trailing: const Icon(Icons.edit),
                   onTap: () {
                     _showEditDialog('Gender'); // Edit gender
                   },
                 ),
-                Divider(),
+                const Divider(),
                 ListTile(
-                  leading: Icon(Icons.cake),
-                  title: Text('Date of Birth'),
+                  leading: const Icon(Icons.cake),
+                  title: const Text('Date of Birth'),
                   subtitle: Text(dateOfBirth),
-                  trailing: Icon(Icons.edit),
+                  trailing: const Icon(Icons.edit),
                   onTap: () {
                     _showEditDialog('Date of Birth'); // Edit date of birth
                   },
                 ),
-                Divider(),
+                const Divider(),
                 ListTile(
-                  leading: Icon(Icons.work),
-                  title: Text('Status'),
+                  leading: const Icon(Icons.work),
+                  title: const Text('Status'),
                   subtitle: Text(status),
                 ),
-                Divider(),
+                const Divider(),
               ],
             ),
           ),
@@ -287,5 +331,54 @@ class _ProfilePageState extends State<ProfilePage> {
         // Stay on the same page (Profile)
         break;
     }
+  }
+
+  // Function to show the edit dialog for gender and date of birth
+  void _showEditDialog(String field) {
+    if (field == 'Gender') {
+      genderController.text = Gender;
+    } else if (field == 'Date of Birth') {
+      dobController.text = dateOfBirth;
+    }
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Edit $field'),
+          content: TextField(
+            controller: field == 'Gender' ? genderController : dobController,
+            decoration: InputDecoration(labelText: 'Enter your $field'),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                if (field == 'Gender' && genderController.text.isNotEmpty) {
+                  await updateUserDetails(
+                      genderController.text, dobController.text);
+                  fetchUserData();
+                } else if (field == 'Date of Birth' &&
+                    dobController.text.isNotEmpty) {
+                  await updateUserDetails(Gender, dobController.text);
+                  fetchUserData();
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please enter a valid value')),
+                  );
+                }
+                Navigator.pop(context); // Close the dialog after updating
+              },
+              child: const Text('Save'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

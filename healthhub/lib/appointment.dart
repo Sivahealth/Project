@@ -11,14 +11,14 @@ class AppointmentBookingPage extends StatefulWidget {
   final String doctorId;
   final String userId;
 
-  AppointmentBookingPage({
-    Key? key,
+  const AppointmentBookingPage({
+    super.key,
     required this.doctorName,
     required this.Time,
     required this.Date,
     required this.doctorId, // Added doctorId field
     required this.userId,
-  }) : super(key: key);
+  });
 
   @override
   _AppointmentBookingPageState createState() => _AppointmentBookingPageState();
@@ -136,7 +136,7 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text('OK'),
+            child: const Text('OK'),
           ),
         ],
       ),
@@ -169,8 +169,8 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('+ New Appointment'),
-        backgroundColor:
-            Color.fromARGB(255, 34, 21, 166), // Use your preferred theme color
+        backgroundColor: const Color.fromARGB(
+            255, 34, 21, 166), // Use your preferred theme color
         foregroundColor: const Color.fromARGB(255, 255, 255, 255),
       ),
       body: SingleChildScrollView(
@@ -180,11 +180,11 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
+              const Text(
                 'Patient Information',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   Expanded(
@@ -199,7 +199,7 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
                       },
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: _buildTextField(
                       controller: _lastNameController,
@@ -214,7 +214,7 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   Expanded(
@@ -232,7 +232,7 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
                       },
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: _buildTextField(
                       readOnly: true,
@@ -251,7 +251,7 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
                       },
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: _buildTextField(
                       readOnly: true,
@@ -269,13 +269,13 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               _buildTextField(
                 readOnly: true,
                 controller: _emailController,
                 labelText: 'Email',
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   Expanded(
@@ -290,7 +290,7 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
                       },
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: _buildTextField(
                       controller: _addressController,
@@ -305,7 +305,7 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   Expanded(
@@ -320,7 +320,7 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
                       },
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: _buildTextField(
                       controller: _provinceController,
@@ -335,7 +335,7 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               _buildTextField(
                 controller: _contactNumberController,
                 labelText: 'Contact Number',
@@ -346,19 +346,19 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               _buildTextField(
                 readOnly: true,
                 controller: _doctorNameController,
                 labelText: 'Doctor Name',
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               _buildTextField(
                 readOnly: true,
                 controller: _TimeController,
                 labelText: 'Date and Time',
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               DropdownButtonFormField<String>(
                 value: _selectedGender,
                 decoration: InputDecoration(
@@ -379,7 +379,7 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
                   });
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               DropdownButtonFormField<String>(
                 value: _selectedDepartment,
                 decoration: InputDecoration(
@@ -400,11 +400,11 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
                   });
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Center(
                 child: ElevatedButton(
                   onPressed: _bookAppointment,
-                  child: Text('Book Appointment'),
+                  child: const Text('Book Appointment'),
                 ),
               ),
             ],

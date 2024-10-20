@@ -11,7 +11,7 @@ class OPDDoctorPage extends StatefulWidget {
   @override
   _OPDDoctorPageState createState() => _OPDDoctorPageState();
   final String userId;
-  OPDDoctorPage({required this.userId});
+  const OPDDoctorPage({super.key, required this.userId});
 }
 
 class _OPDDoctorPageState extends State<OPDDoctorPage> {
@@ -29,7 +29,7 @@ class _OPDDoctorPageState extends State<OPDDoctorPage> {
   }
 
   void fetchDoctorsByDateAndDepartment(DateTime date, String department) async {
-    final apiUrl = 'http://localhost:8002/api/doctors/by-date';
+    const apiUrl = 'http://localhost:8002/api/doctors/by-date';
 
     final formattedDate =
         "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
@@ -133,27 +133,29 @@ class _OPDDoctorPageState extends State<OPDDoctorPage> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: const Color.fromARGB(255, 1, 60, 109),
-        hintColor: const Color.fromARGB(255, 4, 57, 147),
         scaffoldBackgroundColor: Colors.white,
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             'Schedule Appointments',
             style: TextStyle(
-              color: Color.fromRGBO(0, 0, 0, 1), // Change the text color
-              fontSize: 20.0, // Adjust the font size
-              //fontWeight: FontWeight.bold, // Optional: to make the text bold
+              color: Colors.black, // Clean text color
+              fontSize: 22.0,
+              // fontWeight: FontWeight.w600,
             ),
           ),
-          backgroundColor: Color.fromARGB(222, 0, 140, 255),
+          backgroundColor:
+              const Color(0xFF008CFF), // Brighter, professional blue
+          elevation: 5,
+          shadowColor: Colors.blueAccent, // Adds a shadow to the app bar
         ),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
                     Row(
@@ -161,10 +163,23 @@ class _OPDDoctorPageState extends State<OPDDoctorPage> {
                         Expanded(
                           child: Row(
                             children: [
-                              Text('Appointment Date: '),
-                              SizedBox(width: 30),
+                              const Text(
+                                'Appointment Date:',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              const SizedBox(width: 30),
                               Expanded(
                                 child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(
+                                        0xFF4A90E2), // Professional blue
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                  ),
                                   onPressed: () async {
                                     final DateTime? picked =
                                         await showDatePicker(
@@ -184,6 +199,7 @@ class _OPDDoctorPageState extends State<OPDDoctorPage> {
                                             .toString()
                                             .substring(0, 10)
                                         : 'Select Date',
+                                    style: const TextStyle(color: Colors.white),
                                   ),
                                 ),
                               ),
@@ -192,13 +208,13 @@ class _OPDDoctorPageState extends State<OPDDoctorPage> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 20),
                     Row(
                       children: [
                         Expanded(
                           child: DropdownButtonFormField<String>(
                             value: selectedDepartment,
-                            items: [
+                            items: const [
                               DropdownMenuItem(
                                   value: 'OPD', child: Text('OPD')),
                               DropdownMenuItem(
@@ -206,7 +222,16 @@ class _OPDDoctorPageState extends State<OPDDoctorPage> {
                                   child: Text('Physiotherapy')),
                             ],
                             onChanged: handleDepartmentChange,
-                            hint: Text('Select Department'),
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 8),
+                              filled: true,
+                              fillColor: Colors.grey[100],
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                            ),
+                            hint: const Text('Select Department'),
                             isExpanded: true,
                           ),
                         ),
@@ -216,7 +241,7 @@ class _OPDDoctorPageState extends State<OPDDoctorPage> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 16.0, bottom: 16.0),
+                padding: const EdgeInsets.only(left: 20.0, bottom: 16.0),
                 child: Align(
                   alignment: Alignment.bottomLeft,
                   child: GestureDetector(
@@ -231,25 +256,30 @@ class _OPDDoctorPageState extends State<OPDDoctorPage> {
                     child: Text(
                       'Find doctor',
                       style: TextStyle(
-                        color: Color.fromARGB(231, 18, 49, 255),
+                        color: Colors.blue[700],
                         decoration: TextDecoration.underline,
                       ),
                     ),
                   ),
                 ),
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: doctors.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return DoctorCard(
-                    doctor: doctors[index],
-                    selectedDate: selectedDate,
-                    userId: widget.userId,
-                  );
-                },
-              ),
+              // Show only the last doctor (updated doctor)
+              doctors.isNotEmpty
+                  ? DoctorCard(
+                      doctor: doctors.last,
+                      selectedDate: selectedDate,
+                      userId: widget.userId,
+                    )
+                  : const Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Text(
+                        'No doctors available for the selected date.',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
             ],
           ),
         ),
@@ -287,11 +317,13 @@ class _OPDDoctorPageState extends State<OPDDoctorPage> {
 class DoctorCard extends StatefulWidget {
   final Map<String, dynamic> doctor;
   final DateTime? selectedDate;
-
   var userId;
 
   DoctorCard(
-      {required this.doctor, required this.selectedDate, required this.userId});
+      {super.key,
+      required this.doctor,
+      required this.selectedDate,
+      required this.userId});
 
   @override
   _DoctorCardState createState() => _DoctorCardState();
@@ -302,64 +334,104 @@ class _DoctorCardState extends State<DoctorCard> {
   String? selectedTimeSlot;
 
   @override
-  Widget build(BuildContext context) {
-    List<String> availableSlots = widget.doctor['availableTime'].cast<String>();
+  void initState() {
+    super.initState();
+    if (widget.doctor['availableTime'].isNotEmpty) {
+      selectedTimeSlot =
+          widget.doctor['availableTime'][0]; // Set default time slot
+    }
+  }
 
-    return Card(
-      margin: EdgeInsets.all(16.0),
-      child: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.doctor['name'],
-                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-              ),
-              Text('Department: ${widget.doctor['department']}'),
-              DropdownButtonFormField<String>(
-                items: availableSlots
-                    .map((slot) => DropdownMenuItem(
-                          value: slot.trim(),
-                          child: Text(slot.trim()),
-                        ))
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    selectedTimeSlot = value;
-                  });
-                },
-                hint: Text('Select a time slot'),
-                validator: (value) {
-                  if (value == null) {
-                    return 'Please select a time slot';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AppointmentBookingPage(
-                          doctorName: widget.doctor['name'],
-                          Time: '$selectedTimeSlot',
-                          Date: '${widget.selectedDate}',
-                          doctorId: widget.doctor['_id'],
-                          userId: widget.userId,
-                        ),
-                      ),
+  @override
+  Widget build(BuildContext context) {
+    List<String> availableSlots = widget.doctor['availableTime'];
+
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Form(
+        key: _formKey,
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          elevation: 5,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.doctor['name'],
+                  style: const TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  'Department: ${widget.doctor['department']}',
+                  style: const TextStyle(fontSize: 16.0),
+                ),
+                const SizedBox(height: 30),
+                DropdownButtonFormField<String>(
+                  value: selectedTimeSlot,
+                  items: availableSlots.map((String slot) {
+                    return DropdownMenuItem<String>(
+                      value: slot,
+                      child: Text(slot),
                     );
-                  }
-                },
-                child: Text('Select'),
-              ),
-            ],
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedTimeSlot = newValue!;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Select Time Slot',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please select a time slot';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AppointmentBookingPage(
+                            doctorName: widget.doctor['name'],
+                            Time: '$selectedTimeSlot',
+                            Date: '${widget.selectedDate}',
+                            doctorId: widget.doctor['_id'],
+                            userId: widget.userId,
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF008CFF),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 12),
+                  ),
+                  child: const Text(
+                    'Confirm Appointment',
+                    style: TextStyle(color: Colors.white), // Updated to white
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

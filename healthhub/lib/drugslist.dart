@@ -3,7 +3,7 @@ import 'package:healthhub/dashboard1.dart';
 
 class Drugslist extends StatelessWidget {
   final String userId;
-  Drugslist({required this.userId});
+  const Drugslist({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,7 @@ class Drugslist extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blueGrey, // Dark blue theme
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           backgroundColor: Colors.lightBlue,
         ),
         cardTheme: CardTheme(
@@ -28,7 +28,7 @@ class Drugslist extends StatelessWidget {
 
 class DrugsPage extends StatefulWidget {
   final String userId;
-  DrugsPage({required this.userId});
+  const DrugsPage({super.key, required this.userId});
   @override
   _DrugsPageState createState() => _DrugsPageState(userId: userId);
 }
@@ -81,9 +81,9 @@ class _DrugsPageState extends State<DrugsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Available Drugs'),
+        title: const Text('Available Drugs'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             // This line will navigate to the previous screen
             Navigator.push(
@@ -106,7 +106,7 @@ class _DrugsPageState extends State<DrugsPage> {
                   borderRadius: BorderRadius.circular(25.0),
                 ),
                 hintText: 'Search for drugs',
-                prefixIcon: Icon(Icons.search),
+                prefixIcon: const Icon(Icons.search),
               ),
             ),
           ),
@@ -121,9 +121,9 @@ class _DrugsPageState extends State<DrugsPage> {
                   child: ListTile(
                     contentPadding: const EdgeInsets.all(16.0),
                     title: Text(drug,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 18.0, fontWeight: FontWeight.bold)),
-                    trailing: Icon(Icons.chevron_right),
+                    trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       // Handle drug selection
                     },

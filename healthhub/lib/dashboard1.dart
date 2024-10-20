@@ -19,7 +19,7 @@ class Dashboard1 extends StatefulWidget {
   _Dashboard1State createState() => _Dashboard1State();
   final String userId;
 
-  Dashboard1({required this.userId});
+  const Dashboard1({super.key, required this.userId});
 }
 
 class _Dashboard1State extends State<Dashboard1> {
@@ -114,7 +114,7 @@ class _Dashboard1State extends State<Dashboard1> {
   }
 
   Future<void> _fetchUserData() async {
-    final String apiUrl = 'http://localhost:8002/api/users';
+    const String apiUrl = 'http://localhost:8002/api/users';
     try {
       final response =
           await http.get(Uri.parse('$apiUrl?email=${widget.userId}'));
@@ -170,13 +170,13 @@ class _Dashboard1State extends State<Dashboard1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFEDF4F8),
+      backgroundColor: const Color(0xFFEDF4F8),
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70.0), // Increase height of AppBar
+        preferredSize: const Size.fromHeight(60.0), // Increase height of AppBar
         child: AppBar(
-          backgroundColor: Color.fromARGB(178, 0, 140, 255),
+          backgroundColor: const Color.fromARGB(178, 0, 140, 255),
           elevation: 0,
-          title: Row(
+          title: const Row(
             mainAxisAlignment:
                 MainAxisAlignment.start, // Aligns items to the start (left)
             children: [
@@ -191,16 +191,16 @@ class _Dashboard1State extends State<Dashboard1> {
           ),
           actions: [
             Padding(
-              padding: const EdgeInsets.only(right: 30.0, top: 16),
+              padding: const EdgeInsets.only(right: 30.0, top: 10),
               child: Container(
                 width: 35, // Width of the circle
                 height: 35, // Height of the circle
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white, // Circle background color
                   shape: BoxShape.circle, // Make it circular
                 ),
                 child: IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.logout,
                     color: Colors.red, // Icon color
                     size: 18,
@@ -215,7 +215,7 @@ class _Dashboard1State extends State<Dashboard1> {
       ),
       body: Column(
         children: [
-          SizedBox(height: 25), // Space after the AppBar
+          const SizedBox(height: 25), // Space after the AppBar
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -231,7 +231,7 @@ class _Dashboard1State extends State<Dashboard1> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               'Hello!',
                               style: TextStyle(
                                 fontSize: 24,
@@ -239,10 +239,10 @@ class _Dashboard1State extends State<Dashboard1> {
                                 color: Colors.black,
                               ),
                             ),
-                            SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             Text(
                               widget.userId,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 20,
                                 //fontWeight: FontWeight.bold,
                                 color: Colors.black,
@@ -251,25 +251,26 @@ class _Dashboard1State extends State<Dashboard1> {
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                           width:
                               10), // Adjust space between the text and the avatar
-                      CircleAvatar(
+                      const CircleAvatar(
                         backgroundImage: AssetImage('assets/doctor1.png'),
                         radius: 50, // Adjust size as needed
                       ),
-                      SizedBox(width: 40), // Space to the right of the avatar
+                      const SizedBox(
+                          width: 40), // Space to the right of the avatar
                     ],
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   // Search Bar
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(25),
                     ),
-                    child: TextField(
+                    child: const TextField(
                       decoration: InputDecoration(
                         hintText: 'Search Medical Services and Doctors',
                         border: InputBorder.none,
@@ -277,9 +278,9 @@ class _Dashboard1State extends State<Dashboard1> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 24),
+                  const SizedBox(height: 24),
                   // Services
-                  Text(
+                  const Text(
                     'Services',
                     style: TextStyle(
                       fontSize: 20,
@@ -287,7 +288,7 @@ class _Dashboard1State extends State<Dashboard1> {
                       color: Colors.black,
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -339,11 +340,11 @@ class _Dashboard1State extends State<Dashboard1> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 24),
+                  const SizedBox(height: 24),
                   // Banner
                   Container(
                     width: double.infinity,
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                         top: 35,
                         right: 120,
                         bottom: 45,
@@ -351,13 +352,13 @@ class _Dashboard1State extends State<Dashboard1> {
                     decoration: BoxDecoration(
                       color: const Color.fromARGB(255, 255, 255, 255),
                       borderRadius: BorderRadius.circular(25),
-                      image: DecorationImage(
+                      image: const DecorationImage(
                         image: AssetImage('assets/dashboardLady.png'),
                         fit: BoxFit
                             .contain, // Scale down the image instead of stretching
                       ),
                     ),
-                    child: Column(
+                    child: const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -387,10 +388,10 @@ class _Dashboard1State extends State<Dashboard1> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 24),
+                  const SizedBox(height: 24),
                   // Upcoming Appointments
                   // Upcoming Appointments Section
-                  Text(
+                  const Text(
                     'Upcoming Appointments',
                     style: TextStyle(
                       fontSize: 20,
@@ -398,39 +399,46 @@ class _Dashboard1State extends State<Dashboard1> {
                       color: Colors.black,
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   isLoading
-                      ? CircularProgressIndicator()
+                      ? const CircularProgressIndicator()
                       : appointments.isNotEmpty
                           ? SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
+                              scrollDirection: Axis
+                                  .horizontal, // Horizontal scrolling enabled
                               child: Row(
                                 children: appointments.map((appointment) {
-                                  return _buildAppointmentCard(
-                                    date: appointment['date'].split(
-                                        '-')[2], // Extract day from the date
-                                    day: DateFormat('EEEE').format(
-                                        DateTime.parse(appointment[
-                                            'date'])), // Extract day of the week
-                                    year: appointment['date'].split('-')[0],
-                                    month: appointment['date'].split(
-                                        '-')[1], // Extract month from the date
-                                    time: appointment['time'],
-                                    doctor: appointment['doctor'],
-                                    department: appointment['department'],
-                                    cardColor: Colors.primaries[
-                                        (appointments.indexOf(appointment) +
-                                                1) %
-                                            Colors.primaries.length],
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: 10.0), // Space between cards
+                                    child: _buildAppointmentCard(
+                                      date: appointment['date']
+                                          .split('-')[2], // Extract day
+                                      day: DateFormat('EEEE').format(
+                                          DateTime.parse(appointment[
+                                              'date'])), // Extract day of the week
+                                      year: appointment['date']
+                                          .split('-')[0], // Extract year
+                                      month: appointment['date']
+                                          .split('-')[1], // Extract month
+                                      time: appointment['time'],
+                                      doctor: appointment['doctor'],
+                                      department: appointment['department'],
+                                      cardColor: Colors.primaries[
+                                          (appointments.indexOf(appointment) +
+                                                  1) %
+                                              Colors.primaries.length],
+                                    ),
                                   );
                                 }).toList(),
                               ),
                             )
-                          : Text(
+                          : const Text(
                               'No upcoming appointments',
                               style: TextStyle(fontSize: 16),
                             ),
-                  SizedBox(height: 50),
+
+                  const SizedBox(height: 50),
                 ],
               ),
             ),
@@ -444,9 +452,9 @@ class _Dashboard1State extends State<Dashboard1> {
         selectedItemColor: Colors.blue, // Set color for selected item
         unselectedItemColor: Colors.black, // Set color for unselected items
         selectedLabelStyle:
-            TextStyle(color: Colors.black), // Text color for selected
+            const TextStyle(color: Colors.black), // Text color for selected
         unselectedLabelStyle:
-            TextStyle(color: Colors.black), // Text color for unselected
+            const TextStyle(color: Colors.black), // Text color for unselected
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         items: const <BottomNavigationBarItem>[
@@ -476,22 +484,22 @@ class _Dashboard1State extends State<Dashboard1> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Logout'),
-          content: Text('Do you want to logout?'),
+          title: const Text('Logout'),
+          content: const Text('Do you want to logout?'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context)
                     .pop(); // Close the dialog and stay on the same page
               },
-              child: Text('Stay'),
+              child: const Text('Stay'),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
                 _logout(); // Call the logout function
               },
-              child: Text('Logout'),
+              child: const Text('Logout'),
             ),
           ],
         );
@@ -525,10 +533,10 @@ class _Dashboard1State extends State<Dashboard1> {
                 color: Colors.white,
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               label,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
                 color: Colors.black,
               ),
@@ -550,8 +558,8 @@ class _Dashboard1State extends State<Dashboard1> {
     required Color cardColor,
   }) {
     return Container(
-      margin: EdgeInsets.only(right: 10),
-      padding: EdgeInsets.all(16),
+      margin: const EdgeInsets.only(right: 10),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: cardColor.withOpacity(0.7),
         borderRadius: BorderRadius.circular(15),
@@ -560,7 +568,7 @@ class _Dashboard1State extends State<Dashboard1> {
             color: Colors.grey.withOpacity(0.2),
             spreadRadius: 2,
             blurRadius: 5,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
       ),
@@ -572,60 +580,60 @@ class _Dashboard1State extends State<Dashboard1> {
                 MainAxisAlignment.start, // Align items to the start of the row
             children: [
               Container(
-                padding: EdgeInsets.all(10), // Add padding for the circle
-                decoration: BoxDecoration(
+                padding: const EdgeInsets.all(10), // Add padding for the circle
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle, // Make it circular
                   color: Colors.blue, // Background color of the circle
                 ),
                 child: Text(
                   date,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 24,
                     color: Colors.white, // Text color inside the circle
                   ),
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Text(
                 month,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
                 ),
               ),
-              SizedBox(width: 3),
+              const SizedBox(width: 3),
               Text(
                 year,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
                 ),
               ),
-              SizedBox(width: 20),
+              const SizedBox(width: 20),
               Text(
                 'Time: $time',
-                style: TextStyle(fontSize: 15),
+                style: const TextStyle(fontSize: 15),
               ),
             ],
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
             day,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 15,
             ),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
             'Doctor: $doctor',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
             'Department: $department',
-            style: TextStyle(fontSize: 14),
+            style: const TextStyle(fontSize: 14),
           ),
         ],
       ),

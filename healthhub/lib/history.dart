@@ -9,7 +9,7 @@ import 'package:intl/intl.dart'; // Add this import
 class AppointmentHistoryPage extends StatefulWidget {
   final String userId;
 
-  AppointmentHistoryPage({required this.userId});
+  const AppointmentHistoryPage({super.key, required this.userId});
 
   @override
   _AppointmentHistoryPageState createState() => _AppointmentHistoryPageState();
@@ -18,7 +18,10 @@ class AppointmentHistoryPage extends StatefulWidget {
 class _AppointmentHistoryPageState extends State<AppointmentHistoryPage> {
   int _selectedIndex = 2; // Set History as the selected index
   List<Map<String, dynamic>> appointments = [];
+  List<Map<String, dynamic>> filteredAppointments = [];
   bool isLoading = true; // To show a loading indicator while fetching data
+  final TextEditingController _dateController = TextEditingController();
+  DateTime? selectedDate; // To store the selected date
 
   @override
   void initState() {
@@ -27,7 +30,6 @@ class _AppointmentHistoryPageState extends State<AppointmentHistoryPage> {
   }
 
   Future<void> fetchAppointments() async {
-    // Construct the URL with the email query parameter
     final url = Uri.parse(
       'http://localhost:8002/api/appointments_by_usersId?email=${widget.userId}', // Assuming userId is an email
     );
@@ -78,6 +80,8 @@ class _AppointmentHistoryPageState extends State<AppointmentHistoryPage> {
         // Update the state with fetched appointments
         setState(() {
           appointments = tempAppointments;
+          filteredAppointments =
+              tempAppointments; // Initialize filtered appointments
           isLoading = false;
         });
       } else {
@@ -87,6 +91,35 @@ class _AppointmentHistoryPageState extends State<AppointmentHistoryPage> {
       print('Error: $e');
       setState(() {
         isLoading = false; // Stop loading even if there's an error
+      });
+    }
+  }
+
+  void filterAppointments(String date) {
+    setState(() {
+      filteredAppointments = appointments.where((appointment) {
+        return appointment['date'] == date; // Filter based on the selected date
+      }).toList();
+    });
+  }
+
+  // Function to select date from the calendar
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate!);
+        _dateController.text =
+            formattedDate; // Update the text field with selected date
+        filterAppointments(
+            formattedDate); // Filter appointments based on selected date
       });
     }
   }
@@ -127,40 +160,66 @@ class _AppointmentHistoryPageState extends State<AppointmentHistoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Appointment History'),
+        title: const Text('Appointment History'),
         backgroundColor: Colors.blueAccent,
         centerTitle: true,
       ),
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Padding(
               padding: const EdgeInsets.all(12.0),
               child: Column(
                 children: [
-                  // Display the userId
-                  SizedBox(height: 20),
-                  Text(
-                    'User ID: ${widget.userId}',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                  const SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'User ID: ${widget.userId}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                  SizedBox(
-                      height:
-                          20), // Add some space between the text and the appointments
+                  const SizedBox(height: 10),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      '${filteredAppointments.length} Appointments ',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  TextField(
+                    controller: _dateController,
+                    readOnly: true, // Make the TextField read-only
+                    decoration: InputDecoration(
+                      labelText: 'Select date (YYYY-MM-DD)',
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.calendar_today),
+
+                        onPressed: () =>
+                            _selectDate(context), // Open the date picker
+                      ),
+                    ),
+                    keyboardType: TextInputType.datetime,
+                  ),
+                  const SizedBox(height: 20), // Add some space
                   Expanded(
                     child: ListView.builder(
-                      itemCount: appointments.length,
+                      itemCount: filteredAppointments.length,
                       itemBuilder: (context, index) {
-                        final appointment = appointments[index];
+                        final appointment = filteredAppointments[index];
 
                         return Container(
-                          margin: EdgeInsets.symmetric(vertical: 10),
-                          padding: EdgeInsets.all(15),
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          padding: const EdgeInsets.all(15),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: const Color.fromARGB(165, 0, 183, 255),
                             borderRadius: BorderRadius.circular(15),
                             boxShadow: [
                               BoxShadow(
@@ -173,47 +232,47 @@ class _AppointmentHistoryPageState extends State<AppointmentHistoryPage> {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(width: 15),
+                              const SizedBox(width: 15),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       appointment['doctor'],
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
                                       ),
                                     ),
-                                    SizedBox(height: 10),
+                                    const SizedBox(height: 10),
                                     Text(
                                       appointment['department'],
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 14,
-                                        color: Colors.black54,
+                                        color: Colors.black,
                                       ),
                                     ),
-                                    SizedBox(height: 10),
+                                    const SizedBox(height: 10),
                                     Row(
                                       children: [
-                                        Icon(Icons.calendar_today,
-                                            color: Colors.grey),
-                                        SizedBox(width: 10),
+                                        const Icon(Icons.calendar_today,
+                                            color: Colors.black),
+                                        const SizedBox(width: 10),
                                         Text(
                                           appointment['date'],
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 14,
                                             color: Colors.black87,
                                           ),
                                         ),
-                                        SizedBox(width: 20),
-                                        Icon(Icons.access_time,
-                                            color: Colors.grey),
-                                        SizedBox(width: 5),
+                                        const SizedBox(width: 20),
+                                        const Icon(Icons.access_time,
+                                            color: Colors.black),
+                                        const SizedBox(width: 5),
                                         Text(
                                           appointment['time'],
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 14,
                                             color: Colors.black87,
                                           ),

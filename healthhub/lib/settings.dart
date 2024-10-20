@@ -6,6 +6,8 @@ void main() {
 }
 
 class SettingsPage extends StatelessWidget {
+  const SettingsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -16,7 +18,8 @@ class SettingsPage extends StatelessWidget {
       ),
       home: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60.0), // Set your desired height here
+          preferredSize:
+              const Size.fromHeight(60.0), // Set your desired height here
           child: AppBar(
             backgroundColor: const Color.fromARGB(255, 2, 141, 255),
             elevation: 0,
@@ -26,8 +29,8 @@ class SettingsPage extends StatelessWidget {
                   fontSize: 30.0), // Adjust the title font size if needed
             ),
             centerTitle: false,
-            flexibleSpace: Padding(
-              padding: const EdgeInsets.all(16.0),
+            flexibleSpace: const Padding(
+              padding: EdgeInsets.all(16.0),
             ),
           ),
         ),

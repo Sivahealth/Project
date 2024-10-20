@@ -43,11 +43,12 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => LoginPage(),
-        '/login_view': (context) => LoginPage(),
+        '/': (context) => Dashboard1(userId: "thushitha1910@gmail.com"),
+        '/login_view': (context) =>
+            Dashboard1(userId: "thushitha1910@gmail.com"),
       },
       onUnknownRoute: (settings) => MaterialPageRoute(
-        builder: (context) => Scaffold(
+        builder: (context) => const Scaffold(
           body: Center(child: Text('Page not found')),
         ),
       ),

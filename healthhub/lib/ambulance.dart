@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AmbulancePage extends StatelessWidget {
+  const AmbulancePage({super.key});
+
   // Method to launch the phone dialer with the ambulance number
   void _callAmbulance() async {
     const phoneNumber = 'tel:0112255255';
@@ -17,7 +19,7 @@ class AmbulancePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Siva Health Hub - Ambulance',
           style: TextStyle(
             color: Colors.black,
@@ -36,8 +38,8 @@ class AmbulancePage extends StatelessWidget {
                 width: 200,
                 height: 200,
               ),
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 'Need an Ambulance?',
                 style: TextStyle(
                   fontSize: 24,
@@ -46,8 +48,8 @@ class AmbulancePage extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 'Call us at: 0112 255 255',
                 style: TextStyle(
                   fontSize: 18,
@@ -55,25 +57,26 @@ class AmbulancePage extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               ElevatedButton.icon(
                 onPressed: _callAmbulance,
-                icon: Icon(Icons.phone),
-                label: Text(
+                icon: const Icon(Icons.phone),
+                label: const Text(
                   'Call Ambulance',
                   style: TextStyle(
                     fontSize: 18,
-                    color: const Color.fromARGB(255, 0, 0, 0),
+                    color: Color.fromARGB(255, 0, 0, 0),
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor:
-                      Color.fromARGB(178, 0, 119, 255), // Dark Blue
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                      const Color.fromARGB(178, 0, 119, 255), // Dark Blue
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                 ),
               ),
-              SizedBox(height: 30),
-              Text(
+              const SizedBox(height: 30),
+              const Text(
                 '24-hour service Available!',
                 style: TextStyle(
                   fontSize: 24,

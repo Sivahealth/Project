@@ -5,6 +5,8 @@ import 'package:healthhub/appointment.dart';
 import 'package:healthhub/doctorprofile.dart';
 
 class DoctorsListPage extends StatefulWidget {
+  const DoctorsListPage({super.key});
+
   @override
   _DoctorsListPageState createState() => _DoctorsListPageState();
 }
@@ -66,13 +68,13 @@ class _DoctorsListPageState extends State<DoctorsListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Available Doctors'),
+        title: const Text('Available Doctors'),
         backgroundColor: Colors.lightBlue,
       ),
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(15.0),
             child: TextField(
               onChanged: (value) {
                 setState(() {
@@ -81,7 +83,7 @@ class _DoctorsListPageState extends State<DoctorsListPage> {
               },
               decoration: InputDecoration(
                 hintText: 'Search doctor...',
-                prefixIcon: Icon(Icons.search),
+                prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25.0),
                 ),
@@ -97,10 +99,10 @@ class _DoctorsListPageState extends State<DoctorsListPage> {
                     doctor['Department']!.toLowerCase().contains(searchQuery) ||
                     doctor['location']!.toLowerCase().contains(searchQuery)) {
                   return Card(
-                    margin:
-                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 10.0, horizontal: 15.0),
                     child: Padding(
-                      padding: EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(20.0),
                       child: Column(
                         children: [
                           ListTile(
@@ -108,7 +110,7 @@ class _DoctorsListPageState extends State<DoctorsListPage> {
                             leading: CircleAvatar(
                               radius: 60.0,
                               backgroundColor: Colors.grey[300],
-                              child: Icon(
+                              child: const Icon(
                                 Icons.person,
                                 size: 90.0,
                                 color: Color.fromARGB(255, 0, 129, 235),
@@ -116,7 +118,7 @@ class _DoctorsListPageState extends State<DoctorsListPage> {
                             ),
                             title: Text(
                               doctor['name']!,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18.0,
                               ),
@@ -128,23 +130,23 @@ class _DoctorsListPageState extends State<DoctorsListPage> {
                                 children: [
                                   Text(
                                     doctor['Department']!,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: Colors
                                             .black), // Change text color to black
                                   ),
                                   Text(
                                     doctor['location']!,
-                                    style: TextStyle(color: Colors.black),
+                                    style: const TextStyle(color: Colors.black),
                                   ),
                                   Text(
                                     doctor['experience']!,
-                                    style: TextStyle(color: Colors.black),
+                                    style: const TextStyle(color: Colors.black),
                                   ),
                                   Text(
                                     'Consultation Fee: ${doctor['fee']}',
-                                    style: TextStyle(color: Colors.black),
+                                    style: const TextStyle(color: Colors.black),
                                   ),
-                                  SizedBox(height: 10.0),
+                                  const SizedBox(height: 10.0),
                                   Row(
                                     children: [
                                       // Generate star icons based on rating
@@ -160,12 +162,12 @@ class _DoctorsListPageState extends State<DoctorsListPage> {
                                                   .grey, // Change color based on rating
                                           size: 18.0, // Size of the star
                                         ),
-                                      SizedBox(
+                                      const SizedBox(
                                           width:
                                               5.0), // Space between stars and text
                                       Text(
                                         '${doctor['rating']} / 5',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: Colors
                                                 .black), // Change text color to black
                                       ),
@@ -175,7 +177,7 @@ class _DoctorsListPageState extends State<DoctorsListPage> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 25.0),
+                          const SizedBox(height: 25.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -196,10 +198,10 @@ class _DoctorsListPageState extends State<DoctorsListPage> {
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.blue[800],
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 20.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20.0),
                                 ),
-                                child: Text('BOOK',
+                                child: const Text('BOOK',
                                     style: TextStyle(color: Colors.white)),
                               ),
                               ElevatedButton(
@@ -208,10 +210,10 @@ class _DoctorsListPageState extends State<DoctorsListPage> {
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.green[800],
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 20.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20.0),
                                 ),
-                                child: Text('CALL',
+                                child: const Text('CALL',
                                     style: TextStyle(color: Colors.white)),
                               ),
                               ElevatedButton(
@@ -233,21 +235,21 @@ class _DoctorsListPageState extends State<DoctorsListPage> {
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.blue[800],
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 20.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20.0),
                                 ),
-                                child: Text('EXPERTISE',
+                                child: const Text('EXPERTISE',
                                     style: TextStyle(color: Colors.white)),
                               ),
                             ],
                           ),
-                          SizedBox(height: 15.0),
+                          const SizedBox(height: 15.0),
                         ],
                       ),
                     ),
                   );
                 } else {
-                  return SizedBox.shrink();
+                  return const SizedBox.shrink();
                 }
               },
             ),

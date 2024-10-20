@@ -15,6 +15,7 @@ class DoctorProfilePage extends StatefulWidget {
   final Color buttonColor;
 
   DoctorProfilePage({
+    super.key,
     required this.doctorName,
     required this.specialization,
     required this.visitingHours,
@@ -60,8 +61,8 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
       backgroundColor: Colors.white, // Set background color to white
       appBar: AppBar(
         backgroundColor: widget.themeColor,
-        leading: Icon(Icons.arrow_back, color: Colors.white),
-        actions: [
+        leading: const Icon(Icons.arrow_back, color: Colors.white),
+        actions: const [
           Icon(Icons.notifications, color: Colors.white),
         ],
         elevation: 0,
@@ -77,7 +78,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                 backgroundImage: AssetImage(widget.imagePath),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Center(
               child: Text(
                 widget.doctorName,
@@ -88,7 +89,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                 ),
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Center(
               child: Text(
                 widget.specialization,
@@ -98,7 +99,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                 ),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -111,10 +112,10 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                         fontSize: 16,
                       ),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(
                       widget.visitingHours,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -131,10 +132,10 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                         fontSize: 16,
                       ),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(
                       widget.patientCount,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -151,7 +152,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                         fontSize: 16,
                       ),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     GestureDetector(
                       onTap: () {
                         // Trigger the dialog to show the rating stars
@@ -159,7 +160,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text('Rate this doctor'),
+                              title: const Text('Rate this doctor'),
                               content: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -197,7 +198,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                                       );
                                     }),
                                   ),
-                                  SizedBox(height: 10),
+                                  const SizedBox(height: 10),
                                   Text("Your rating: $_currentRating stars")
                                 ],
                               ),
@@ -207,14 +208,14 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                       },
                       child: Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.star,
                             color: Color.fromARGB(255, 187, 220, 5),
                           ),
-                          SizedBox(width: 4),
+                          const SizedBox(width: 4),
                           Text(
                             '${widget.rating} Reviews',
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
@@ -227,8 +228,8 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                 ),
               ],
             ),
-            SizedBox(height: 24),
-            Text(
+            const SizedBox(height: 24),
+            const Text(
               'Biography',
               style: TextStyle(
                 color: Colors.black,
@@ -236,7 +237,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Expanded(
               child: SingleChildScrollView(
                 child: Text(
@@ -256,7 +257,8 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: widget.buttonColor,
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 40, vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),
                     ),
@@ -275,7 +277,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                       ),
                     );
                   },
-                  child: Text(
+                  child: const Text(
                     'Book Appointment',
                     style: TextStyle(fontSize: 16, color: Colors.white),
                   ),

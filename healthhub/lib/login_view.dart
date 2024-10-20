@@ -6,6 +6,8 @@ import 'dart:convert';
 import 'package:healthhub/constants.dart'; // Import the constants file
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -52,11 +54,12 @@ class _LoginPageState extends State<LoginPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Login Failed'),
-          content: Text('Incorrect username or password. Please try again.'),
+          title: const Text('Login Failed'),
+          content:
+              const Text('Incorrect username or password. Please try again.'),
           actions: <Widget>[
             TextButton(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -89,7 +92,8 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(206, 0, 123, 255), // New AppBar color
+        backgroundColor:
+            const Color.fromARGB(206, 0, 123, 255), // New AppBar color
         automaticallyImplyLeading: false,
         title: const Text(
           'Siva Health Hub',
@@ -108,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                   'assets/logo.png',
                   height: 300,
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 TextFormField(
                   controller: _usernameController,
                   decoration: InputDecoration(
@@ -124,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                     return null;
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextFormField(
                   controller: _passwordController,
                   decoration: InputDecoration(
@@ -149,31 +153,31 @@ class _LoginPageState extends State<LoginPage> {
                     return null;
                   },
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 SizedBox(
                   width: double.infinity,
                   child: GestureDetector(
                     onTap: _navigateToForgotPassword,
-                    child: Text(
+                    child: const Text(
                       'Forgot password',
                       textAlign: TextAlign.right,
                       style: TextStyle(color: Colors.blue),
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
-                Container(
+                const SizedBox(height: 20),
+                SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 20),
+                      padding: const EdgeInsets.symmetric(vertical: 20),
                       backgroundColor: const Color.fromARGB(255, 50, 55, 167),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                     ),
                     onPressed: _login,
-                    child: Text(
+                    child: const Text(
                       'Login',
                       style: TextStyle(
                         fontSize: 16,
@@ -183,15 +187,15 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 SizedBox(
                   width: double.infinity,
                   child: GestureDetector(
                     onTap: _createAccount,
-                    child: Text(
+                    child: const Text(
                       'Don’t have an account?  Sign Up',
                       textAlign: TextAlign.center,
-                      style: const TextStyle(color: Colors.blue),
+                      style: TextStyle(color: Colors.blue),
                     ),
                   ),
                 ),
