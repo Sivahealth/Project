@@ -174,6 +174,7 @@ class _Dashboard1State extends State<Dashboard1> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0), // Increase height of AppBar
         child: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: const Color.fromARGB(178, 0, 140, 255),
           elevation: 0,
           title: const Row(
