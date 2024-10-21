@@ -2,7 +2,7 @@ import Payment from '../models/payment.js';
 
 export const createPayment = async (req, res) => {
   try {
-    const { employeeName, accountNumber, selectedStatus, manHours, overTime, totalAmount } = req.body;
+    const { employeeName, accountNumber, selectedStatus, manHours, overTime, totalAmount, } = req.body;
 
     const payment = new Payment({
       employeeName,
@@ -10,7 +10,9 @@ export const createPayment = async (req, res) => {
       selectedStatus,
       manHours,
       overTime,
-      totalAmount
+      totalAmount,
+      
+      
     });
 
     await payment.save();

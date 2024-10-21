@@ -3,14 +3,16 @@ import Report from '../models/report.js';
 
 export const createReport = async (req, res) => {
   try {
-    const { patientName, doctorName, contactNumber, totalCharge, attachedPdf } = req.body;
+    const { patientName, doctorName, contactNumber, totalCharge, attachedPdf,email,reportTitle } = req.body;
 
     const report = new Report({
       patientName,
       doctorName,
       contactNumber,
       totalCharge,
-      attachedPdf
+      attachedPdf,
+      email,
+      reportTitle
     });
 
     await report.save();

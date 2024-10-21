@@ -51,6 +51,7 @@ const userSchema = new Schema(
       type:String
     },
     resetCode: { type: Number, required: false },
+  
   },
   { timestamps: true }
 );
