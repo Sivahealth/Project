@@ -256,8 +256,13 @@ class _Dashboard1State extends State<Dashboard1> {
                           width:
                               10), // Adjust space between the text and the avatar
                       const CircleAvatar(
-                        backgroundImage: AssetImage('assets/doctor1.png'),
-                        radius: 50, // Adjust size as needed
+                        radius: 50.0,
+                        backgroundColor: Colors.blue,
+                        child: Icon(
+                          Icons.person,
+                          size: 50.0,
+                          color: Colors.white,
+                        ),
                       ),
                       const SizedBox(
                           width: 40), // Space to the right of the avatar

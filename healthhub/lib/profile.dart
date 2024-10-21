@@ -161,6 +161,93 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  Future<void> changePassword(
+      String currentPassword, String newPassword) async {
+    final response = await http.put(
+      Uri.parse('http://localhost:8002/api/change-password'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'email': widget.userId, // Use the user's email
+        'currentPassword': currentPassword,
+        'newPassword': newPassword,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Password updated successfully')),
+      );
+    } else {
+      final data = jsonDecode(response.body);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(data['message'] ?? 'Failed to change password')),
+      );
+    }
+  }
+
+// Function to show change password dialog
+  void _showChangePasswordDialog() {
+    final TextEditingController currentPasswordController =
+        TextEditingController();
+    final TextEditingController newPasswordController = TextEditingController();
+    final TextEditingController confirmPasswordController =
+        TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Change Password'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: currentPasswordController,
+                decoration:
+                    const InputDecoration(labelText: 'Current Password'),
+                obscureText: true,
+              ),
+              TextField(
+                controller: newPasswordController,
+                decoration: const InputDecoration(labelText: 'New Password'),
+                obscureText: true,
+              ),
+              TextField(
+                controller: confirmPasswordController,
+                decoration:
+                    const InputDecoration(labelText: 'Confirm New Password'),
+                obscureText: true,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                if (newPasswordController.text ==
+                    confirmPasswordController.text) {
+                  await changePassword(currentPasswordController.text,
+                      newPasswordController.text);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Passwords do not match')),
+                  );
+                }
+                Navigator.pop(context);
+              },
+              child: const Text('Save'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -225,9 +312,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 const SizedBox(height: 20.0),
                 ElevatedButton(
-                  onPressed: () {
-                    // Navigate to change password screen
-                  },
+                  onPressed: _showChangePasswordDialog,
                   child: const Text('Change Password'),
                 ),
                 const SizedBox(height: 10.0),
