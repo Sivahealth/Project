@@ -18,7 +18,15 @@ function Massage(){
   const [filteredDoctors, setFilteredDoctors] = useState(doctors);
   const navigate = useNavigate();
   const handleSearch = (searchTerm) => {
-      
+    if (searchTerm.trim() === '') {
+      setFilteredDoctors(doctors); // If search is empty, reset to full list
+    } else {
+      const filtered = doctors.filter((doctor) =>
+        doctor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        doctor.department.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredDoctors(filtered);
+    }
   };
         useEffect(() => {
         // Add class to body when component mounts
@@ -53,6 +61,10 @@ function Massage(){
         setSelectedDoctor(doctor); 
         // Set the selected appointment for viewing
       };
+
+      useEffect(() => {
+        setFilteredDoctors(doctors); // Initialize with full doctor list
+      }, [doctors]);
       const handleDelete = async (doctorId) => {
         try {
           await axios.delete(`http://localhost:8002/api/doctors/${doctorId}`);
@@ -110,7 +122,7 @@ function Massage(){
           </tr>
         </thead>
         <tbody>
-          {doctors.map(doctor => (
+          {filteredDoctors.map(doctor => (
             <tr key={doctor._id}>
               <td>{doctor.name}</td>
               <td>{doctor.department}</td>
