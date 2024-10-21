@@ -9,10 +9,9 @@ import 'package:healthhub/history.dart';
 import 'package:healthhub/login_view.dart';
 import 'package:healthhub/profile.dart';
 import 'package:healthhub/reports.dart';
-import 'package:healthhub/settings.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'package:shelf/shelf.dart';
+import 'package:healthhub/constants.dart';
 
 class Dashboard1 extends StatefulWidget {
   @override
@@ -43,7 +42,7 @@ class _Dashboard1State extends State<Dashboard1> {
     });
 
     final url = Uri.parse(
-      'http://localhost:8002/api/appointments_by_usersId?email=${widget.userId}', // Assuming userId is an email
+      '$apiUrl/api/appointments_by_usersId?email=${widget.userId}', // Assuming userId is an email
     );
 
     try {
@@ -70,7 +69,7 @@ class _Dashboard1State extends State<Dashboard1> {
 
             // Construct the correct API URL for fetching doctor name by ID
             final doctorNameUrl = Uri.parse(
-              'http://localhost:8002/api/doctors/$doctorId',
+              '$apiUrl/api/doctors/$doctorId',
             );
 
             final doctorNameResponse = await http.get(doctorNameUrl, headers: {
@@ -114,7 +113,7 @@ class _Dashboard1State extends State<Dashboard1> {
   }
 
   Future<void> _fetchUserData() async {
-    const String apiUrl = 'http://localhost:8002/api/users';
+    const String ApiUrl = '$apiUrl/api/users';
     try {
       final response =
           await http.get(Uri.parse('$apiUrl?email=${widget.userId}'));
@@ -170,7 +169,7 @@ class _Dashboard1State extends State<Dashboard1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFEDF4F8),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0), // Increase height of AppBar
         child: AppBar(
@@ -254,7 +253,7 @@ class _Dashboard1State extends State<Dashboard1> {
                       ),
                       const SizedBox(
                           width:
-                              10), // Adjust space between the text and the avatar
+                              20), // Adjust space between the text and the avatar
                       const CircleAvatar(
                         radius: 50.0,
                         backgroundColor: Colors.blue,
@@ -264,8 +263,8 @@ class _Dashboard1State extends State<Dashboard1> {
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(
-                          width: 40), // Space to the right of the avatar
+                      //const SizedBox(
+                      //width: 40), // Space to the right of the avatar
                     ],
                   ),
                   const SizedBox(height: 30),
@@ -273,7 +272,7 @@ class _Dashboard1State extends State<Dashboard1> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Color.fromARGB(105, 165, 215, 235),
                       borderRadius: BorderRadius.circular(25),
                     ),
                     child: const TextField(

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io'; // For handling files
 import 'package:flutter/material.dart';
+import 'package:healthhub/constants.dart';
 import 'package:healthhub/dashboard1.dart';
 import 'package:healthhub/doctor.dart';
 import 'package:healthhub/history.dart';
@@ -40,7 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
   // Function to fetch user data from the API
   Future<void> fetchUserData() async {
     final response = await http.get(Uri.parse(
-        'http://localhost:8002/api/user/${widget.userId}')); // Fetch data based on email
+        '$apiUrl/api/user/${widget.userId}')); // Fetch data based on email
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -62,7 +63,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> updateUserDetails(String gender, String dateOfBirth) async {
     final response = await http.put(
       Uri.parse(
-          'http://localhost:8002/api/user_profile/${widget.userId}'), // Use email in the URL
+          '$apiUrl/api/user_profile/${widget.userId}'), // Use email in the URL
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'gender': gender,
@@ -92,7 +93,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> uploadProfilePicture(File imageFile) async {
     var request = http.MultipartRequest(
       'POST',
-      Uri.parse('http://localhost:8002/api/upload-profile-pic'),
+      Uri.parse('$apiUrl/api/upload-profile-pic'),
     );
     request.fields['email'] = widget.userId; // Use email to identify the user
     request.files.add(
@@ -164,7 +165,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> changePassword(
       String currentPassword, String newPassword) async {
     final response = await http.put(
-      Uri.parse('http://localhost:8002/api/change-password'),
+      Uri.parse('$apiUrl/api/change-password'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'email': widget.userId, // Use the user's email
@@ -259,7 +260,8 @@ class _ProfilePageState extends State<ProfilePage> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Profile'),
-          centerTitle: true,
+          backgroundColor: Colors.blue,
+          centerTitle: false,
         ),
         body: Center(
           child: SingleChildScrollView(

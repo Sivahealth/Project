@@ -4,23 +4,24 @@ class DrugProfile extends StatelessWidget {
   final String medicineName;
   final String category;
   final String batchNumber;
-  final int stockQuantity;
-  final double unitPrice;
+  final double stockQuantity; // Ensure this is passed as double
+  final double unitPrice; // Ensure this is passed as double
   final DateTime expiryDate;
   final String manufacturer;
   final String status;
 
-  const DrugProfile({
+  DrugProfile({
     super.key,
     required this.medicineName,
     required this.category,
     required this.batchNumber,
-    required this.stockQuantity,
-    required this.unitPrice,
+    required num stockQuantity, // Accept both int and double types
+    required num unitPrice, // Accept both int and double types
     required this.expiryDate,
     required this.manufacturer,
     required this.status,
-  });
+  })  : stockQuantity = stockQuantity.toDouble(), // Ensure double conversion
+        unitPrice = unitPrice.toDouble(); // Ensure double conversion
 
   @override
   Widget build(BuildContext context) {
@@ -57,15 +58,21 @@ class DrugProfile extends StatelessWidget {
                     _buildInfoRow('Medicine Name:', medicineName),
                     _buildInfoRow('Category:', category),
                     _buildInfoRow('Batch Number:', batchNumber),
-                    _buildInfoRow('Stock Quantity:', stockQuantity.toString()),
-                    _buildInfoRow('Unit Price:', 'Rs. ${unitPrice.toString()}'),
+                    _buildInfoRow(
+                      'Stock Quantity:',
+                      stockQuantity
+                          .toStringAsFixed(2), // Ensuring double is displayed
+                    ),
+                    _buildInfoRow(
+                      'Unit Price:',
+                      'Rs. ${unitPrice.toStringAsFixed(2)}', // Ensuring double is displayed
+                    ),
                     _buildInfoRow(
                       'Expiry Date:',
                       '${expiryDate.day}/${expiryDate.month}/${expiryDate.year}',
                     ),
                     _buildInfoRow('Manufacturer:', manufacturer),
-                    _buildStatusRow(
-                        'Status:', status), // Use the new method for status
+                    _buildStatusRow('Status:', status),
                   ],
                 ),
               ),

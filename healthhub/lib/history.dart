@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthhub/constants.dart';
 import 'package:healthhub/doctor.dart';
 import 'dashboard1.dart';
 import 'profile.dart';
@@ -31,7 +32,7 @@ class _AppointmentHistoryPageState extends State<AppointmentHistoryPage> {
 
   Future<void> fetchAppointments() async {
     final url = Uri.parse(
-      'http://localhost:8002/api/appointments_by_usersId?email=${widget.userId}', // Assuming userId is an email
+      '$apiUrl/api/appointments_by_usersId?email=${widget.userId}', // Assuming userId is an email
     );
 
     try {
@@ -50,7 +51,7 @@ class _AppointmentHistoryPageState extends State<AppointmentHistoryPage> {
 
           // Construct the correct API URL for fetching doctor name by ID
           final doctorNameUrl = Uri.parse(
-            'http://localhost:8002/api/doctors/$doctorId',
+            '$apiUrl/api/doctors/$doctorId',
           );
 
           final doctorNameResponse = await http.get(doctorNameUrl, headers: {
@@ -163,6 +164,17 @@ class _AppointmentHistoryPageState extends State<AppointmentHistoryPage> {
         title: const Text('Appointment History'),
         backgroundColor: Colors.blueAccent,
         centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Dashboard1(
+                      userId: widget.userId)), // Navigates to dashboard.dart
+            );
+          },
+        ),
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())

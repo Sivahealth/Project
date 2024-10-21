@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthhub/constants.dart';
 import 'package:healthhub/dashboard1.dart';
 import 'package:healthhub/history.dart';
 import 'package:healthhub/profile.dart';
@@ -29,7 +30,7 @@ class _OPDDoctorPageState extends State<OPDDoctorPage> {
   }
 
   void fetchDoctorsByDateAndDepartment(DateTime date, String department) async {
-    const apiUrl = 'http://localhost:8002/api/doctors/by-date';
+    const ApiUrl = '$apiUrl/api/doctors/by-date';
 
     final formattedDate =
         "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
@@ -40,7 +41,7 @@ class _OPDDoctorPageState extends State<OPDDoctorPage> {
     });
 
     final response = await http.post(
-      Uri.parse(apiUrl),
+      Uri.parse(ApiUrl),
       headers: {"Content-Type": "application/json"},
       body: body,
     );

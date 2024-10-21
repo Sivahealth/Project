@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthhub/constants.dart';
 import 'package:healthhub/drugProfile.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -40,19 +41,19 @@ class DrugsPage extends StatefulWidget {
 class _DrugsPageState extends State<DrugsPage> {
   final String userId;
   List<dynamic> _drugsList = []; // List to hold drugs data
-  late List<dynamic> _filteredDrugs;
+  List<dynamic> _filteredDrugs = [];
 
   _DrugsPageState({required this.userId});
 
   @override
   void initState() {
     super.initState();
+
     _fetchDrugs(); // Fetch drugs when the widget is initialized
   }
 
   Future<void> _fetchDrugs() async {
-    final response =
-        await http.get(Uri.parse('http://localhost:8002/api/medicines/drugs'));
+    final response = await http.get(Uri.parse('$apiUrl/api/medicines/drugs'));
 
     if (response.statusCode == 200) {
       setState(() {

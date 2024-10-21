@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthhub/constants.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -48,7 +49,7 @@ class _SignUpPageState extends State<SignUpPage> {
     }
 
     final response = await http.post(
-      Uri.parse('http://localhost:8002/api/register'),
+      Uri.parse('$apiUrl/api/register'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -73,7 +74,7 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(95, 255, 255, 255),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
         title: const Text('Sign Up'),
         backgroundColor: Colors.blue,

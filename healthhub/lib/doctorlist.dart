@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:healthhub/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:healthhub/appointment.dart';
 import 'package:healthhub/doctorprofile.dart';
@@ -23,8 +24,7 @@ class _DoctorsListPageState extends State<DoctorsListPage> {
 
   Future<void> fetchDoctors() async {
     try {
-      final response =
-          await http.get(Uri.parse('http://localhost:8002/api/doctorsFind'));
+      final response = await http.get(Uri.parse('$apiUrl/api/doctorsFind'));
 
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);
@@ -188,7 +188,7 @@ class _DoctorsListPageState extends State<DoctorsListPage> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             AppointmentBookingPage(
-                                              doctorName: '',
+                                              doctorName: doctor['name'],
                                               Time: '',
                                               doctorId: '',
                                               Date: '',

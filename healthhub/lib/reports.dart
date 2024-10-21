@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:healthhub/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -31,8 +32,8 @@ class _ReportPageState extends State<ReportPage> {
   List<Map<String, dynamic>> reports = [];
   Future<void> fetchReportsByEmail() async {
     try {
-      final response = await http.get(
-          Uri.parse('http://localhost:8002/api/report?email=${widget.userId}'));
+      final response = await http
+          .get(Uri.parse('$apiUrl/api/report?email=${widget.userId}'));
 
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);
@@ -50,8 +51,8 @@ class _ReportPageState extends State<ReportPage> {
 
   Future<void> fetchUserData() async {
     try {
-      final response = await http
-          .get(Uri.parse('http://localhost:8002/api/health/${widget.userId}'));
+      final response =
+          await http.get(Uri.parse('$apiUrl/api/health/${widget.userId}'));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -72,7 +73,7 @@ class _ReportPageState extends State<ReportPage> {
   Future<void> updateUserData() async {
     try {
       final response = await http.put(
-        Uri.parse('http://localhost:8002/api/update/${widget.userId}'),
+        Uri.parse('$apiUrl/api/update/${widget.userId}'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'bloodGroup': bloodGroupController.text.isNotEmpty

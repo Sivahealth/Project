@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthhub/constants.dart';
 import 'package:intl/intl.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:http/http.dart' as http;
@@ -104,7 +105,7 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
 
       try {
         final response = await http.post(
-          Uri.parse('http://localhost:8002/api/appointments'),
+          Uri.parse('$apiUrl/api/appointments'),
           //Uri.parse('http://192.168.1.106/api/appointments'),
           headers: {'Content-Type': 'application/json'},
           body: json.encode(appointmentData),
@@ -354,9 +355,15 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
               ),
               const SizedBox(height: 20),
               _buildTextField(
-                readOnly: true,
+                readOnly: false,
+                controller: _DateController,
+                labelText: 'Date',
+              ),
+              const SizedBox(height: 20),
+              _buildTextField(
+                readOnly: false,
                 controller: _TimeController,
-                labelText: 'Date and Time',
+                labelText: 'Time',
               ),
               const SizedBox(height: 20),
               DropdownButtonFormField<String>(
@@ -404,7 +411,22 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
               Center(
                 child: ElevatedButton(
                   onPressed: _bookAppointment,
-                  child: const Text('Book Appointment'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        Colors.lightBlue, // Set light blue background
+                    foregroundColor: Colors.white, // Set white text color
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 15), // Optional: Add padding
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          15), // Optional: Make button rounded
+                    ),
+                  ),
+                  child: const Text(
+                    'Book Appointment',
+                    style:
+                        TextStyle(fontSize: 16), // Optional: Adjust text size
+                  ),
                 ),
               ),
             ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:healthhub/appointment.dart';
+import 'package:healthhub/constants.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -35,7 +36,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
   double _currentRating = 0.0;
 
   Future<void> updateDoctorRating(String doctorName, double rating) async {
-    final url = Uri.parse('http://localhost:8002/api/rating/$doctorName');
+    final url = Uri.parse('$apiUrl/api/rating/$doctorName');
 
     try {
       final response = await http.put(

@@ -1,11 +1,6 @@
 import 'package:healthhub/dashboard1.dart';
-import 'package:healthhub/doctor.dart';
-import 'package:healthhub/firstlogo.dart';
 import 'package:flutter/material.dart';
-import 'package:healthhub/dashboard.dart';
 import 'package:healthhub/login_view.dart';
-import 'package:healthhub/reports.dart';
-import 'package:healthhub/signUp.dart';
 import 'package:logging/logging.dart';
 
 Future<void> main() async {
@@ -43,9 +38,8 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => Dashboard1(userId: "thushitha1910@gmail.com"),
-        '/login_view': (context) =>
-            Dashboard1(userId: "thushitha1910@gmail.com"),
+        '/': (context) => LoginPage(),
+        '/login_view': (context) => LoginPage(),
       },
       onUnknownRoute: (settings) => MaterialPageRoute(
         builder: (context) => const Scaffold(
