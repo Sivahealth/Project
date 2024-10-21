@@ -4,11 +4,15 @@ import Addpayment from './Addpayment';
 import '../Dashboard/DashBoard.css';
 import Searchbar from '../Activities/Searchbar';
 import React, { useEffect, useState } from 'react';
-import { useNavigate,Link } from 'react-router-dom'; // for redirection
+import { useNavigate, Link } from 'react-router-dom'; // for redirection
 import logo from '../Images/logonoback.png';
 import Lilogo from '../Images/Left_icon.png';
 import Paymentsmenu from './Paymentsmenu';
 import axios from 'axios';
+import { loadStripe } from '@stripe/stripe-js';
+
+// Load the Stripe instance with your public API key
+const stripePromise = loadStripe('pk_test_51QCDT9CTH3SLWt7GpHMsZw3kDDijaJDa4htgpKNgj39jhsukqE3CWr3IIZDS6GYJqyYeWoMt88nbTIVVYfKh7A5A00HZ4SsuZj');
 
 function Payments() {
   const [payments, setPayments] = useState([]);
@@ -35,7 +39,17 @@ function Payments() {
 
     // Fetch payment data from the backend
     axios.get('http://localhost:8002/api/payments/getpay')
-      .then(response => setPayments(response.data))
+      .then(response => {
+        const paymentData = response.data;
+        // Initialize local storage for selected status if not already done
+        paymentData.forEach(payment => {
+          const savedStatus = localStorage.getItem(`paymentStatus-${payment._id}`);
+          if (savedStatus) {
+            payment.selectedStatus = savedStatus; // Set saved status to payment
+          }
+        });
+        setPayments(paymentData);
+      })
       .catch(error => console.error('Error fetching payments:', error));
 
     // Remove class from body when component unmounts
@@ -43,6 +57,28 @@ function Payments() {
       document.body.classList.remove('activities-background');
     };
   }, []);
+
+  const handlePayNow = (paymentId, totalAmount) => {
+    // Pass the paymentId and amount to the payment form
+    console.log('Payment ID:', paymentId, 'Total Amount:', totalAmount); 
+    navigate(`/paymentform/${paymentId}`, { state: { totalAmount } });
+  };
+
+  const handleStatusChange = async (paymentId, isChecked) => {
+    try {
+      // Update the local payments state
+      setPayments(prevPayments =>
+        prevPayments.map(payment =>
+          payment._id === paymentId ? { ...payment, isCompleted: isChecked } : payment
+        )
+      );
+  
+      // Send the updated status to the backend
+      await axios.put(`http://localhost:8002/api/payments/${paymentId}`, { isCompleted: isChecked });
+    } catch (error) {
+      console.error('Error updating payment completion status:', error);
+    }
+  };
 
   return (
     <div className='maindash'>
@@ -90,6 +126,7 @@ function Payments() {
                 <th>Over Time</th>
                 <th>Total Amount</th>
                 <th>Action</th>
+                
               </tr>
             </thead>
             <tbody>
@@ -103,9 +140,15 @@ function Payments() {
                   <td>{payment.totalAmount}</td>
                   <td>
                     <div className="button-group">
-                      <button className="pay-now-btn">Confirm Payment</button>
+                      <button
+                        className="pay-now-btn"
+                        onClick={() => handlePayNow(payment._id, payment.totalAmount)}
+                      >
+                        Confirm Payment
+                      </button>
                     </div>
                   </td>
+                  
                 </tr>
               ))}
             </tbody>

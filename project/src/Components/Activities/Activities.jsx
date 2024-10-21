@@ -1,5 +1,5 @@
 import './Activities.css';
-import '../Dashboard/DashBoard.css'
+import '../Dashboard/DashBoard.css';
 import React, { useEffect, useState } from 'react';
 import logo from '../Images/logonoback.png';
 import Moppointments from './Moppointment';
@@ -14,20 +14,19 @@ import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from 'react
 function Activities() {
   const [appointments, setAppointments] = useState([]);
   const [filteredAppointments, setFilteredAppointments] = useState(appointments);
-  const [selectedAppointment, setSelectedAppointment] = useState(null); // For viewing full appointment
-  const navigate = useNavigate(); // Hook for navigation
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [amount, setAmount] = useState(''); // New state for payment amount
+  const [showAmountModal, setShowAmountModal] = useState(false); // Modal visibility state
   const [doctorName, setDoctorName] = useState('');
-  useEffect(() => {
-    // Add class to body when component mounts
-    document.body.classList.add('dashboard-background');
-    
+  const navigate = useNavigate();
 
-    // Remove class from body when component unmounts
+  useEffect(() => {
+    document.body.classList.add('dashboard-background');
     return () => {
       document.body.classList.remove('dashboard-background');
-      
     };
   }, []);
+
   const handleSearch = (searchTerm) => {
     const filtered = appointments.filter((item) =>
       item.appointment.toLowerCase().includes(searchTerm.toLowerCase())
@@ -35,7 +34,6 @@ function Activities() {
     setFilteredAppointments(filtered);
   };
 
-  // Fetch appointments from the backend
   useEffect(() => {
     axios.get('http://localhost:8002/api/')
       .then(response => {
@@ -45,38 +43,36 @@ function Activities() {
       .catch(error => console.error('Error fetching appointments:', error));
   }, []);
 
-  // View appointment handler
   const handleView = (appointment) => {
-    setSelectedAppointment(appointment); 
-    // Set the selected appointment for viewing
+    setSelectedAppointment(appointment);
     if (appointment.doctorId) {
       axios.get(`http://localhost:8002/api/doctors/${appointment.doctorId}`)
         .then(response => {
-          setDoctorName(response.data.name); // Assuming the API returns a 'name' field for the doctor
+          setDoctorName(response.data.name);
         })
         .catch(error => console.error('Error fetching doctor details:', error));
     }
   };
 
-  // Redirect to payment page
   const handlePayNow = (appointmentId) => {
-    navigate(`/payment/${appointmentId}`); // Navigate to payment page with appointmentId
+    if (!amount) {
+      alert("Please enter an amount.");
+      return;
+    }
+
+    // Navigate to payment page with the selected appointment ID and entered amount
+    navigate(`/paymentform/${appointmentId}`, { state: { totalAmount: amount } });
   };
 
-  // Delete appointment handler
-  // Delete appointment handler
-const handleDelete = async (appointmentId) => {
-  try {
-    await axios.delete(`http://localhost:8002/api/appointments/delete/${appointmentId}`);
-    // Update the state after deletion
-    setAppointments(appointments.filter(appointment => appointment._id !== appointmentId));
-    setFilteredAppointments(filteredAppointments.filter(appointment => appointment._id !== appointmentId));
-  } catch (error) {
-    console.error('Error deleting appointment:', error);
-  }
-};
-
-
+  const handleDelete = async (appointmentId) => {
+    try {
+      await axios.delete(`http://localhost:8002/api/appointments/delete/${appointmentId}`);
+      setAppointments(appointments.filter(appointment => appointment._id !== appointmentId));
+      setFilteredAppointments(filteredAppointments.filter(appointment => appointment._id !== appointmentId));
+    } catch (error) {
+      console.error('Error deleting appointment:', error);
+    }
+  };
 
   return (
     <div className='maindash'>
@@ -132,7 +128,10 @@ const handleDelete = async (appointmentId) => {
                   <td>
                     <div className="button-group">
                       <button className="view-btn" onClick={() => handleView(appointment)}>View</button>
-                      <button className="pay-now-btn" onClick={() => handlePayNow(appointment._id)}>Pay Now</button>
+                      <button className="pay-now-btn" onClick={() => {
+                        setSelectedAppointment(appointment);
+                        setShowAmountModal(true);
+                      }}>Pay Now</button>
                       <button className="book-now-btn" onClick={() => handleDelete(appointment._id)}>Delete Now</button>
                     </div>
                   </td>
@@ -156,8 +155,26 @@ const handleDelete = async (appointmentId) => {
               <p><strong>Appointment Date:</strong> {selectedAppointment.appointmentDate}</p>
               <p><strong>Timeslot:</strong> {selectedAppointment.timeSlot}</p>
               <p><strong>Doctor:</strong> {doctorName}</p>
-              
               <button onClick={() => setSelectedAppointment(null)}>Close</button>
+            </div>
+          </div>
+        )}
+
+        {showAmountModal && (
+          <div className="modal">
+            <div className="modal-content">
+              <h2>Enter Amount</h2>
+              <input
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                placeholder="Enter amount"
+              />
+              <button onClick={() => {
+                handlePayNow(selectedAppointment._id);
+                setShowAmountModal(false); // Close modal
+              }}>Submit</button>
+              <button onClick={() => setShowAmountModal(false)}>Cancel</button>
             </div>
           </div>
         )}

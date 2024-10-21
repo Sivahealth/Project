@@ -20,3 +20,5 @@ export {default as Addmedicine} from './Addmedicine/Addmedicine';
 export {default as My_appointment} from './My_appointment/My_appointment';
 export {default as ForgotPassword} from './Logmenu/ForgotPassword';
 export {default as ResetPassword} from './Logmenu/ResetPassword';
+export {default as Payment_portal} from './Payment_portal/Payment_portal';
+export {default as PaymentForm} from './PaymentForm/PaymentForm';

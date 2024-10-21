@@ -13,9 +13,12 @@ const Newaddreport = () => {
         contactNumber: '',
         totalCharge: '',
         attachedPdf:'',
+        email:'',
+        reportTitle:''
   });
 
   const navigate = useNavigate();
+  const [doctors, setDoctors] = useState([]); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,6 +36,23 @@ const Newaddreport = () => {
     }
   }, [navigate]);
  
+  useEffect(() => {
+    // Fetch latest patient number when the component mounts
+
+    // Fetch doctor names from the database
+    const fetchDoctors = async () => {
+      try {
+        const response = await axios.get('http://localhost:8002/api/print/doctors'); // Adjust the endpoint accordingly
+        if (response.data) {
+          setDoctors(response.data); // Store the fetched doctor data in the state
+        }
+      } catch (error) {
+        console.error('Error fetching doctor data:', error);
+      }
+    };
+    fetchDoctors();
+  }, []);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,6 +63,8 @@ const Newaddreport = () => {
         contactNumber:formData.contactNumber,
         totalCharge:formData.totalCharge,
         attachedPdf:formData.attachedPdf,
+        email:formData.email,
+        reportTitle:formData.reportTitle
     };
     try {
       const response = await fetch('http://localhost:8002/api/reports', {
@@ -65,6 +87,8 @@ const Newaddreport = () => {
         contactNumber: '',
         totalCharge: '',
         attachedPdf:'',
+        email:'',
+        reportTitle:''
         });
       } else {
         // Handle error
@@ -79,8 +103,8 @@ const Newaddreport = () => {
 
 
   return (
-    <div className='blue-rectangle1'>
-      <div className='white-rectangle1'>
+    <div className='blue-rectangle1report'>
+      <div className='white-rectangle1report'>
         <div className="root-container">
           <div className="signup-container">
             <p className='Optimize-text2'>Please add report details</p>
@@ -91,7 +115,18 @@ const Newaddreport = () => {
               </div>
               <div className="input-group5">
                 <label htmlFor="doctorName" className="label6">Doctor Name</label>
-                <input type="text" id="doctorName" name="doctorName" value={formData.doctorName} onChange={handleChange} required />
+                <select id="doctorName" name="doctorName" value={formData.doctorName} onChange={handleChange} required>
+                  <option value="">Select a doctor</option>
+                  {doctors.map((doctor) => (
+                    <option key={doctor._id} value={doctor.name}>
+                      {doctor.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="input-group5">
+                <label htmlFor="email" className="label6">Patient Email</label>
+                <input type="text" id="email" name="email" value={formData.email} onChange={handleChange} required />
               </div>
               <div className="input-group5">
                 <label htmlFor="contactNumber" className="label6">Patient Contact Number</label>
@@ -102,9 +137,14 @@ const Newaddreport = () => {
                 <input type="text" id="totalCharge" name="totalCharge" value={formData.totalCharge} onChange={handleChange} required />
               </div>
               <div className="input-group5">
+                <label htmlFor="reportTitle" className="label6">Report title</label>
+                <input type="text" id="reportTitle" name="reportTitle" value={formData.reportTitle} onChange={handleChange} required />
+              </div>
+              <div className="input-group5">
                 <label htmlFor="attachedPdf" className="label6">Add report PDF link</label>
                 <input type="text" id="attachedPdf" name="attachedPdf" value={formData.attachedPdf} onChange={handleChange} required />
               </div>
+              
               <div className="white-rectangle2">
                 <button type="submit">Submit</button>
                 <div>

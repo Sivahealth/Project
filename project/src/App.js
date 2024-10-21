@@ -1,12 +1,15 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch, Link, Routes, BrowserRouter } from 'react-router-dom'
-import {Add_appointment, Message, Payments, Reports, WhiteRec,OPD_Doctor,Physiotherapy_Doctor, Newaddreport, Logout, Pharmacy, Add_payment, Addmedicine, My_appointment, Add_doctor, Add_patientlist, ForgotPassword, ResetPassword} from './Components'
+import {Add_appointment, Message, Payments, Reports, WhiteRec,OPD_Doctor,Physiotherapy_Doctor, Newaddreport, Logout, Pharmacy, Add_payment, Addmedicine, My_appointment, Add_doctor, Add_patientlist, ForgotPassword, ResetPassword, Payment_portal,PaymentForm} from './Components'
 import {SignUpForm} from './Components'
 import {DashBoard} from './Components'
 import {Activities} from './Components'
 import {PatientList} from './Components'
 import { Users } from './Components'
 import './index.css';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+const stripePromise = loadStripe('pk_test_51QCDT9CTH3SLWt7GpHMsZw3kDDijaJDa4htgpKNgj39jhsukqE3CWr3IIZDS6GYJqyYeWoMt88nbTIVVYfKh7A5A00HZ4SsuZj');
 
 const App = () => {
   return (
@@ -35,6 +38,13 @@ const App = () => {
       <Route path="/add_patientlist" element={<Add_patientlist/>} />
       <Route path="/forgot-password" element={<ForgotPassword/>} />
       <Route path="/reset-password" element={<ResetPassword/>} />
+      <Route path="/payment_portal/:appointmentId" element={<Payment_portal/>} />
+      <Route path="/payment_portal/:reportId" element={<Payment_portal/>} />
+      <Route path="/paymentform/:paymentId" element={
+            <Elements stripe={stripePromise}>
+              <PaymentForm />
+            </Elements>
+          } />
       <Route path="/logout" element={<Logout/>} />
 
 

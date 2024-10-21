@@ -60,9 +60,10 @@ function Massage(){
           setDoctors(doctors.filter(doctor => doctor._id !== doctorId));
           setFilteredDoctors(filteredDoctors.filter(doctor => doctor._id !== doctorId));
         } catch (error) {
-          console.error('Error deleting appointment:', error);
+          console.error('Error deleting doctor:', error);
         }
       };
+      
 
   return (
     <div className='maindash'>

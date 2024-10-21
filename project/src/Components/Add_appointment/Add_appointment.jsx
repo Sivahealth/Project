@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate,Link } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './Add_appointment.css';
-import '../Activities/Activities.css'
+import '../Activities/Activities.css';
 import '../Logmenu/WhiteRec.css';
 import logo from '../Images/logo.png';
-
 
 function Add_appointment() {
   const [formData, setFormData] = useState({
@@ -26,16 +25,27 @@ function Add_appointment() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Load form data from local storage
+    const savedData = localStorage.getItem('appointmentFormData');
+    if (savedData) {
+      setFormData(JSON.parse(savedData));
+    }
+
     if (location.state) {
       const { selectedDoctor, selectedSlot, selectedDate } = location.state;
-      setFormData({
-        ...formData,
+      setFormData((prev) => ({
+        ...prev,
         selectedDoctor,
         selectedSlot,
         selectedDate
-      });
+      }));
     }
   }, [location.state]);
+
+  useEffect(() => {
+    // Save form data to local storage whenever it changes
+    localStorage.setItem('appointmentFormData', JSON.stringify(formData));
+  }, [formData]);
 
   const handleNavigation = (e) => {
     e.preventDefault();
@@ -46,8 +56,6 @@ function Add_appointment() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    
     const appointmentData = {
       firstName: formData.firstName,
       lastName: formData.lastName,
@@ -60,7 +68,7 @@ function Add_appointment() {
       contactNumber: formData.contactNumber,
       appointmentDate: formData.selectedDate,
       timeSlot: formData.selectedSlot,
-      doctorId: formData.selectedDoctor._id, 
+      doctorId: formData.selectedDoctor?._id, 
     };
 
     try {
@@ -78,7 +86,8 @@ function Add_appointment() {
         alert('Appointment added successfully!');
         navigate('/activities');
       
-        // Optionally clear form data after successful submission
+        // Clear local storage and form data after successful submission
+        localStorage.removeItem('appointmentFormData');
         setFormData({
           firstName: '',
           lastName: '',
@@ -137,9 +146,8 @@ function Add_appointment() {
     <div className='blue-rectangle1'>
       <div className='add_appointment_white-rectangle1'>
         <div className='Add_appointment_logo_Container'>
-          <img src={logo} alt="Logo" className="appointment_logo"  />
+          <img src={logo} alt="Logo" className="appointment_logo" />
           <p className='Add_appointment_Optimize-text'>Siva Health Hub</p>
-          
         </div>
         <div className='appointment_text_container'>
           <p className='appointment-title'>Your appointment schedule</p>
@@ -308,16 +316,14 @@ function Add_appointment() {
             </div>
             <div className='button-container'>
               <button type="submit" className="submit-button">Book an Appointment</button>
-             
-                <p className="backlink">
-                  <a href="/activities">To doctors page</a>
-                </p>
-              
+              <p className="backlink">
+                <a href="/activities">To doctors page</a>
+              </p>
             </div>
           </form>
           <div className="label4">
-      Which department would you like to  get appointment from ?
-    </div>
+            Which department would you like to get appointment from?
+          </div>
         </div>
       </div>
     </div>
