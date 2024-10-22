@@ -267,7 +267,7 @@ class _ReportPageState extends State<ReportPage> {
                               child: Text(
                                 '$weight KG',
                                 style: const TextStyle(
-                                  fontSize: 24.0,
+                                  fontSize: 22.0,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -287,7 +287,7 @@ class _ReportPageState extends State<ReportPage> {
                                     10.0), // Adjust spacing between icon and next icon
                             const Icon(
                               Icons.fitness_center,
-                              size: 50.0, // Adjusted size
+                              size: 40.0, // Adjusted size
                               color: Colors.green,
                             ), // Icon for Weight
                           ],

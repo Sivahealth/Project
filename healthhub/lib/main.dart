@@ -38,8 +38,9 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => LoginPage(),
-        '/login_view': (context) => LoginPage(),
+        '/': (context) => Dashboard1(userId: "dishansanjuka3@gmail.com"),
+        '/login_view': (context) =>
+            Dashboard1(userId: "dishansanjuka3@gmail.com"),
       },
       onUnknownRoute: (settings) => MaterialPageRoute(
         builder: (context) => const Scaffold(

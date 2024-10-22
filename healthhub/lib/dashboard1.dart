@@ -243,7 +243,7 @@ class _Dashboard1State extends State<Dashboard1> {
                             Text(
                               widget.userId,
                               style: const TextStyle(
-                                fontSize: 20,
+                                fontSize: 18,
                                 //fontWeight: FontWeight.bold,
                                 color: Colors.black,
                               ),
@@ -349,11 +349,8 @@ class _Dashboard1State extends State<Dashboard1> {
                   // Banner
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.only(
-                        top: 35,
-                        right: 120,
-                        bottom: 45,
-                        left: 20), // Reduce left padding
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 35, horizontal: 20), // Adjusted padding
                     decoration: BoxDecoration(
                       color: const Color.fromARGB(255, 255, 255, 255),
                       borderRadius: BorderRadius.circular(25),
@@ -363,10 +360,10 @@ class _Dashboard1State extends State<Dashboard1> {
                             .contain, // Scale down the image instead of stretching
                       ),
                     ),
-                    child: const Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Get the Best', // First part of the text
                           style: TextStyle(
                             fontSize: 30,
@@ -374,7 +371,7 @@ class _Dashboard1State extends State<Dashboard1> {
                             color: Colors.black,
                           ),
                         ),
-                        Text(
+                        const Text(
                           'Medical Services', // Second part of the text
                           style: TextStyle(
                             fontSize: 30,
@@ -382,17 +379,18 @@ class _Dashboard1State extends State<Dashboard1> {
                             color: Colors.black,
                           ),
                         ),
-                        SizedBox(height: 15),
-                        Text(
-                          'We provide best quality medical services without further cost',
+                        const SizedBox(height: 15),
+                        const Text(
+                          'We provide the best quality medical services without further cost.',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 17,
                             color: Colors.black,
                           ),
                         ),
                       ],
                     ),
                   ),
+
                   const SizedBox(height: 24),
                   // Upcoming Appointments
                   // Upcoming Appointments Section

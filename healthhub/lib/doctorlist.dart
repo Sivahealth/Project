@@ -4,6 +4,7 @@ import 'package:healthhub/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:healthhub/appointment.dart';
 import 'package:healthhub/doctorprofile.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DoctorsListPage extends StatefulWidget {
   const DoctorsListPage({super.key});
@@ -20,6 +21,16 @@ class _DoctorsListPageState extends State<DoctorsListPage> {
   void initState() {
     super.initState();
     fetchDoctors(); // Fetch doctors when the widget is initialized
+  }
+
+  void _callDoctor() async {
+    const phoneNumber = 'tel:0712525132';
+    if (await canLaunch(phoneNumber)) {
+      await launch(phoneNumber);
+    } else {
+      // Handle error if the phone number can't be launched
+      // Show a snackbar or alert to inform the user
+    }
   }
 
   Future<void> fetchDoctors() async {
@@ -206,7 +217,7 @@ class _DoctorsListPageState extends State<DoctorsListPage> {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  // Handle call action
+                                  _callDoctor();
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.green[800],
